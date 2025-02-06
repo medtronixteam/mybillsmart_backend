@@ -9,12 +9,13 @@
             <div class="navbar-brand">
                 <a href="">
                     <b class="logo-icon">
-                        <img src="{{url('assets/images/logo-icon.png')}}" alt="homepage" class="dark-logo" />
-                        <img src="{{url('assets/images/logo-icon.png')}}" alt="homepage" class="light-logo" />
+                        <img src="{{url('assets/images/mainLogo.png')}}" alt="homepage" class="dark-logo img-fluid h-25 w-25" />
+                        {{-- <img src="{{url('assets/images/logo-icon.png')}}" alt="homepage" class="light-logo" /> --}}
                     </b>
                     <span class="logo-text">
-                        <img src="{{url('assets/images/logo-text.png')}}" alt="homepage" class="dark-logo" />
-                        <img src="{{url('assets/images/logo-light-text.png')}}" class="light-logo" alt="homepage" />
+                        <h3 class="dark-logo text-dark">My Bill Smart</h3>
+                        {{-- <img src="{{url('assets/images/logo-text.png')}}" alt="homepage" class="dark-logo" /> --}}
+                        {{-- <img src="{{url('assets/images/logo-light-text.png')}}" class="light-logo" alt="homepage" /> --}}
                     </span>
                 </a>
             </div>
