@@ -8,12 +8,12 @@
             <!-- ============================================================== -->
             <div class="navbar-brand">
                 <a href="">
-                    <b class="">
+                    {{-- <b class="">
                         <img src="{{url('assets/images/logoMain.png')}}" alt="homepage" class="dark-logo" style="width: 100px; height: 100px; margin-left: -25px"/>
                         <img src="{{url('assets/images/logoMain.png')}}" alt="homepage" class="light-logo" />
-                    </b>
+                    </b> --}}
                     <span class="logo-text">
-                        <h4 class="dark-logo text-dark" style="font-weight: bold;margin-left: -20px">My Bill Smart</h4>
+                        <img src="{{url('assets/images/bill.png')}}" alt="homepage" class="dark-logo img-fluid" style="height: 35px"/>
                     </span>
                 </a>
             </div>
