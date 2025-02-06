@@ -8,14 +8,12 @@
             <!-- ============================================================== -->
             <div class="navbar-brand">
                 <a href="">
-                    <b class="logo-icon">
-                        <img src="{{url('assets/images/mainLogo.png')}}" alt="homepage" class="dark-logo img-fluid h-25 w-25" />
-                        {{-- <img src="{{url('assets/images/logo-icon.png')}}" alt="homepage" class="light-logo" /> --}}
+                    <b class="">
+                        <img src="{{url('assets/images/logoMain.png')}}" alt="homepage" class="dark-logo" style="width: 100px; height: 100px; margin-left: -25px"/>
+                        <img src="{{url('assets/images/logoMain.png')}}" alt="homepage" class="light-logo" />
                     </b>
                     <span class="logo-text">
-                        <h3 class="dark-logo text-dark">My Bill Smart</h3>
-                        {{-- <img src="{{url('assets/images/logo-text.png')}}" alt="homepage" class="dark-logo" /> --}}
-                        {{-- <img src="{{url('assets/images/logo-light-text.png')}}" class="light-logo" alt="homepage" /> --}}
+                        <h4 class="dark-logo text-dark" style="font-weight: bold;margin-left: -20px">My Bill Smart</h4>
                     </span>
                 </a>
             </div>
