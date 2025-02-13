@@ -7,7 +7,7 @@
             <!-- Logo -->
             <!-- ============================================================== -->
             <div class="navbar-brand">
-                <a href="">
+                <a href="{{ route('dashboard') }}">
                     {{-- <b class="">
                         <img src="{{url('assets/images/logoMain.png')}}" alt="homepage" class="dark-logo" style="width: 100px; height: 100px; margin-left: -25px"/>
                         <img src="{{url('assets/images/logoMain.png')}}" alt="homepage" class="light-logo" />
