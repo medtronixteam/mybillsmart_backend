@@ -11,7 +11,7 @@
 
                 <li class="sidebar-item">
                     <a class="sidebar-link {{ request()->routeis('user.list') ? 'active' : '' }}" href="{{ route('user.list') }}" aria-expanded="false"><i
-                            data-feather="tag" class="feather-icon"></i><span class="hide-menu">User List
+                            data-feather="tag" class="feather-icon"></i><span class="hide-menu">Users List
                         </span></a>
                 </li>
             </ul>
