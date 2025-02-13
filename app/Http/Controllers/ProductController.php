@@ -21,7 +21,7 @@ class ProductController extends Controller
             'name'=>'required',
             'description'=>'required',
             'price'=>'required',
-            'status'=>'required',
+            'status' => 'required|integer|in:0,1',
         ]);
         if($validator->fails()){
         $message=$validator->message()->first();
