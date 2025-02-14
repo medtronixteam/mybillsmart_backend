@@ -24,7 +24,7 @@ class ProductController extends Controller
             'status' => 'required|integer|in:0,1',
         ]);
         if($validator->fails()){
-        $message=$validator->message()->first();
+        $message=$validator->messages()->first();
         $response=[
             'message'=>$message,'status'=>'error','code'=>500
         ];
@@ -54,6 +54,26 @@ class ProductController extends Controller
                 return response($response, $response['code']);
         }
 
+        public function singleProduct($id)
+        {
+            $product = Product::find($id);
+
+            if ($product) {
+                $response = [
+                    'message' => 'Product found',
+                    'status' => 'success',
+                    'code' => 200,
+                    'data' => $product,
+                ];
+            } else {
+                $response = [
+                    'message' => 'Product not found',
+                    'status' => 'error',
+                    'code' => 404,
+                ];
+            }
+            return response($response, $response['code']);
+        }
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
