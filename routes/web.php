@@ -24,4 +24,3 @@ Route::post('/users/disable/{userId}', [MainController::class, 'disable'])->name
 Route::post('/users/enable/{userId}', [MainController::class, 'enable'])->name('user.enable');
 Route::post('/users/delete/{deleteId}', [MainController::class, 'delete'])->name('user.delete');
 
-// include_once __DIR__.'/api.php';
