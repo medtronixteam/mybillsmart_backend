@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" sizes="100x100" href="{{url('assets/images/bill.png')}}">
     <title> MY Bill Smart</title>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -191,22 +192,16 @@
             @csrf
             <div class="text">
                 <img src="https://i.postimg.cc/DZBPRgvC/email.png" alt="icon" height="12">
-                <input name="email" type="email" class="form-control" placeholder="Email">
-                @error('email')
-                <span class="text-warning">{{$message}}</span>
-                @enderror
+                <input name="email" type="email" class="form-control" required placeholder="Email">
             </div>
 
             <div class="text">
                 <img src="https://i.postimg.cc/Nj5SDK4q/password.png" alt="icon" height="20">
-                <input name="password" class="form-control" type="password" placeholder="Password">
-                @error('password')
-                <span class="text-warning">{{$message}}</span>
-                @enderror
+                <input name="password" class="form-control" type="password" required placeholder="Password">
             </div>
             <div class="terms">
                 <input type="checkbox">
-                <p class="conditions">I read and agree to <a href="#">terms & conditions</a></p>
+                <p class="conditions">Remember me</p>
             </div>
             <button  name="submit" type="submit">Login</button>
            </form>
