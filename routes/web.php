@@ -9,7 +9,7 @@ use App\Http\Controllers\MainController;
 
 //Main Page
 Route::get('/', function () {
-    return view('welcome');
+    return view('login');
 });
 Route::get('logout', function () {
     auth()->logout();
