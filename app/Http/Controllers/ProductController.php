@@ -35,6 +35,7 @@ class ProductController extends Controller
                 'description'=>$request->description,
                 'price'=>$request->price,
                 'status'=>$request->status,
+                'user_id' => auth('sanctum')->id(),
             ]);
             $response=[
                 'message'=>'Product has been created',
