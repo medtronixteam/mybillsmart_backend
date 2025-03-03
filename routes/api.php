@@ -13,9 +13,9 @@ Route::middleware('api')->group(function () {
     Route::apiResource('posts', \App\Http\Controllers\PostController::class);
 });
 
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+});
 //authentication
 Route::post('/register', [LoginController::class, 'register']);
 Route::post('/login', [LoginController::class, 'login']);
