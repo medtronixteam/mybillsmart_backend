@@ -28,3 +28,8 @@ Route::get('products',[ProductController::class,'list']);
 Route::get('product/{id}',[ProductController::class,'singleProduct']);
 Route::post('products/{id}',[ProductController::class,'update']);
 Route::delete('products/{id}',[ProductController::class, 'delete']);
+
+
+use App\Http\Controllers\Api\ProfileController;
+
+Route::post('/change-password', [ProfileController::class, 'changePassword'])->middleware('auth:api');
