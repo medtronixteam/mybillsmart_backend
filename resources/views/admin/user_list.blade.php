@@ -54,6 +54,8 @@
                                                                 @if ($item->status == 1)
                                                                     <li><a class="dropdown-item" href="{{ route('user.view', $item->id) }}">View</a>
                                                                     </li>
+                                                                    <li><a class="dropdown-item" href="{{ route('user.password', $item->id) }}">Reset Password</a>
+                                                                    </li>
                                                                     <li><a class="dropdown-item" href="javascript:void(0)"
                                                                             onclick="confirmDelete({{ $item->id }})">Delete</a>
                                                                     </li>
