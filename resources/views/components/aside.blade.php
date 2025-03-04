@@ -10,6 +10,11 @@
                 <li class="nav-small-cap"><span class="hide-menu">Pages</span></li>
 
                 <li class="sidebar-item">
+                    <a class="sidebar-link {{ request()->routeis('user.create') ? 'active' : '' }}" href="{{ route('user.create') }}" aria-expanded="false"><i
+                            data-feather="tag" class="feather-icon"></i><span class="hide-menu">Create User
+                        </span></a>
+                </li>
+                <li class="sidebar-item">
                     <a class="sidebar-link {{ request()->routeis('user.list') ? 'active' : '' }}" href="{{ route('user.list') }}" aria-expanded="false"><i
                             data-feather="tag" class="feather-icon"></i><span class="hide-menu">Users List
                         </span></a>
