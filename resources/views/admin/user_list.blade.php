@@ -26,6 +26,7 @@
                                                 <th>Name</th>
                                                 <th>Email</th>
                                                 <th>Status</th>
+                                                <th>Role</th>
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>
@@ -40,6 +41,15 @@
                                                             <span class="badge badge-success">Enable</span>
                                                         @else
                                                             <span class="badge badge-warning">Disable</span>
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        @if ($item->role == 'group_admin')
+                                                            <span class="badge badge-success">Group Admin</span>
+                                                        @elseif ($item->role == 'admin')
+                                                            <span class="badge badge-info">Admin</span>
+                                                            @else
+                                                            <span class="badge badge-warning">User</span>
                                                         @endif
                                                     </td>
                                                     <td>
