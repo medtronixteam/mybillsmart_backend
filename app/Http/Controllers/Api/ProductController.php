@@ -11,7 +11,7 @@ class ProductController extends Controller
 
         public function allProducts()
         {
-            $products = Product::with('provider')->latest()->get();
+            $products = Product::latest()->get();
             return response()->json($products,200);
         }
 
