@@ -3,6 +3,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\InvoiceController;
 
 use App\Http\Controllers\Api\ProfileController;
 
@@ -30,6 +31,8 @@ Route::post('/agent', [LoginController::class, 'agentSignup']);
 Route::get('/list/products', [ProductController::class, 'allProducts']);
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('products', ProductController::class);
+
+    Route::post('invoices', [InvoiceController::class, 'store']);
     Route::post('/change-password', [ProfileController::class, 'changePassword']);
 
 });
