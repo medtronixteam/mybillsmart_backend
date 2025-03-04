@@ -9,12 +9,7 @@ use App\Models\Product;
 use Validator;
 class ProductController extends Controller
 {
-    public function list(){
 
-        $Products= Product::latest()->get();
-        $response=['status'=>"success",'code'=>200,'data'=>$Products];
-        return response($response,$response['code']);
-     }
      public function store(Request $request){
 
         $validator= Validator::make($request->all(), [

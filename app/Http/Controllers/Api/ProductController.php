@@ -9,9 +9,10 @@ use Validator;
 class ProductController extends Controller
 {
 
-        public function allProducts()
+        public function allProductsData()
         {
-            $products = Product::latest()->get();
+
+            $products = Product::with('provider')->latest()->get();
             return response()->json($products,200);
         }
 
