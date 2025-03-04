@@ -23,8 +23,12 @@ Route::get('view/user/{viewId}', [MainController::class, 'userView'])->name('use
 Route::post('/users/disable/{userId}', [MainController::class, 'disable'])->name('user.disable');
 Route::post('/users/enable/{userId}', [MainController::class, 'enable'])->name('user.enable');
 Route::post('/users/delete/{deleteId}', [MainController::class, 'delete'])->name('user.delete');
+Route::get('user/create', [MainController::class, 'usersdata'])->name('user.create');
+Route::post('user/store', [MainController::class, 'storeUsers'])->name('user.store');
 Route::get('profile', [MainController::class, 'profile'])->name('profile');
 Route::post('reset-pass', [MainController::class, 'resetPass'])->name('reset.password');
 Route::post('reset-name', [MainController::class, 'resetName'])->name('reset.name');
-
+//user
+Route::get('user/reset-password/{passId}', [MainController::class, 'reset'])->name('user.password');
+Route::post('Student/reset-pass', [MainController::class, 'changePass'])->name('change.password');
 
