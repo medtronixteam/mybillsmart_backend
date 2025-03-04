@@ -103,7 +103,7 @@ class ProductController extends Controller
                 $request->all(),
                 ['provider_id' => auth('sanctum')->id()]
             ));
-            return response()->json(['message' => 'Product has been updated'], 200);
+            return response()->json(['message' => 'Product has been updated.'], 200);
         }
 
         public function destroy(Product $product)
