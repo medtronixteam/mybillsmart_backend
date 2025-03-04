@@ -61,4 +61,44 @@ class MainController extends Controller
         $user = User::findOrFail($viewId);
         return view('admin.user_view', compact('user'));
     }
+    public function profile(){
+        return view('admin.profile');
+    }
+    public function resetPass(Request $request) {
+        $validatedData = $request->validate([
+            "new_password" => ['required', 'min:5'],
+            "confirm_password" => ['required', 'same:new_password'],
+        ]);
+
+        if ($validatedData) {
+            $user = User::find(Auth::user()->id);
+            if ($user) {
+                $user->update(['password' => Hash::make($validatedData["new_password"])]);
+                // flashy()->info('Password has been Updated!', '#');
+                return back()->with('success', 'Password has been updated successfully!');
+            } else {
+                // flashy()->error('Invalid User Id', '#');
+                return back()->with('error', 'Invalid User Id');
+            }
+        }
+
+        return back()->with('error', 'Password has not been Updated!');
+    }
+    public function resetName(Request $request) {
+        $validatedData = $request->validate([
+            "name" => ['required'],
+            "email" => ['required', 'email',],
+        ]);
+        $user = User::find(Auth::user()->id);
+        if ($user) {
+            $user->update([
+                'name' => $validatedData["name"],
+                'email' => $validatedData["email"],
+            ]);
+
+            return back()->with('success', 'Name and Email have been updated successfully!');
+        } else {
+            return back()->with('error', 'Invalid User Id');
+        }
+    }
 }
