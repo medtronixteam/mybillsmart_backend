@@ -42,5 +42,22 @@ class InvoiceController extends Controller
              'message' => 'Invoice created successfully',
          ], 201);
      }
+     public function show($id)
+{
+    $invoice = Invoice::find($id);
+
+    if (!$invoice) {
+        return response()->json(['message' => 'Invoice not found'], 404);
+    }
+    return response()->json(['data' => $invoice], 200);
+}
+
+
+public function index()
+{
+    $invoices = Invoice::where('agent_id', auth('sanctum')->id())->latest()->get();
+    return response()->json($invoices,200);
+}
+
 
 }
