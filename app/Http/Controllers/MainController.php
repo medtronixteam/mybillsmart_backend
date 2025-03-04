@@ -101,4 +101,61 @@ class MainController extends Controller
             return back()->with('error', 'Invalid User Id');
         }
     }
-}
+    public function usersdata() {
+        return view('admin.user_store');
+    }
+    public function storeUsers(Request $request) {
+        $validatedData = $request->validate([
+            "name" => 'required',
+            "email" => 'required',
+            "password" => 'required',
+            "phone" => 'required',
+            // "address" => 'required',
+            "country" => 'required',
+            "city" => 'required',
+            "postal_code" => 'required',
+            "status" => 'required',
+            "role" => 'required',
+        ]);
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'country' => $request->country,
+            'city' => $request->city,
+            'postal_code' => $request->postal_code,
+            'role' => $request->role,
+            'status' => $request->status,
+        ]);
+
+        return back()->with('success', 'User has been created successfully!');
+    }
+
+    public function reset($passId)
+    {
+        return view('admin.resetPassword', compact('passId'));
+    }
+
+    public function changePass(Request $request) {
+        $validatedData = $request->validate([
+            "new_password" => ['required', 'min:5'],
+            "confirm_password" => ['required', 'same:new_password'],
+        ]);
+
+        if ($validatedData) {
+            $user = User::find($request->resetId);
+            if ($user) {
+                $user->update(['password' => Hash::make($validatedData["new_password"])]);
+                // flashy()->info('Password has been Updated!', '#');
+                return back()->with('success', 'Password has been updated successfully!');
+            } else {
+                // flashy()->error('Invalid User Id', '#');
+                return back()->with('error', 'Invalid User Id');
+            }
+        }
+
+        return back()->with('error', 'Password has not been Updated!');
+    }
+  }
