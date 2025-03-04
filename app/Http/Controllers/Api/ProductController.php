@@ -106,7 +106,7 @@ class ProductController extends Controller
             return response()->json(['message' => 'Product has been updated.'], 200);
         }
 
-        public function destroy(Product $product)
+        public function destroy($id)
         {
             $product = Product::find($id);
 
