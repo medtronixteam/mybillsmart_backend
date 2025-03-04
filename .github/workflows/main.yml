@@ -28,6 +28,7 @@ jobs:
           cd ..
           sudo docker compose build mybillsmart_backend
           sudo docker compose up mybillsmart_backend -d
+          docker exec  contact-mybillsmart_backend-1 sh -c "sleep 20 && php artisan key:generate"          
                    
           exit
         EOF
