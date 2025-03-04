@@ -28,7 +28,7 @@ Route::post('/agent', [LoginController::class, 'agentSignup']);
 
 
 
-Route::get('/list/products', [ProductController::class, 'allProducts']);
+Route::get('/list/products', [ProductController::class, 'allProductsData']);
 Route::middleware(['auth:sanctum'])->group(function () {
 
     //products
