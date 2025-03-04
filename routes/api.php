@@ -26,13 +26,19 @@ Route::post('/login', [LoginController::class, 'login']);
 Route::post('/provider', [LoginController::class, 'providerSignup']);
 Route::post('/agent', [LoginController::class, 'agentSignup']);
 
-//products
+
 
 Route::get('/list/products', [ProductController::class, 'allProducts']);
 Route::middleware(['auth:sanctum'])->group(function () {
+
+    //products
     Route::apiResource('products', ProductController::class);
 
+    //invoices
     Route::post('invoices', [InvoiceController::class, 'store']);
+    Route::get('invoices', [InvoiceController::class, 'index']);
+    Route::get('invoices/{id}', [InvoiceController::class, 'show']);
+
     Route::post('/change-password', [ProfileController::class, 'changePassword']);
 
 });
