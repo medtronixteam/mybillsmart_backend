@@ -12,7 +12,7 @@ class ProductController extends Controller
         public function allProductsData()
         {
 
-            $products = Product::with('provider')->latest()->get();
+            $products = Product::latest()->get();
             return response()->json($products,200);
         }
 
@@ -28,6 +28,7 @@ class ProductController extends Controller
         $validator = Validator::make($request->all(), [
 
             'product_name' => 'required|string',
+            'provider_name' => 'required|string',
             'light_category' => 'required|string',
             'fixed_rate' => 'required|numeric',
             'rl1' => 'nullable|numeric',
