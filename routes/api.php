@@ -4,8 +4,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\InvoiceController;
-
 use App\Http\Controllers\Api\ProfileController;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use App\Models\User;
 
 Route::middleware('api')->group(function () {
     // Your API endpoints here
@@ -40,5 +43,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('invoices/{id}', [InvoiceController::class, 'show']);
 
     Route::post('/change-password', [ProfileController::class, 'changePassword']);
-
+    //forgot password
+    Route::post('/forgot-password', [ProfileController::class, 'forgotPassword']);
+    Route::post('/verify-otp', [ProfileController::class, 'verifyOtp']);
+    Route::post('/resend-otp', [ProfileController::class, 'resendOtp']);
+    Route::post('/reset-password', [ProfileController::class, 'resetPassword']);
 });
