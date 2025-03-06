@@ -21,7 +21,6 @@ return new class extends Migration
             $table->decimal('price_per_kwh', 10, 4);
             $table->decimal('meter_rental', 10, 2);
             $table->decimal('tax_per_kwh', 10, 4);
-
             $table->timestamps();
         });
     }
