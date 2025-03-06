@@ -5,7 +5,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Validator;
 
-class offerController extends Controller
+class OfferController extends Controller
 {
 
 
