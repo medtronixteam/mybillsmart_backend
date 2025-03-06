@@ -45,11 +45,12 @@ class LoginController extends Controller
             ], 401);
         }
     }
-    function register(Request $request) {
+        function register(Request $request) {
             $validator = Validator::make($request->all(), [
                 'name' => 'required|max:20',
                 'email' => 'required|email|unique:users',
                 'password' => 'required',
+                'role' => 'required|in:client,super_agent,agent',
 
             ]);
          if ($validator->fails()) {
@@ -67,7 +68,7 @@ class LoginController extends Controller
 
 
                 $response = [
-                    'message'=>"Register  Successfully.",
+                    'message'=>"User Created  Successfully.",
                     'status'=>'success',
                     'code'=>200,
 
