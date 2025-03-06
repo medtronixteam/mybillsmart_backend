@@ -5,6 +5,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\InvoiceController;
 use App\Http\Controllers\Api\ProfileController;
+use App\Http\Controllers\Api\offerController;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
