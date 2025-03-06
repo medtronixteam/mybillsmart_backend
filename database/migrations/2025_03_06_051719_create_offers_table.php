@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('offers', function (Blueprint $table) {
             $table->id();
-            $table->string('user_id')->foreign()->references('id')->on('users')->onDelete('cascade');
-            $table->string('client_id')->default(0);
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->nullable();
+            $table->unsignedBigInteger('client_id')->default(0);
             $table->string('invoice_id');
-            $table->string('Supplier_name');
-            $table->string('fixed_monthly_charges');
-            $table->string('price_per_kwh');
-            $table->string('meter_rental');
-            $table->string('tax_per_kwh');
+            $table->string('supplier_name');
+            $table->decimal('fixed_monthly_charges', 10, 2);
+            $table->decimal('price_per_kwh', 10, 4);
+            $table->decimal('meter_rental', 10, 2);
+            $table->decimal('tax_per_kwh', 10, 4);
 
             $table->timestamps();
         });
