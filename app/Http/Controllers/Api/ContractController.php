@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
-use App\Models\Offer;
+use App\Models\Contract;
 use Illuminate\Http\Request;
 use Validator;
 
-class OfferController extends Controller
+class ContractController extends Controller
 {
 
 
 
     public function list(){
 
-        $offers= Offer::latest()->get();
-        $response=['status'=>"success",'code'=>200,'data'=>$offers];
+        $contracts= Contract::latest()->get();
+        $response=['status'=>"success",'code'=>200,'data'=>$contracts];
         return response($response,$response['code']);
      }
 }
