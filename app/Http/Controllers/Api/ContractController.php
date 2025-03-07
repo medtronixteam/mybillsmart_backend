@@ -17,4 +17,6 @@ class ContractController extends Controller
         $response=['status'=>"success",'code'=>200,'data'=>$contracts];
         return response($response,$response['code']);
      }
+
+  
 }
