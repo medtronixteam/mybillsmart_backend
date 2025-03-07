@@ -53,10 +53,20 @@ class LoginController extends Controller
                 'role' => 'required|in:client,super_agent,agent',
 
             ]);
-         if ($validator->fails()) {
-            $messages = $validator->messages()->first();
-            $response = ['message' => $messages,
-                'status' => 'error', 'code' => 500];
+            if ($validator->fails()) {
+                if ($validator->errors()->has('email')) {
+                    $response = [
+                        'message' => 'Email already exists.',
+                        'status' => 'error',
+                        'code' => 500
+                    ];
+                } else {
+                    $response = [
+                        'message' => $validator->messages()->first(),
+                        'status' => 'error',
+                        'code' => 500
+                    ];
+                }
 
          }else{
 
@@ -88,14 +98,24 @@ class LoginController extends Controller
                 'country' => 'required',
                 'city' => 'required',
                 'postal_code' => 'required',
-
             ]);
+
             if ($validator->fails()) {
-                $messages = $validator->messages()->first();
-                $response = ['message' => $messages,
-                    'status' => 'error', 'code' => 500];
-            }else{
-                $user= User::create([
+                if ($validator->errors()->has('email')) {
+                    $response = [
+                        'message' => 'Email already exists.',
+                        'status' => 'error',
+                        'code' => 500
+                    ];
+                } else {
+                    $response = [
+                        'message' => $validator->messages()->first(),
+                        'status' => 'error',
+                        'code' => 500
+                    ];
+                }
+            } else {
+                $user = User::create([
                     'name' => $request->name,
                     'email' => $request->email,
                     'password' => Hash::make($request->password),
@@ -106,16 +126,17 @@ class LoginController extends Controller
                     'postal_code' => $request->postal_code,
                     'role' => 'provider',
                 ]);
+
                 $response = [
-                    'message'=>"Provider Register  Successfully.",
-                    'status'=>'success',
-                    'code'=>200,
+                    'message' => "Provider registered successfully.",
+                    'status' => 'success',
+                    'code' => 200,
                 ];
             }
-            return response($response, $response['code']);
 
+            return response($response, $response['code']);
         }
-        public function agentSignup(Request $request)
+                public function agentSignup(Request $request)
         {
             $validator = Validator::make($request->all(), [
                 'name' => 'required|max:20',
@@ -129,9 +150,19 @@ class LoginController extends Controller
 
             ]);
             if ($validator->fails()) {
-                $messages = $validator->messages()->first();
-                $response = ['message' => $messages,
-                    'status' => 'error', 'code' => 500];
+                if ($validator->errors()->has('email')) {
+                    $response = [
+                        'message' => 'Email already exists.',
+                        'status' => 'error',
+                        'code' => 500
+                    ];
+                } else {
+                    $response = [
+                        'message' => $validator->messages()->first(),
+                        'status' => 'error',
+                        'code' => 500
+                    ];
+                }
             }else{
                 $user= User::create([
                     'name' => $request->name,
