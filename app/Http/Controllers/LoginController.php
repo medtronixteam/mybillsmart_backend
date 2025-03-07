@@ -50,7 +50,7 @@ class LoginController extends Controller
                 'name' => 'required|max:20',
                 'email' => 'required|email|unique:users',
                 'password' => 'required',
-                'role' => 'required|in:client,super_agent,agent',
+                'role' => 'required|in:client,supervisor,agent',
 
             ]);
             if ($validator->fails()) {
