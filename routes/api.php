@@ -26,7 +26,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 //authentication
-Route::post('/register', [LoginController::class, 'register']);
+
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/provider', [LoginController::class, 'providerSignup']);
 Route::post('/agent', [LoginController::class, 'agentSignup']);
@@ -36,6 +36,7 @@ Route::post('/agent', [LoginController::class, 'agentSignup']);
 Route::get('/list/products', [ProductController::class, 'allProductsData']);
 Route::middleware(['auth:sanctum'])->group(function () {
 
+    Route::post('/register', [LoginController::class, 'register']);
     //products
     Route::apiResource('products', ProductController::class);
 

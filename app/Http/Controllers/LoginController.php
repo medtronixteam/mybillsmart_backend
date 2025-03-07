@@ -73,7 +73,13 @@ class LoginController extends Controller
                $user= User::create([
                    'name' => $request->name,
                     'email' => $request->email,
+                    'group' => auth('sanctum')->user()->id,
                     'password' => Hash::make($request->password),
+                    'phone' => $request->phone,
+                    'address' => $request->address,
+                    'country' => $request->country,
+                    'city' => $request->city,
+                    'postal_code' => $request->postal_code,
                 ]);
 
 
