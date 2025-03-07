@@ -15,7 +15,7 @@ class InvoiceController extends Controller
          $validator = Validator::make($request->all(), [
              'bill type' => 'required',
              'address' => 'required|string',
-             'CUPS' => 'required|string',
+             'cups' => 'required|string',
              'billing period' => 'required',
          ]);
 
@@ -24,9 +24,9 @@ class InvoiceController extends Controller
          }
          $billType = $request->input('bill type');
          $bill_period = $request->input('billing period');
-         $CUPS = $request->input('CUPS');
+         $CUPS = $request->input('cups');
          $address = $request->input('address');
-         $billInfo = $request->except(['bill type', 'address','CUPS','billing period']);
+         $billInfo = $request->except(['bill type', 'address','cups','billing period']);
          $invoice = Invoice::create(
             [
                 'bill_type' => $billType,
@@ -39,7 +39,7 @@ class InvoiceController extends Controller
          );
 
          return response()->json([
-             'message' => 'Invoice created successfully',
+             'message' => 'Invoice created successfully','status'=>"success",'invoice'=>$invoice->id,
          ], 201);
      }
      public function show($id)
