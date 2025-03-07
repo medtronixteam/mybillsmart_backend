@@ -53,5 +53,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
     //offers
     Route::get('offers', [OfferController::class, 'list']);
     Route::get('contracts', [ContractController::class, 'list']);
-});
 Route::post('contracts', [ContractController::class, 'store']);
+});
