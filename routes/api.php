@@ -53,6 +53,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/reset-password', [ProfileController::class, 'resetPassword']);
     //offers
     Route::get('offers', [OfferController::class, 'list']);
+    Route::post('/offers', [OfferController::class, 'store']);
+
+    //contracts
     Route::get('contracts', [ContractController::class, 'list']);
-Route::post('contracts', [ContractController::class, 'store']);
+    Route::post('contracts', [ContractController::class, 'store']);
 });
