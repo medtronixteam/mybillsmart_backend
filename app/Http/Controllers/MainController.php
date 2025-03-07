@@ -107,7 +107,7 @@ class MainController extends Controller
     public function storeUsers(Request $request) {
         $validatedData = $request->validate([
             "name" => 'required',
-            "email" => 'required',
+            "email" => 'required|email|unique:users,email',
             "password" => 'required',
             "phone" => 'required',
             // "address" => 'required',
@@ -117,6 +117,7 @@ class MainController extends Controller
             "status" => 'required',
             "role" => 'required',
         ]);
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -133,6 +134,7 @@ class MainController extends Controller
         return back()->with('success', 'User has been created successfully!');
     }
 
+
     public function reset($passId)
     {
         return view('admin.resetPassword', compact('passId'));
@@ -148,10 +150,8 @@ class MainController extends Controller
             $user = User::find($request->resetId);
             if ($user) {
                 $user->update(['password' => Hash::make($validatedData["new_password"])]);
-                // flashy()->info('Password has been Updated!', '#');
                 return back()->with('success', 'Password has been updated successfully!');
             } else {
-                // flashy()->error('Invalid User Id', '#');
                 return back()->with('error', 'Invalid User Id');
             }
         }
