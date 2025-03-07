@@ -5,6 +5,8 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\InvoiceController;
 use App\Http\Controllers\Api\ProfileController;
+use App\Http\Controllers\Api\OfferController;
+use App\Http\Controllers\Api\ContractController;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -48,4 +50,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/verify-otp', [ProfileController::class, 'verifyOtp']);
     Route::post('/resend-otp', [ProfileController::class, 'resendOtp']);
     Route::post('/reset-password', [ProfileController::class, 'resetPassword']);
+    //offers
+    Route::get('offers', [OfferController::class, 'list']);
+    Route::get('contracts', [ContractController::class, 'list']);
 });
