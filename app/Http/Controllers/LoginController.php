@@ -51,6 +51,10 @@ class LoginController extends Controller
                 'email' => 'required|email|unique:users',
                 'password' => 'required',
                 'role' => 'required|in:client,supervisor,agent',
+                'postal_code' => 'nullable|numeric',
+                'address' => 'nullable|string',
+                'city' => 'nullable|string',
+                'country' => 'nullable|string',
 
             ]);
             if ($validator->fails()) {
@@ -73,6 +77,7 @@ class LoginController extends Controller
                $user= User::create([
                    'name' => $request->name,
                     'email' => $request->email,
+                    'role' => $request->role,
                     'group' => auth('sanctum')->user()->id,
                     'password' => Hash::make($request->password),
                     'phone' => $request->phone,
