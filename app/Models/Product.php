@@ -23,6 +23,9 @@ class Product extends Model
         'p4' => 'float',
         'p5' => 'float',
         'p6' => 'float',
+        'meter_rental' => 'float',
+        'sales_commission' => 'float',
+
     ];
 }
 
