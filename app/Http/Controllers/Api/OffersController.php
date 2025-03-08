@@ -6,7 +6,7 @@ use App\Models\Offer;
 use Illuminate\Http\Request;
 use Validator;
 
-class OfferController extends Controller
+class OffersController extends Controller
 {
 
 
