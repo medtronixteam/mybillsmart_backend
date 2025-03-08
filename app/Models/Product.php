@@ -12,4 +12,17 @@ class Product extends Model
     {
         return $this->belongsTo(User::class, 'provider_id');
     }
+    protected $casts = [
+        'fixed_rate' => 'float',
+        'rl1' => 'float',
+        'rl2' => 'float',
+        'rl3' => 'float',
+        'p1' => 'float',
+        'p2' => 'float',
+        'p3' => 'float',
+        'p4' => 'float',
+        'p5' => 'float',
+        'p6' => 'float',
+    ];
 }
+
