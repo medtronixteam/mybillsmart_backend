@@ -51,6 +51,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/verify-otp', [ProfileController::class, 'verifyOtp']);
     Route::post('/resend-otp', [ProfileController::class, 'resendOtp']);
     Route::post('/reset-password', [ProfileController::class, 'resetPassword']);
+    Route::POST('/profile/{id}', [ProfileController::class, 'update']);
     //offers
     Route::get('offers', [OffersController::class, 'list']);
     Route::post('/offers', [OffersController::class, 'store']);

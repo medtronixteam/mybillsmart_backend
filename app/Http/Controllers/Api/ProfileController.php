@@ -4,9 +4,37 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use App\Models\User;
+use Validator;
 class ProfileController extends Controller
 {
+
+    public function update(Request $request, $id)
+    {
+        $profile = User::find($id);
+        if (!$profile) {
+            return response()->json(['message' => 'Profile not found'], 500);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'city' => 'required',
+            'country' => 'required',
+            'address' => 'required',
+            'postal_code' => 'required|numeric',
+        ]);
+        if ($validator->fails()) {
+            return response(['message' => $validator->messages()->first(), 'status' => 'error', 'code' => 500]);
+        }
+        $profile->name = $request->name;
+        $profile->city = $request->city;
+        $profile->country = $request->country;
+        $profile->address = $request->address;
+        $profile->postal_code = $request->postal_code;
+        $profile->save();
+
+        return response(['message' => 'Profile has been updated', 'status' => 'success', 'code' => 200]);
+    }
     public function changePassword(Request $request)
     {
 
@@ -107,4 +135,6 @@ class ProfileController extends Controller
 
         return response()->json(['message' => 'Password reset successfully.']);
     }
+
+
 }
