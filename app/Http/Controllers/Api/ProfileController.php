@@ -35,6 +35,47 @@ class ProfileController extends Controller
 
         return response(['message' => 'Profile has been updated', 'status' => 'success', 'code' => 200]);
     }
+
+        public function detail($id)
+        {
+            $user = User::find($id);
+            if (!$user) {
+                return response()->json(['message' => 'User not found'], 500);
+            }
+            return response()->json($user);
+        }
+
+        public function enable($id)
+        {
+            $userEnable = User::find($id);
+            if (!$userEnable) {
+                return response()->json(['message' => 'User not found'], 500);
+            }
+            $userEnable->status = 1;
+            $userEnable->save();
+            return response()->json(['message' => ' User enabled successfully']);
+        }
+
+        public function disable($id)
+        {
+            $userDisable = User::find($id);
+            if (!$userDisable) {
+                return response()->json(['message' => 'User not found'], 500);
+            }
+            $userDisable->status = 0;
+            $userDisable->save();
+            return response()->json(['message' => 'User disabled successfully']);
+        }
+
+        public function delete($id)
+        {
+            $userDelete = User::find($id);
+            if (!$userDelete) {
+                return response()->json(['message' => 'User not found'], 404);
+            }
+            $userDelete->delete();
+            return response()->json(['message' => 'User deleted successfully']);
+        }
     public function changePassword(Request $request)
     {
 
