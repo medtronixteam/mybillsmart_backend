@@ -18,13 +18,14 @@ class OffersController extends Controller
         return response($response,$response['code']);
      }
 
+
+
     public function store(Request $request)
     {
-        return $request->all();
 
         try {
 
-    return    $cleanData = array_map(function($item) {
+        $cleanData = array_map(function($item) {
             return collect($item)->mapWithKeys(function($value, $key) {
                 return [strtolower(str_replace(' ', '', $key)) => $value];
             })->all();
@@ -41,11 +42,10 @@ class OffersController extends Controller
         }
         $transformedData = array_map(function ($item) {
             return [
-                'supplier_name' => $item['suppliername'],
-                'fixed_monthly_charges' => $item['fixedmonthlycharges'],
-                'price_per_kwh' => $item['priceperkwh'],
-                'meter_rental' => $item['meterrental'],
-                'tax_per_kwh' => $item['taxperkwh'],
+                'provider_name' => $item['provider_name'],
+                'sales_commission' => $item['sales_commission'],
+                'product_name' => $item['product_name'],
+                'saving' => $item['saving%'],
                 'user_id' => auth('sanctum')->id(),
                 'invoice_id' => $item['invoice_id'],
             ];

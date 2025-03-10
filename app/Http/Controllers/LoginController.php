@@ -23,8 +23,8 @@ class LoginController extends Controller
             return response()->json([
                 'message' => $messages,
                 'status' => 'error',
-                'code' => 400
-            ], 400);
+                'code' => 500
+            ], 500);
         }
         if (Auth::attempt($request->only('email', 'password'))) {
             $user = Auth::user();
