@@ -20,19 +20,20 @@ class OffersController extends Controller
 
     public function store(Request $request)
     {
+        return $request->all();
+
         try {
 
-        $cleanData = array_map(function($item) {
+    return    $cleanData = array_map(function($item) {
             return collect($item)->mapWithKeys(function($value, $key) {
                 return [strtolower(str_replace(' ', '', $key)) => $value];
             })->all();
         }, $request->all());
         $validator = Validator::make($cleanData, [
-            '*.suppliername' => 'required|string',
-            '*.fixedmonthlycharges' => 'required|numeric',
-            '*.priceperkwh' => 'required|numeric',
-            '*.meterrental' => 'required|numeric',
-            '*.taxperkwh' => 'required|numeric',
+            '*.provider_name' => 'required|string',
+            '*.sales_commission' => 'required|numeric',
+            '*.product_name' => 'required|string',
+            '*.saving%' => 'required|numeric',
             '*.invoice_id' => 'required',
         ]);
         if ($validator->fails()) {
