@@ -20,6 +20,8 @@ class OffersController extends Controller
 
 
 
+
+
     public function store(Request $request)
     {
 
@@ -51,8 +53,8 @@ class OffersController extends Controller
             ];
         }, $cleanData);
         Offer::insert($transformedData);
-
-        return response()->json(['message' => 'Offer stored successfully','status'=>"success"], 201);
+        $offers=Offer::where('invoice_id', $cleanData[0]['invoice_id'])->get();
+        return response()->json(['message' => 'Offer stored successfully','status'=>"success",'offers'=>$offers], 201);
         } catch (\Throwable $th) {
 
             return response()->json(['message' => $th->getMessage(),'status'=>"error"], 500);
