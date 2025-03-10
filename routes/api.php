@@ -54,9 +54,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::POST('/profile/{id}', [ProfileController::class, 'update']);
     //offers
     Route::get('offers', [OffersController::class, 'list']);
-    Route::post('/offers', [OffersController::class, 'store']);
+
 
     //contracts
     Route::get('contracts', [ContractController::class, 'list']);
     Route::post('contracts', [ContractController::class, 'store']);
 });
+Route::post('/offers', [OffersController::class, 'store']);
