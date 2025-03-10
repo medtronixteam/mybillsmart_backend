@@ -51,7 +51,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/verify-otp', [ProfileController::class, 'verifyOtp']);
     Route::post('/resend-otp', [ProfileController::class, 'resendOtp']);
     Route::post('/reset-password', [ProfileController::class, 'resetPassword']);
-    Route::POST('/profile/{id}', [ProfileController::class, 'update']);
+    Route::post('user/profile/{id}', [ProfileController::class, 'update']);
+    Route::get('/user/detail/{id}', [ProfileController::class, 'detail']);
+    Route::post('/user/enable/{id}', [ProfileController::class, 'enable']);
+    Route::post('/user/disable/{id}', [ProfileController::class, 'disable']);
+    Route::delete('/user/delete/{id}', [ProfileController::class, 'delete']);
     //offers
     Route::get('offers', [OffersController::class, 'list']);
     Route::post('/offers', [OffersController::class, 'store']);
@@ -60,3 +64,4 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('contracts', [ContractController::class, 'list']);
     Route::post('contracts', [ContractController::class, 'store']);
 });
+
