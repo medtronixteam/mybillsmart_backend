@@ -52,6 +52,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/resend-otp', [ProfileController::class, 'resendOtp']);
     Route::post('/reset-password', [ProfileController::class, 'resetPassword']);
     //offers
+    Route::post('/offers', [OffersController::class, 'store']);
     Route::get('offers', [OffersController::class, 'list']);
 
 
@@ -59,4 +60,4 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('contracts', [ContractController::class, 'list']);
     Route::post('contracts', [ContractController::class, 'store']);
 });
-Route::post('/offers', [OffersController::class, 'store']);
+
