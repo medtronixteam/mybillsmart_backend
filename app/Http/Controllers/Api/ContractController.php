@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Contract;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -19,8 +20,15 @@ class ContractController extends Controller
      }
      public function clientContracts(){
 
-        $contracts= Contract::where('client_id',auth('sanctum')->id())latest()->get();
+        $contracts= Contract::where('client_id',auth('sanctum')->id())->latest()->get();
         $response=['status'=>"success",'code'=>200,'data'=>$contracts];
+        return response($response,$response['code']);
+     }
+     public function clientList(){
+
+
+        $group= User::where('role','client')->get();
+        $response=['status'=>"success",'code'=>200,'data'=>$group];
         return response($response,$response['code']);
      }
 
