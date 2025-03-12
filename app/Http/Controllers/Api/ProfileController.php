@@ -38,13 +38,11 @@ class ProfileController extends Controller
         return response(['message' => 'Profile has been updated', 'status' => 'success', 'code' => 200]);
     }
 
-        public function detail($id)
+        public function detail()
         {
-            $user = User::find($id);
-            if (!$user) {
-                return response()->json(['message' => 'User not found'], 500);
-            }
-            return response()->json($user);
+            $users= User::latest()->get();
+            $response=['status'=>"success",'code'=>200,'data'=>$users];
+            return response($response,$response['code']);
         }
 
         public function enable($id)
