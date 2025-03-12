@@ -52,7 +52,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/resend-otp', [ProfileController::class, 'resendOtp']);
     Route::post('/reset-password', [ProfileController::class, 'resetPassword']);
     Route::post('user/profile/{id}', [ProfileController::class, 'update']);
-    Route::get('/list', [ProfileController::class, 'list']);
+    Route::get('/user/details', [ProfileController::class, 'detail']);
     Route::post('/user/enable/{id}', [ProfileController::class, 'enable']);
     Route::post('/user/disable/{id}', [ProfileController::class, 'disable']);
     Route::delete('/user/delete/{id}', [ProfileController::class, 'delete']);
