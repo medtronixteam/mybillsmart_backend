@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Models\User;
+use App\Models\Document;
 use Validator;
 class ProfileController extends Controller
 {
@@ -176,6 +178,52 @@ class ProfileController extends Controller
 
         return response()->json(['message' => 'Password reset successfully.']);
     }
+//document uploaded
+
+
+
+public function store(Request $request)
+{
+
+    $validator = Validator::make($request->all(), [
+        'name' => 'required|string',
+        'phone' => 'required|string',
+        'address' => 'required|string',
+        'date_of_birth' => 'required|date',
+        'id_card_front' => 'nullable|file|mimes:jpg,jpeg,png',
+        'id_card_back' => 'nullable|file|mimes:jpg,jpeg,png',
+        'individual_or_company' => 'nullable|in:individual,company',
+        'bank_receipt' => 'nullable|file|mimes:jpg,jpeg,png',
+        'last_service_invoice' => 'nullable|file|mimes:jpg,jpeg,png,pdf',
+        'lease_agreement' => 'nullable|file|mimes:jpg,jpeg,png,pdf',
+        'bank_account_certificate' => 'nullable|file|mimes:jpg,jpeg,png,pdf',
+        'expiration_date' => 'required|date',
+        'client_id' => 'required|exists:users,id',
+        'contract_id' => 'required|integer',
+    ]);
+
+    if ($validator->fails()) {
+        return response(['message' => $validator->messages()->first(), 'status' => 'error', 'code' => 500]);
+    }
+
+    $validatedData = $validator->validated();
+    // $validatedData['client_id'] = auth('sanctum')->id();
+
+    foreach (['id_card_front', 'id_card_back', 'bank_receipt', 'last_service_invoice', 'lease_agreement', 'bank_account_certificate'] as $field) {
+        if ($request->hasFile($field)) {
+            $validatedData[$field] = $request->file($field)->store('uploads', 'public');
+        }
+    }
+
+    $documents = Document::create($validatedData);
+
+    return response()->json([
+        'message' => 'Documents uploaded successfully',
+        'status' => 'success',
+        'code' => 200,
+        'data' => $documents
+    ], 200);
+}
 
 
 }

@@ -63,5 +63,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     //contracts
     Route::get('contracts', [ContractController::class, 'list']);
     Route::post('contracts', [ContractController::class, 'store']);
+    //documents
+    Route::post('/documents', [ProfileController::class, 'store']);
 });
 
