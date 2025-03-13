@@ -72,3 +72,4 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/offers', [OffersController::class, 'store']);
 });
 
+//
