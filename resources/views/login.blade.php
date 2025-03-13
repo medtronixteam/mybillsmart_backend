@@ -182,7 +182,7 @@
 <body>
     <div class="container">
         <div class="sign-up">
-            <h1 class="heading">Login Here..</h1>
+            <h1 class="heading">Login Here</h1>
             @if(session('error'))
             <div class="alert alert-danger" style="background-color: #3498DB; padding: 10px; border-radius: 10px;color: white;width: 300px">
                 {{ session('error') }}
