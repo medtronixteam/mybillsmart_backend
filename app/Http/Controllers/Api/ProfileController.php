@@ -52,7 +52,7 @@ class ProfileController extends Controller
                 return response()->json(['message' => 'User not found'], 500);
             }
 
-            return response()->json(['data'=>$user]);
+            return response()->json(['status'=>"success",'code'=>200,'data'=>$user]);
         }
         public function enable($id)
         {
