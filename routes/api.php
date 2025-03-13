@@ -51,15 +51,24 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/verify-otp', [ProfileController::class, 'verifyOtp']);
     Route::post('/resend-otp', [ProfileController::class, 'resendOtp']);
     Route::post('/reset-password', [ProfileController::class, 'resetPassword']);
+    Route::post('user/profile/{id}', [ProfileController::class, 'update']);
+    Route::get('/users/list', [ProfileController::class, 'list']);
+    Route::get('/user/detail/{id}', [ProfileController::class, 'detail']);
+    Route::post('/user/enable/{id}', [ProfileController::class, 'enable']);
+    Route::post('/user/disable/{id}', [ProfileController::class, 'disable']);
+    Route::delete('/user/delete/{id}', [ProfileController::class, 'delete']);
     //offers
     Route::post('/offers', [OffersController::class, 'store']);
     Route::get('offers', [OffersController::class, 'list']);
-
+    Route::post('/offers', [OffersController::class, 'store']);
 
     //contracts
     Route::get('contracts', [ContractController::class, 'list']);
     Route::get('client/contracts', [ContractController::class, 'clientContracts']);
     Route::get('client/list', [ContractController::class, 'clientList']);
     Route::post('contracts', [ContractController::class, 'store']);
+    //documents
+    Route::post('/documents', [ProfileController::class, 'store']);
+    Route::post('/offers', [OffersController::class, 'store']);
 });
 

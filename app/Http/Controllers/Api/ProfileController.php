@@ -4,9 +4,87 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Storage;
+use App\Models\User;
+use App\Models\Document;
+use Validator;
 class ProfileController extends Controller
 {
+
+    public function update(Request $request, $id)
+    {
+        $profile = User::find($id);
+        if (!$profile) {
+            return response()->json(['message' => 'Profile not found'], 500);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'city' => 'required',
+            'country' => 'required',
+            'address' => 'required',
+            'postal_code' => 'required|numeric',
+        ]);
+        if ($validator->fails()) {
+            return response(['message' => $validator->messages()->first(), 'status' => 'error', 'code' => 500]);
+        }
+        $profile->name = $request->name;
+        $profile->city = $request->city;
+        $profile->country = $request->country;
+        $profile->address = $request->address;
+        $profile->postal_code = $request->postal_code;
+        $profile->save();
+
+        return response(['message' => 'Profile has been updated', 'status' => 'success', 'code' => 200]);
+    }
+
+        public function list()
+        {
+            $users= User::latest()->get();
+            $response=['status'=>"success",'code'=>200,'data'=>$users];
+            return response($response,$response['code']);
+        }
+
+        public function detail($id)
+        {
+            $user = User::find($id);
+            if (!$user) {
+                return response()->json(['message' => 'User not found'], 500);
+            }
+
+            return response()->json(['data'=>$user]);
+        }
+        public function enable($id)
+        {
+            $userEnable = User::find($id);
+            if (!$userEnable) {
+                return response()->json(['message' => 'User not found'], 500);
+            }
+            $userEnable->status = 1;
+            $userEnable->save();
+            return response()->json(['message' => ' User enabled successfully']);
+        }
+
+        public function disable($id)
+        {
+            $userDisable = User::find($id);
+            if (!$userDisable) {
+                return response()->json(['message' => 'User not found'], 500);
+            }
+            $userDisable->status = 0;
+            $userDisable->save();
+            return response()->json(['message' => 'User disabled successfully']);
+        }
+
+        public function delete($id)
+        {
+            $userDelete = User::find($id);
+            if (!$userDelete) {
+                return response()->json(['message' => 'User not found'], 404);
+            }
+            $userDelete->delete();
+            return response()->json(['message' => 'User deleted successfully']);
+        }
     public function changePassword(Request $request)
     {
 
@@ -107,4 +185,52 @@ class ProfileController extends Controller
 
         return response()->json(['message' => 'Password reset successfully.']);
     }
+//document uploaded
+
+
+
+public function store(Request $request)
+{
+
+    $validator = Validator::make($request->all(), [
+        'name' => 'required|string',
+        'phone' => 'required|string',
+        'address' => 'required|string',
+        'date_of_birth' => 'required|date',
+        'id_card_front' => 'nullable|file|mimes:jpg,jpeg,png',
+        'id_card_back' => 'nullable|file|mimes:jpg,jpeg,png',
+        'individual_or_company' => 'nullable|in:individual,company',
+        'bank_receipt' => 'nullable|file|mimes:jpg,jpeg,png',
+        'last_service_invoice' => 'nullable|file|mimes:jpg,jpeg,png,pdf',
+        'lease_agreement' => 'nullable|file|mimes:jpg,jpeg,png,pdf',
+        'bank_account_certificate' => 'nullable|file|mimes:jpg,jpeg,png,pdf',
+        'expiration_date' => 'required|date',
+        'client_id' => 'required|exists:users,id',
+        'contract_id' => 'required|integer',
+    ]);
+
+    if ($validator->fails()) {
+        return response(['message' => $validator->messages()->first(), 'status' => 'error', 'code' => 500]);
+    }
+
+    $validatedData = $validator->validated();
+    // $validatedData['client_id'] = auth('sanctum')->id();
+
+    foreach (['id_card_front', 'id_card_back', 'bank_receipt', 'last_service_invoice', 'lease_agreement', 'bank_account_certificate'] as $field) {
+        if ($request->hasFile($field)) {
+            $validatedData[$field] = $request->file($field)->store('uploads', 'public');
+        }
+    }
+
+    $documents = Document::create($validatedData);
+
+    return response()->json([
+        'message' => 'Documents uploaded successfully',
+        'status' => 'success',
+        'code' => 200,
+        'data' => $documents
+    ], 200);
+}
+
+
 }
