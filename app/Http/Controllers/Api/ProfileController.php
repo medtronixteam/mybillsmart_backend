@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\User;
 use App\Models\Document;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use Validator;
 class ProfileController extends Controller
 {
@@ -96,7 +98,7 @@ class ProfileController extends Controller
         if ($validator->fails()) {
             return response()->json(['message' => $validator->errors(),'status'=>'success'], 500);
         }
-        $user = $request->user();
+        $user =$request->user();
         if (!Hash::check($request->current_password, $user->password)) {
             return response()->json(['message' => 'Current password is incorrect','status'=>'error'], 401);
         }
