@@ -87,26 +87,31 @@ class ProfileController extends Controller
             $userDelete->delete();
             return response()->json(['message' => 'User deleted successfully']);
         }
-    public function changePassword(Request $request)
-    {
+        public function changePassword(Request $request)
+        {
+            $validator = Validator::make($request->all(), [
+                'current_password' => ['required', 'string'],
+                'new_password' => ['required', 'string'],
+            ]);
 
-        $validator = Validator::make($request->all(), [
-            'current_password' => ['required', 'string'],
-            'new_password' => ['required', 'string'],
-        ]);
+            if ($validator->fails()) {
+                return response()->json(['message' => $validator->errors(), 'status' => 'error'], 500);
+            }
 
-        if ($validator->fails()) {
-            return response()->json(['message' => $validator->errors(),'status'=>'success'], 500);
+            $user = $request->user();
+            if (!$user) {
+                return response()->json(['message' => 'Unauthenticated', 'status' => 'error'], 401);
+            }
+
+            if (!Hash::check($request->current_password, $user->password)) {
+                return response()->json(['message' => 'Current password is incorrect', 'status' => 'error'], 401);
+            }
+
+            $user->password = Hash::make($request->new_password);
+            $user->save();
+
+            return response()->json(['message' => 'Password changed successfully', 'status' => 'success'], 200);
         }
-        $user =$request->user();
-        if (!Hash::check($request->current_password, $user->password)) {
-            return response()->json(['message' => 'Current password is incorrect','status'=>'error'], 401);
-        }
-        $user->password = Hash::make($request->new_password);
-        $user->save();
-
-        return response()->json(['message' => 'Password changed successfully','status'=>'success'], 200);
-    }
 
 
     public function forgotPassword(Request $request)
