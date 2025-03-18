@@ -51,7 +51,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/verify-otp', [ProfileController::class, 'verifyOtp']);
     Route::post('/resend-otp', [ProfileController::class, 'resendOtp']);
     Route::post('/reset-password', [ProfileController::class, 'resetPassword']);
-    Route::post('user/profile/{id}', [ProfileController::class, 'update']);
+    Route::post('user/profile', [ProfileController::class, 'update']);
     Route::get('/users/list', [ProfileController::class, 'list']);
     Route::get('/user/detail/{id}', [ProfileController::class, 'detail']);
     Route::post('/user/enable/{id}', [ProfileController::class, 'enable']);

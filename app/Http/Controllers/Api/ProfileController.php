@@ -13,9 +13,9 @@ use Validator;
 class ProfileController extends Controller
 {
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        $profile = User::find($id);
+        $profile = User::find(auth('sanctum')->id());
         if (!$profile) {
             return response()->json(['message' => 'Profile not found'], 500);
         }
