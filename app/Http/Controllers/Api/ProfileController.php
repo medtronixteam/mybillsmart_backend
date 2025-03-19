@@ -48,6 +48,7 @@ class ProfileController extends Controller
         }
 
 
+
         public function detail($id)
         {
             $user = User::find($id);
@@ -245,5 +246,10 @@ public function listDocuments($id)
     $response=['status'=>"success",'code'=>200,'data'=>$documents];
     return response($response,$response['code']);
 }
-
+public function listClients()
+{
+    $clients= User::where('group_id',auth('sanctum')->id())->get();
+    $response=['status'=>"success",'code'=>200,'data'=>$clients];
+    return response($response,$response['code']);
+}
 }

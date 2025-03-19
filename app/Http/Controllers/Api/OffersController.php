@@ -5,7 +5,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Offer;
 use Illuminate\Http\Request;
 use Validator;
-
+use Illuminate\Support\Facades\Mail;
+use App\Mail\OffersEmail;
 class OffersController extends Controller
 {
 
@@ -61,4 +62,26 @@ class OffersController extends Controller
         }
     }
 
+    public function sendOffersEmail(Request $request)
+    {
+        try {
+            $request->validate([
+                'invoice_id' => 'required|exists:offers,invoice_id',
+                'email' => 'required|email',
+            ]);
+
+            $offers = Offer::where('invoice_id', $request->invoice_id)->get();
+
+            if ($offers->isEmpty()) {
+                return response()->json(['message' => 'No offers found for the given invoice ID', 'status' => 'error'], 404);
+            }
+
+            Mail::to($request->email)->send(new OffersEmail($offers));
+
+            return response()->json(['message' => 'Offers sent successfully via email', 'status' => 'success'], 200);
+
+        } catch (\Throwable $th) {
+            return response()->json(['message' => $th->getMessage(), 'status' => 'error'], 500);
+        }
+    }
 }

@@ -70,6 +70,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     //documents
     Route::post('/documents', [ProfileController::class, 'store']);
     Route::get('/documents/{id}', [ProfileController::class, 'listDocuments']);
-    // Route::post('/send-offers-email', [OfferController::class, 'sendOffersEmail']);
+    Route::get('/agent/clients', [ProfileController::class, 'listClients']);
 });
+Route::post('/send-offers-email', [OffersController::class, 'sendOffersEmail']);
 
