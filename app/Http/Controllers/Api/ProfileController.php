@@ -47,6 +47,7 @@ class ProfileController extends Controller
             return response($response,$response['code']);
         }
 
+
         public function detail($id)
         {
             $user = User::find($id);
@@ -238,6 +239,11 @@ public function store(Request $request)
         'data' => $documents
     ], 200);
 }
-
+public function listDocuments($id)
+{
+    $documents = Document::find($id);
+    $response=['status'=>"success",'code'=>200,'data'=>$documents];
+    return response($response,$response['code']);
+}
 
 }
