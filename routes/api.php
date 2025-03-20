@@ -71,6 +71,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/documents', [ProfileController::class, 'store']);
     Route::get('/documents/{id}', [ProfileController::class, 'listDocuments']);
     Route::get('/agent/clients', [ProfileController::class, 'listClients']);
+    Route::post('/send-offers-email', [OffersController::class, 'sendOffersEmail']);
 });
-Route::post('/send-offers-email', [OffersController::class, 'sendOffersEmail']);
 
