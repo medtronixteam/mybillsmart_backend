@@ -37,8 +37,7 @@ Route::get('/list/products', [ProductController::class, 'allProductsData']);
 Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post('/register', [LoginController::class, 'register']);
-    //products
-    Route::apiResource('products', ProductController::class);
+
 
     //invoices
     Route::post('invoices', [InvoiceController::class, 'store']);
@@ -60,7 +59,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     //offers
     Route::post('/offers', [OffersController::class, 'store']);
     Route::get('offers', [OffersController::class, 'list']);
-    Route::post('/offers', [OffersController::class, 'store']);
 
     //contracts
     Route::get('contracts', [ContractController::class, 'list']);
@@ -74,3 +72,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/send-offers-email', [OffersController::class, 'sendOffersEmail']);
 });
 
+
+require __DIR__ . '/supervisor.php';
+require __DIR__ . '/group_admin.php';
