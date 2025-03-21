@@ -2,11 +2,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
-use App\Http\Controllers\Api\ProductController;
-use App\Http\Controllers\Api\InvoiceController;
-use App\Http\Controllers\Api\ProfileController;
-use App\Http\Controllers\Api\OffersController;
-use App\Http\Controllers\Api\ContractController;
+
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -25,53 +21,24 @@ Route::middleware('api')->group(function () {
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-//authentication
 
+//authentication
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/provider', [LoginController::class, 'providerSignup']);
 Route::post('/agent', [LoginController::class, 'agentSignup']);
 
 
-
-Route::get('/list/products', [ProductController::class, 'allProductsData']);
 Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post('/register', [LoginController::class, 'register']);
-
-
-    //invoices
-    Route::post('invoices', [InvoiceController::class, 'store']);
-    Route::get('invoices', [InvoiceController::class, 'index']);
-    Route::get('invoices/{id}', [InvoiceController::class, 'show']);
-
-    Route::post('/change-password', [ProfileController::class, 'changePassword']);
-    //forgot password
-    Route::post('/forgot-password', [ProfileController::class, 'forgotPassword']);
-    Route::post('/verify-otp', [ProfileController::class, 'verifyOtp']);
-    Route::post('/resend-otp', [ProfileController::class, 'resendOtp']);
-    Route::post('/reset-password', [ProfileController::class, 'resetPassword']);
-    Route::post('user/profile', [ProfileController::class, 'update']);
-    Route::get('/users/list', [ProfileController::class, 'list']);
-    Route::get('/user/detail/{id}', [ProfileController::class, 'detail']);
-    Route::post('/user/enable/{id}', [ProfileController::class, 'enable']);
-    Route::post('/user/disable/{id}', [ProfileController::class, 'disable']);
-    Route::delete('/user/delete/{id}', [ProfileController::class, 'delete']);
-    //offers
-    Route::post('/offers', [OffersController::class, 'store']);
-    Route::get('offers', [OffersController::class, 'list']);
-
-    //contracts
-    Route::get('contracts', [ContractController::class, 'list']);
-    Route::get('client/contracts', [ContractController::class, 'clientContracts']);
-    Route::get('client/list', [ContractController::class, 'clientList']);
-    Route::post('contracts', [ContractController::class, 'store']);
-    //documents
-    Route::post('/documents', [ProfileController::class, 'store']);
-    Route::get('/documents/{id}', [ProfileController::class, 'listDocuments']);
-    Route::get('/agent/clients', [ProfileController::class, 'listClients']);
-    Route::post('/send-offers-email', [OffersController::class, 'sendOffersEmail']);
 });
 
 
 require __DIR__ . '/supervisor.php';
 require __DIR__ . '/group_admin.php';
+require __DIR__ . '/invoices.php';
+require __DIR__ . '/offers.php';
+require __DIR__ . '/contracts.php';
+require __DIR__ . '/documents.php';
+require __DIR__ . '/user_profile.php';
+require __DIR__ . '/products.php';
