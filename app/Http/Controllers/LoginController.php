@@ -32,6 +32,7 @@ class LoginController extends Controller
             unset($user->id);
             return response()->json([
                 'user' => $user,
+
                 'token' => $token,
                 'message' => "Login successfully.",
                 'status' => 'success',
@@ -74,11 +75,13 @@ class LoginController extends Controller
 
          }else{
 
+
                $user= User::create([
                    'name' => $request->name,
                     'email' => $request->email,
                     'role' => $request->role,
-                    'group' => auth('sanctum')->user()->id,
+                    'group_id' => auth('sanctum')->user()->id,
+                    'added_by' => auth('sanctum')->user()->id,
                     'password' => Hash::make($request->password),
                     'phone' => $request->phone,
                     'address' => $request->address,
