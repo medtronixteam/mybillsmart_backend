@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ProfileController;
 
 
-Route::group(['middleware'=>'auth:sanctum','prefix'=>'profile'])->group(function () {
+Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'profile'], function () {
 
     Route::post('/change-password', [ProfileController::class, 'changePassword']);
     Route::post('/forgot-password', [ProfileController::class, 'forgotPassword']);
