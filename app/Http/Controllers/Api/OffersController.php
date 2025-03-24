@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Offer;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Validator;
 use Illuminate\Support\Facades\Mail;
@@ -82,16 +83,21 @@ class OffersController extends Controller
         try {
             $request->validate([
                 'invoice_id' => 'required|exists:offers,invoice_id',
-                'email' => 'required|email',
+                'client_id' => 'required|',
             ]);
 
-            $offers = Offer::where('invoice_id', $request->invoice_id)->get();
+            $offers = Offer::where('invoice_id', $request->invoice_id)
+                        ->where('client_id', $request->client_id)
+                        ->get();
 
             if ($offers->isEmpty()) {
                 return response()->json(['message' => 'No offers found for the given invoice ID', 'status' => 'error'], 404);
             }
-
-            Mail::to($request->email)->send(new OffersEmail($offers));
+            $user = User::where('id', $offers->first()->user_id)->first();
+            if (!$user) {
+                return response()->json(['message' => 'User not found for this offer', 'status' => 'error'], 404);
+            }
+            Mail::to($user->email)->send(new OffersEmail($offers));
 
             return response()->json(['message' => 'Offers sent successfully via email', 'status' => 'success'], 200);
 
