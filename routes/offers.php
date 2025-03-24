@@ -10,4 +10,5 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'offers'], function ()
     Route::post('/offers', [OffersController::class, 'store']);
     Route::get('offers', [OffersController::class, 'list']);
     Route::post('/send-offers-email', [OffersController::class, 'sendOffersEmail']);
+    Route::post('invoice/offers', [OffersController::class, 'view']);
 });

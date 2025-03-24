@@ -18,6 +18,21 @@ class OffersController extends Controller
         $response=['status'=>"success",'code'=>200,'data'=>$offers];
         return response($response,$response['code']);
      }
+     public function view(Request $request)
+    {
+        $request->validate([
+            'invoice_id' => 'required|integer|exists:invoices,id'
+        ]);
+
+        $invoiceId = $request->input('invoice_id');
+
+        // $invoice = Invoice::findOrFail($invoiceId);
+
+        $offers = Offer::where('invoice_id', $invoiceId)->get();
+
+        $response=['status'=>"success",'code'=>200,'data'=>$offers];
+        return response($response,$response['code']);
+    }
 
 
 
