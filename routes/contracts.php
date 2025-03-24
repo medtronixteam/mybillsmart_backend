@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ContractController;
 
 
-Route::group(['middleware'=>'auth:sanctum','prefix'=>'contract'])->group(function () {
+Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'contract'], function () {
 
 
     Route::get('contracts', [ContractController::class, 'list']);

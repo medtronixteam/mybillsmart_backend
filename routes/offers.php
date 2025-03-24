@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\OffersController;
 
 
-Route::group(['middleware'=>'auth:sanctum','prefix'=>'offers'])->group(function () {
+Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'offers'], function () {
 
 
     Route::post('/offers', [OffersController::class, 'store']);
