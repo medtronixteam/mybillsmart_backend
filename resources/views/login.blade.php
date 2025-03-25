@@ -201,7 +201,7 @@
             </div>
             <div class="terms">
                 <input type="checkbox">
-                <p class="conditions">Remember me</p>
+                <p class="conditions">Remember me.</p>
             </div>
             <button  name="submit" type="submit">Login</button>
            </form>
