@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 use App\Models\Product;
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Validator;
@@ -11,14 +12,20 @@ class ProductController extends Controller
 
         public function allProductsData()
         {
-
             $products = Product::latest()->get();
             return response()->json($products,200);
         }
 
+        public function providerProducts($userId)
+        {
+            $adminOrGroupUserId = User::getGroupAdminOrFindByGroup($userId);
+            $products = Product::where('provider_id',$adminOrGroupUserId)->latest()->get();
+            return response()->json($products,200);
+        }
         public function index()
         {
-            $products = Product::where('provider_id', auth('sanctum')->id())->latest()->get();
+            $adminOrGroupUserId = User::getGroupAdminOrFindByGroup(auth('sanctum')->id());
+            $products = Product::where('provider_id', $adminOrGroupUserId)->latest()->get();
             return response()->json($products,200);
         }
 
@@ -50,9 +57,11 @@ class ProductController extends Controller
             return response()->json(['message' => $validator->messages()->first()], 500);
         }
 
+        $adminOrGroupUserId = User::getGroupAdminOrFindByGroup(auth('sanctum')->id());
+
         $product = Product::create(array_merge(
             $request->all(),
-            ['provider_id' => auth('sanctum')->id()]
+            ['provider_id' =>$adminOrGroupUserId]
         ));
         return response()->json(['message' => 'Product has been created'], 201);
         }

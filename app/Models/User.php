@@ -53,4 +53,15 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public static function getGroupAdminOrFindByGroup($userId)
+    {
+
+        $user = self::find($userId);
+        if ($user && $user->role === 'group_admin') {
+            return $userId;
+        }
+        $groupUser = self::where('group_id', $user->group_id)->first();
+        return $groupUser ? $groupUser->id : null;
+    }
 }
