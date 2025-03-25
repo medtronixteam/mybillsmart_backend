@@ -30,4 +30,4 @@ require __DIR__ . '/invoices.php';
 require __DIR__ . '/agent.php';
 require __DIR__ . '/contracts.php';
 require __DIR__ . '/documents.php';
-require __DIR__ . '/user_profile.php';
+require __DIR__ . '/client.php';
