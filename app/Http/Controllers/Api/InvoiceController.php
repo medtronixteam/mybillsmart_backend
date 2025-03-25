@@ -61,6 +61,7 @@ public function index()
 
 public function list(){
 
+
     $invoiceData= Invoice::latest()->get();
     $response=['status'=>"success",'code'=>200,'data'=>$invoiceData];
     return response($response,$response['code']);
