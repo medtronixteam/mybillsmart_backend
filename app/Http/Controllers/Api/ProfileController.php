@@ -26,6 +26,7 @@ class ProfileController extends Controller
             'country' => 'required',
             'address' => 'required',
             'postal_code' => 'required|numeric',
+            'phone' => 'required',
         ]);
         if ($validator->fails()) {
             return response(['message' => $validator->messages()->first(), 'status' => 'error', 'code' => 500]);
@@ -34,6 +35,7 @@ class ProfileController extends Controller
         $profile->city = $request->city;
         $profile->country = $request->country;
         $profile->address = $request->address;
+        $profile->phone = $request->phone;
         $profile->postal_code = $request->postal_code;
         $profile->save();
 
