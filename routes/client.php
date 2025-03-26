@@ -8,4 +8,7 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'client'], function ()
 
 
     Route::post('/documents', [ProfileController::class, 'store']);
+
+
+
 });

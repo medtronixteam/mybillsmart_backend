@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\OffersController;
 use App\Http\Controllers\Api\InvoiceController;
 use App\Http\Controllers\Api\ContractController;
 use App\Http\Controllers\Api\ProfileController;
+use App\Http\Controllers\Api\ClientController;
 
 
 Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'agent'], function () {
@@ -19,6 +20,9 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'agent'], function () 
 
     Route::post('invoices', [InvoiceController::class, 'store']);
     Route::get('invoices', [InvoiceController::class, 'index']);
+    Route::get('invoices/{id}', [InvoiceController::class, 'show']);
+
+
     Route::get('list/invoices', [InvoiceController::class, 'list']);
 
     //contracts
@@ -29,4 +33,9 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'agent'], function () 
 
     Route::get('clients', [ProfileController::class, 'listClients']);
     Route::get('documents/{id}', [ProfileController::class, 'listDocuments']);
+    Route::get('/documents/{id}', [ProfileController::class, 'listDocuments']);
+
+
+    Route::post('/user', [ClientController::class, 'userCreate']);
+    Route::get('/user', [ClientController::class, 'userList']);
 });
