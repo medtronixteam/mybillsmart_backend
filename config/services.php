@@ -27,6 +27,11 @@ return [
     'resend' => [
         'key' => env('RESEND_KEY'),
     ],
+    'TWILIO' => [
+        'SID' => env('TWILIO_SID'),
+        'AUTH_TOKEN' => env('TWILIO_AUTH_TOKEN'),
+        'WHATSAPP_FROM' => env('TWILIO_WHATSAPP_FROM'),
+    ],
 
     'slack' => [
         'notifications' => [

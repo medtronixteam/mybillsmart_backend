@@ -16,9 +16,18 @@ class ProductController extends Controller
             return response()->json($products,200);
         }
 
-        public function providerProducts($userId)
+        public function providerProducts(Request $request)
         {
-            $adminOrGroupUserId = User::getGroupAdminOrFindByGroup($userId);
+
+            $validator = Validator::make($request->all(), [
+                'group_id' => 'required',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json(['message' => $validator->errors()->first()], 500);
+            }
+
+            $adminOrGroupUserId = User::getGroupAdminOrFindByGroup($request->group_id);
             $products = Product::where('provider_id',$adminOrGroupUserId)->latest()->get();
             return response()->json($products,200);
         }

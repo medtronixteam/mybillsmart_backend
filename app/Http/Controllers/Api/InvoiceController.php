@@ -39,10 +39,10 @@ class InvoiceController extends Controller
          );
 
          return response()->json([
-             'message' => 'Invoice created successfully','status'=>"success",'invoice'=>$invoice->id,
+             'message' => 'Invoice created successfully.','status'=>"success",'invoice'=>$invoice->id,
          ], 201);
      }
-     public function show($id)
+    public function show($id)
 {
     $invoice = Invoice::find($id);
 
