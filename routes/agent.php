@@ -33,7 +33,6 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'agent'], function () 
 
     Route::get('clients', [ProfileController::class, 'listClients']);
     Route::get('documents/{id}', [ProfileController::class, 'listDocuments']);
-    Route::get('/documents/{id}', [ProfileController::class, 'listDocuments']);
 
 
     Route::post('/user', [ClientController::class, 'userCreate']);
