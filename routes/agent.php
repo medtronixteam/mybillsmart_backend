@@ -28,7 +28,7 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'agent'], function () 
     //contracts
     Route::get('contracts', [ContractController::class, 'list']);
     Route::post('contracts', [ContractController::class, 'store']);
-    Route::get('client/contracts', [ContractController::class, 'clientContracts']);
+
     Route::get('client/list', [ContractController::class, 'clientList']);
 
     Route::get('clients', [ProfileController::class, 'listClients']);

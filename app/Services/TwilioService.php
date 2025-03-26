@@ -11,8 +11,19 @@ class TwilioService
 
     public function __construct()
     {
-        $this->client = new Client(config('services.TWILIO.SID'), config('services.TWILIO.AUTH_TOKEN'));
-        $this->from = config('services.TWILIO.WHATSAPP_FROM');
+
+        $sid = env('TWILIO_SID');
+        $token = env('TWILIO_AUTH_TOKEN');
+        $this->from = env('TWILIO_WHATSAPP_FROM');
+
+        // Ensure credentials are loaded correctly
+        if (!$sid || !$token || !$this->from) {
+            throw new \Exception("Twilio credentials are missing.");
+        }
+
+        $this->client = new Client($sid, $token);
+        // $this->client = new Client(env('TWILIO_SID'), env('TWILIO_AUTH_TOKEN'));
+        // $this->from = env('TWILIO_WHATSAPP_FROM');
     }
 
     public function sendWhatsAppMessage($to, $message, $mediaUrl = null)
