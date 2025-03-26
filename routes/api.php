@@ -26,8 +26,5 @@ Route::post('/reset-password', [ProfileController::class, 'resetPassword']);
 
 require __DIR__ . '/supervisor.php';
 require __DIR__ . '/group_admin.php';
-require __DIR__ . '/invoices.php';
 require __DIR__ . '/agent.php';
-require __DIR__ . '/contracts.php';
-require __DIR__ . '/documents.php';
 require __DIR__ . '/client.php';
