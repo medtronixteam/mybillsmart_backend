@@ -24,6 +24,10 @@ Route::post('/resend-otp', [ProfileController::class, 'resendOtp']);
 Route::post('/reset-password', [ProfileController::class, 'resetPassword']);
 
 
+use App\Http\Controllers\WhatsAppController;
+
+Route::post('whatsapp/pdf', [WhatsAppController::class, 'sendPDF']);
+
 require __DIR__ . '/supervisor.php';
 require __DIR__ . '/group_admin.php';
 require __DIR__ . '/agent.php';
