@@ -20,7 +20,7 @@ class WhatsAppController extends Controller
 
 
         $validator = Validator::make($request->all(), [
-            'to' => 'required|string',
+                'to' => 'required|string',
                 'message' => 'required|string',
                 'pdf' => 'required|file|mimes:pdf|max:2048'
         ]);
@@ -28,18 +28,22 @@ class WhatsAppController extends Controller
         if ($validator->fails()) {
             return response()->json(['message' => $validator->errors()->first()], 500);
         }
-        // Store PDF temporarily
-        $file = $request->file('pdf');
-        $filePath = $file->store('pdfs', 'public'); // Stores in storage/app/public/pdfs
-        $mediaUrl = asset("storage/$filePath"); // Generates public URL
+        try {
+            $file = $request->file('pdf');
+            $filePath = $file->store('pdfs', 'public'); // Stores in storage/app/public/pdfs
+            $mediaUrl = asset("storage/$filePath"); // Generates public URL
 
-        // Send WhatsApp message with PDF
-        $response = $this->twilioService->sendWhatsAppMessage($request->to, $request->message, $mediaUrl);
+            // Send WhatsApp message with PDF
+            $response = $this->twilioService->sendWhatsAppMessage($request->to, $request->message, $mediaUrl);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'PDF sent successfully!',
-            'response' => $response
-        ]);
+            return response()->json([
+                'status' => 'success',
+                'message' => 'PDF sent successfully!',
+                'response' => $response
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage(), 'status' => 'error',], 500);
+        }
+
     }
 }
