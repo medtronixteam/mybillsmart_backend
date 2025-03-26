@@ -31,15 +31,15 @@ class WhatsAppController extends Controller
         try {
             $file = $request->file('pdf');
             $filePath = $file->store('pdfs', 'public'); // Stores in storage/app/public/pdfs
-            $mediaUrl = asset("storage/$filePath"); // Generates public URL
+          //  $mediaUrl = null // Generates public URL
 
             // Send WhatsApp message with PDF
-            $response = $this->twilioService->sendWhatsAppMessage($request->to, $request->message, $mediaUrl);
+            $response = $this->twilioService->sendWhatsAppMessage($request->to, $request->message);
 
             return response()->json([
                 'status' => 'success',
                 'message' => 'PDF sent successfully!',
-                'response' => $response
+                'response' => $response,
             ]);
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage(), 'status' => 'error',], 500);
