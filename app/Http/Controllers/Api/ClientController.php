@@ -7,14 +7,15 @@ use Illuminate\Http\Request;
 use Validator;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-class SupervisorController extends Controller
+
+class ClientController extends Controller
 {
     function userCreate(Request $request) {
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:20',
             'email' => 'required|email|unique:users',
             'password' => 'required',
-            'role' => 'required|in:client,agent',
+            'role' => 'required|in:client',
             'postal_code' => 'nullable|numeric',
             'address' => 'nullable|string',
             'city' => 'nullable|string',
