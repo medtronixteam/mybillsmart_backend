@@ -11,8 +11,8 @@ class TwilioService
 
     public function __construct()
     {
-        $this->client = new Client('AC34c70e7bbcc1633f1e4ea4ea0c5b8bea', '179a2dadd18e3cee0a92df2dc45d22d1');
-        $this->from = 'whatsapp:+17017604097';
+        $this->client = new Client(env('TWILIO_SID'), env('TWILIO_AUTH_TOKEN'));
+        $this->from = env('TWILIO_WHATSAPP_FROM');
     }
 
     public function sendWhatsAppMessage($to, $message, $mediaUrl = null)
