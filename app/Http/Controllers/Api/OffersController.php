@@ -33,6 +33,20 @@ class OffersController extends Controller
         $response=['status'=>"success",'code'=>200,'data'=>$offers];
         return response($response,$response['code']);
     }
+     public function viewOffers(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'invoice_id' => 'required|integer|exists:invoices,id'
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['message' => $validator->messages()->first(),'status'=>"error"], 500);
+        }
+
+        $offers = Offer::where('invoice_id', $request->invoice_id)->get();
+
+        $response=['status'=>"success",'code'=>200,'data'=>$offers];
+        return response($response,$response['code']);
+    }
 
 
 
