@@ -82,11 +82,10 @@ class OffersController extends Controller
         try {
             $request->validate([
                 'invoice_id' => 'required|exists:offers,invoice_id',
-                'client_id' => 'required|',
+                'client_id' => 'required',
             ]);
 
             $offers = Offer::where('invoice_id', $request->invoice_id)
-                        ->where('client_id', $request->client_id)
                         ->get();
 
             if ($offers->isEmpty()) {
