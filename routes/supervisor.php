@@ -5,6 +5,10 @@ use App\Http\Controllers\Api\SupervisorController;
 
 
 Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'supervisor'], function () {
+   //products
+   Route::apiResource('products', ProductController::class);
+   Route::get('list/products', [ProductController::class, 'allProductsData']);
+
 
 Route::post('/user', [SupervisorController::class, 'userCreate']);
 Route::get('/user', [SupervisorController::class, 'userList']);
