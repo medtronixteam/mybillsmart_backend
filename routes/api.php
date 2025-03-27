@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Mail;
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/provider', [LoginController::class, 'providerSignup']);
 Route::post('/agent', [LoginController::class, 'agentSignup']);
-Route::get('/list/products', [ProductController::class, 'allProductsData']);
+
 Route::post('/list/products', [ProductController::class, 'providerProducts']);
 
 
