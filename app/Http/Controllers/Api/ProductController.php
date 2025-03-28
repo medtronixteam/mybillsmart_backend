@@ -19,8 +19,8 @@ class ProductController extends Controller
         public function providerProducts($groupId)
         {
 
-         return   $adminOrGroupUserId = User::getGroupAdminOrFindByGroup($groupId);
-            if ($adminOrGroupUserId==null) {
+            $adminOrGroupUserId = User::getGroupAdminOrFindByGroup($groupId);
+            if (!$adminOrGroupUserId) {
                 return response()->json(['message' => "Invalid Id"], 404);
             }
             //
