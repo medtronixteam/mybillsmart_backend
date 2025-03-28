@@ -26,7 +26,7 @@ Route::post('/verify-otp', [ProfileController::class, 'verifyOtp']);
 Route::post('/resend-otp', [ProfileController::class, 'resendOtp']);
 Route::post('/reset-password', [ProfileController::class, 'resetPassword']);
 
-
+//auth
 Route::group(['middleware' => 'auth:sanctum'], function () {
 
     Route::post('/change-password', [ProfileController::class, 'changePassword']);
