@@ -8,17 +8,21 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\User;
 use App\Models\Contract;
 use App\Models\Document;
+use App\Models\Invoice;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Validator;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Mail;
 class ProfileController extends Controller
 {
     public function totalUsers()
     {
-        $totalUsers = User::where('added_by', auth('sanctum')->id())->count();
+        $totalUsers = User::where('group_id', auth('sanctum')->id())->count();
         $pendingContracts = Contract::where('status', 'pending')->count();
         $completedContracts = Contract::where('status', 'completed')->count();
         $rejectedContracts = Contract::where('status', 'rejected')->count();
+        $totalInvoices = Invoice::where('agent_id', auth('sanctum')->id())->count();
         $response = [
             'status' => "success",
             'code' => 200,
@@ -26,6 +30,7 @@ class ProfileController extends Controller
             'pending_contracts' => $pendingContracts,
             'completed_contracts' => $completedContracts,
             'rejected_contracts' => $rejectedContracts,
+            'total_invoices' => $totalInvoices,
         ];
 
         return response($response, $response['code']);
@@ -139,53 +144,67 @@ class ProfileController extends Controller
 
     public function forgotPassword(Request $request)
     {
-        $request->validate(['email' => 'required|email|exists:users,email']);
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|exists:users,email',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['message' => $validator->errors(), 'status' => 'error'], 500);
+        }
 
         $email = $request->email;
         $otp = rand(100000, 999999);
 
 
-        Cache::put('otp_' . $email, $otp, now()->addMinutes(2));
+        Cache::put('otp_', $otp, now()->addMinutes(5));
 
 
         Mail::raw("Your OTP code is: $otp", function ($message) use ($email) {
             $message->to($email)->subject('Password Reset OTP');
         });
 
-        return response()->json(['message' => 'OTP sent to your email. It will expire in 2 minute.']);
+        return response()->json(['message' => 'OTP sent to your email. It will expire in 5 minute.']);
     }
 
 
     public function verifyOtp(Request $request)
     {
-        $request->validate([
-            'email' => 'required|email',
+        $validator = Validator::make($request->all(), [
+            // 'email' => 'required|email',
             'otp' => 'required|digits:6'
         ]);
-
-        $email = $request->email;
+        if ($validator->fails()) {
+            return response()->json(['message' => $validator->errors(), 'status' => 'error'], 500);
+        }
+        // $email = $request->email;
         $enteredOtp = $request->otp;
 
 
-        $cachedOtp = Cache::get('otp_' . $email);
+        $cachedOtp = Cache::get('otp_');
 
-        if (!$cachedOtp) {
-            return response()->json(['message' => 'OTP expired, please request a new one.'], 400);
-        }
+        // if (!$cachedOtp) {
+        //     return response()->json(['message' => 'OTP expired, please request a new one.'], 400);
+        // }
 
         if ($cachedOtp != $enteredOtp) {
             return response()->json(['message' => 'Invalid OTP.'], 400);
         }
 
 
-        Cache::forget('otp_' . $email);
+        Cache::forget('otp_');
 
         return response()->json(['message' => 'OTP verified successfully.']);
     }
 
     public function resendOtp(Request $request)
     {
-        $request->validate(['email' => 'required|email|exists:users,email']);
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|exists:users,email',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['message' => $validator->errors(), 'status' => 'error'], 500);
+        }
 
         $email = $request->email;
         $otp = rand(100000, 999999);
@@ -204,11 +223,14 @@ class ProfileController extends Controller
 
     public function resetPassword(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'email' => 'required|email|exists:users,email',
-            'password' => 'required|string|min:6|confirmed'
+            'password' => 'required|string|min:4',
         ]);
 
+        if ($validator->fails()) {
+            return response()->json(['message' => $validator->errors(), 'status' => 'error'], 500);
+        }
         $user = User::where('email', $request->email)->first();
         $user->password = Hash::make($request->password);
         $user->save();
@@ -221,7 +243,6 @@ class ProfileController extends Controller
 
 public function store(Request $request)
 {
-
     $validator = Validator::make($request->all(), [
         'name' => 'required|string',
         'phone' => 'required|string',
@@ -235,7 +256,6 @@ public function store(Request $request)
         'lease_agreement' => 'nullable|file|mimes:jpg,jpeg,png,pdf',
         'bank_account_certificate' => 'nullable|file|mimes:jpg,jpeg,png,pdf',
         'expiration_date' => 'required|date',
-        'client_id' => 'required|exists:users,id',
         'contract_id' => 'required|integer',
     ]);
 
@@ -244,7 +264,8 @@ public function store(Request $request)
     }
 
     $validatedData = $validator->validated();
-    // $validatedData['client_id'] = auth('sanctum')->id();
+
+    $validatedData['client_id'] = auth('sanctum')->id();
 
     foreach (['id_card_front', 'id_card_back', 'bank_receipt', 'last_service_invoice', 'lease_agreement', 'bank_account_certificate'] as $field) {
         if ($request->hasFile($field)) {
