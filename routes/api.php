@@ -37,7 +37,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
 
 Route::post('whatsapp/pdf', [WhatsAppController::class, 'sendPDF']);
-
+//s
 require __DIR__ . '/supervisor.php';
 require __DIR__ . '/group_admin.php';
 require __DIR__ . '/agent.php';
