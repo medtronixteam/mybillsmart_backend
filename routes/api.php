@@ -16,7 +16,7 @@ Route::post('/login', [LoginController::class, 'login']);
 Route::post('/provider', [LoginController::class, 'providerSignup']);
 Route::post('/agent', [LoginController::class, 'agentSignup']);
 
-Route::post('/list/products', [ProductController::class, 'providerProducts']);
+Route::get('/list/products/{groupId}', [ProductController::class, 'providerProducts']);
 
 
 Route::post('/forgot-password', [ProfileController::class, 'forgotPassword']);
@@ -24,7 +24,7 @@ Route::post('/verify-otp', [ProfileController::class, 'verifyOtp']);
 Route::post('/resend-otp', [ProfileController::class, 'resendOtp']);
 Route::post('/reset-password', [ProfileController::class, 'resetPassword']);
 
-
+//auth
 Route::group(['middleware' => 'auth:sanctum'], function () {
 
     Route::post('/change-password', [ProfileController::class, 'changePassword']);
