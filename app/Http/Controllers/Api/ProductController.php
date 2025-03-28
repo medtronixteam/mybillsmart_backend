@@ -20,12 +20,12 @@ class ProductController extends Controller
         {
 
             $adminOrGroupUserId = User::getGroupAdminOrFindByGroup($groupId);
-            if ($adminOrGroupUserId) {
+            if ($adminOrGroupUserId==null) {
                 return response()->json(['message' => "Invalid Id"], 404);
             }
             //
 
-            $products = Product::where('provider_id',$adminOrGroupUserId)->latest()->get();
+            $products = Product::where('provider_id',$groupId)->latest()->get();
             return response()->json($products,200);
         }
         public function index()
