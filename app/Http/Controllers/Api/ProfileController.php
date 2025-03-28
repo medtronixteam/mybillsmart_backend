@@ -6,12 +6,31 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\User;
+use App\Models\Contract;
 use App\Models\Document;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 class ProfileController extends Controller
 {
+    public function totalUsers()
+    {
+        $totalUsers = User::where('added_by', auth('sanctum')->id())->count();
+        $pendingContracts = Contract::where('status', 'pending')->count();
+        $completedContracts = Contract::where('status', 'completed')->count();
+        $rejectedContracts = Contract::where('status', 'rejected')->count();
+        $response = [
+            'status' => "success",
+            'code' => 200,
+            'total_users' => $totalUsers,
+            'pending_contracts' => $pendingContracts,
+            'completed_contracts' => $completedContracts,
+            'rejected_contracts' => $rejectedContracts,
+        ];
+
+        return response($response, $response['code']);
+    }
+
 
     public function update(Request $request)
     {

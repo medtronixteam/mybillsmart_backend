@@ -66,8 +66,7 @@ public function agentInvoices()
 
 public function list(){
 
-
-    $invoiceData= Invoice::latest()->get();
+    $invoiceData= Invoice::where('agent_id',auth('sanctum')->id())->latest()->get();
     $response=['status'=>"success",'code'=>200,'data'=>$invoiceData];
     return response($response,$response['code']);
  }

@@ -10,6 +10,24 @@ use Validator;
 class ContractController extends Controller
 {
 
+    public function agentData()
+    {
+        $totalUsers = User::where('added_by', auth('sanctum')->id())->count();
+        $pendingContracts = Contract::where('status', 'pending')->count();
+        $completedContracts = Contract::where('status', 'completed')->count();
+        $rejectedContracts = Contract::where('status', 'rejected')->count();
+        $response = [
+            'status' => "success",
+            'code' => 200,
+            'total_users' => $totalUsers,
+            'pending_contracts' => $pendingContracts,
+            'completed_contracts' => $completedContracts,
+            'rejected_contracts' => $rejectedContracts,
+        ];
+
+        return response($response, $response['code']);
+    }
+
 
 
     public function list(){
@@ -20,6 +38,12 @@ class ContractController extends Controller
      }
 
      public function clientContracts(){
+
+        $contracts= Contract::where('client_id',auth('sanctum')->id())->latest()->get();
+        $response=['status'=>"success",'code'=>200,'data'=>$contracts];
+        return response($response,$response['code']);
+     }
+     public function contractList(){
 
         $contracts= Contract::where('client_id',auth('sanctum')->id())->latest()->get();
         $response=['status'=>"success",'code'=>200,'data'=>$contracts];
