@@ -35,22 +35,11 @@ class SupervisorController extends Controller
             'country' => 'nullable|string',
 
         ]);
-        if ($validator->fails()) {
-            if ($validator->errors()->has('email')) {
-                $response = [
-                    'message' => 'Email already exists.',
-                    'status' => 'error',
-                    'code' => 500
-                ];
-            } else {
-                $response = [
-                    'message' => $validator->messages()->first(),
-                    'status' => 'error',
-                    'code' => 500
-                ];
-            }
 
-     }else{
+        if ($validator->fails()) {
+            return response(['message' => $validator->messages()->first(), 'status' => 'error', 'code' => 500]);
+        }
+else{
         $adminOrGroupUserId = User::getGroupAdminOrFindByGroup(auth('sanctum')->user()->id);
            $user= User::create([
                'name' => $request->name,
