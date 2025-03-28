@@ -6,9 +6,23 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Validator;
 use App\Models\User;
+use App\Models\Product;
 use Illuminate\Support\Facades\Hash;
 class SupervisorController extends Controller
 {
+    public function supervisorData()
+    {
+        $totalUsers = User::where('added_by', auth('sanctum')->id())->count();
+        $products = Product::count();
+        $response = [
+            'status' => "success",
+            'code' => 200,
+            'total_users' => $totalUsers,
+            'total_products' => $products,
+        ];
+
+        return response($response, $response['code']);
+    }
     function userCreate(Request $request) {
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:20',
