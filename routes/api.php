@@ -8,9 +8,7 @@ use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\ContractController;
 use App\Http\Controllers\Api\SupervisorController;
 
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
+
 
 
 //authentication

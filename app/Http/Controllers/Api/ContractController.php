@@ -12,7 +12,7 @@ class ContractController extends Controller
 
     public function agentData()
     {
-        $totalUsers = User::where('added_by', auth('sanctum')->id())->count();
+        $totalUsers = User::where('group_id', auth('sanctum')->id())->count();
         $pendingContracts = Contract::where('status', 'pending')->count();
         $completedContracts = Contract::where('status', 'completed')->count();
         $rejectedContracts = Contract::where('status', 'rejected')->count();
