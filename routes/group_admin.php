@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\OffersController;
 use App\Http\Controllers\Api\InvoiceController;
 use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\ContractController;
 Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'group'], function () {
 
 
@@ -22,4 +23,5 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'group'], function () 
 Route::post('invoice/offers', [OffersController::class, 'viewOffers']);
 //invoices
 Route::get('invoices', [InvoiceController::class, 'agentInvoices']);
+Route::get('contracts/list', [ContractController::class, 'contractslist']);
 });

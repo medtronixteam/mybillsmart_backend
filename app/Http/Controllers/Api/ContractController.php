@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Contract;
 use App\Models\User;
+use App\Models\Invoice;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -16,6 +17,7 @@ class ContractController extends Controller
         $pendingContracts = Contract::where('status', 'pending')->count();
         $completedContracts = Contract::where('status', 'completed')->count();
         $rejectedContracts = Contract::where('status', 'rejected')->count();
+        $totalInvoices = Invoice::where('agent_id', auth('sanctum')->id())->count();
         $response = [
             'status' => "success",
             'code' => 200,
@@ -23,6 +25,7 @@ class ContractController extends Controller
             'pending_contracts' => $pendingContracts,
             'completed_contracts' => $completedContracts,
             'rejected_contracts' => $rejectedContracts,
+            'total_invoices' => $totalInvoices,
         ];
 
         return response($response, $response['code']);
@@ -44,6 +47,12 @@ class ContractController extends Controller
         return response($response,$response['code']);
      }
      public function contractList(){
+
+        $contracts= Contract::where('client_id',auth('sanctum')->id())->latest()->get();
+        $response=['status'=>"success",'code'=>200,'data'=>$contracts];
+        return response($response,$response['code']);
+     }
+     public function contractslist(){
 
         $contracts= Contract::where('client_id',auth('sanctum')->id())->latest()->get();
         $response=['status'=>"success",'code'=>200,'data'=>$contracts];
