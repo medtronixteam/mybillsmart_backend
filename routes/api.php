@@ -37,6 +37,11 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 });
 
 
+Route::post('/notifications', [NotificationController::class, 'sendNotification']);
+Route::get('/notifications', [NotificationController::class, 'getUserNotifications']);
+Route::get('/notification/{id}', [NotificationController::class, 'getSingleNotification']);
+Route::put('/notification/read/{id}', [NotificationController::class, 'markAsRead']);
+
 Route::post('whatsapp/pdf', [WhatsAppController::class, 'sendPDF']);
 //s
 require __DIR__ . '/supervisor.php';
