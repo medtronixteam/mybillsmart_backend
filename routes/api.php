@@ -42,7 +42,7 @@ Route::get('/notification/{id}', [NotificationController::class, 'getSingleNotif
 Route::put('/notification/read/{id}', [NotificationController::class, 'markAsRead']);
 
 Route::post('whatsapp/pdf', [WhatsAppController::class, 'sendPDF']);
-//s
+//others url
 require __DIR__ . '/supervisor.php';
 require __DIR__ . '/group_admin.php';
 require __DIR__ . '/agent.php';
