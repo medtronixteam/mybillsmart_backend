@@ -1,0 +1,67 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Notification;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+
+class NotificationController extends Controller
+{
+    public function sendNotification(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required|exists:users,id',
+            'title' => 'required|string|max:255',
+            'message' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['message' => $validator->errors()->first()], 500);
+        }
+
+        $notification = Notification::create([
+            'user_id' => $request->user_id,
+            'title' => $request->title,
+            'message' => $request->message,
+        ]);
+
+        return response()->json(['message' => 'Notification sent successfully','status'=>'success', 'data' => $notification], 201);
+    }
+
+
+    public function getUserNotifications()
+    {
+        $notifications = Notification::where('user_id', auth('sanctum')->id())
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return response()->json(['notifications' => $notifications],200);
+    }
+
+
+    public function getSingleNotification($id)
+    {
+        $notification = Notification::find($id);
+
+        if (!$notification) {
+            return response()->json(['message' => 'Notification not found','status'=>'error'], 404);
+        }
+
+        return response()->json($notification);
+    }
+
+
+    public function markAsRead($id)
+    {
+        $notification = Notification::find($id);
+
+        if (!$notification) {
+            return response()->json(['message' => 'Notification not found','status'=>'error'], 404);
+        }
+
+        $notification->update(['is_read' => true]);
+
+        return response()->json(['message' => 'Notification marked as read','status'=>'success'],200);
+    }
+}
