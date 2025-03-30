@@ -6,11 +6,29 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Validator;
 use App\Models\User;
+use App\Models\Contract;
+use App\Models\Document;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class ClientController extends Controller
 {
-    function userCreate(Request $request) {
+    public function clientData()
+    {
+        $clientId = auth('sanctum')->id();
+
+        $totalContracts = Contract::where('client_id', $clientId)->count();
+        $totalDocuments = Document::where('client_id', $clientId)->count();
+
+        return response()->json([
+            'status' => 'success',
+            'code' => 200,
+            'data' => [
+                'total_contracts' => $totalContracts,
+                'total_documents' => $totalDocuments,
+            ]
+        ]);
+    }    function userCreate(Request $request) {
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:20',
             'email' => 'required|email|unique:users',
