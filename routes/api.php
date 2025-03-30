@@ -30,9 +30,10 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('/change-password', [ProfileController::class, 'changePassword']);
     Route::post('user/profile', [ProfileController::class, 'update']);
 
-    Route::get('admin/data', [ProfileController::class, 'totalUsers']);
-    Route::get('agent/data', [ContractController::class, 'agentData']);
-    Route::get('supervisor/data', [SupervisorController::class, 'supervisorData']);
+
+
+
+
 });
 
 
