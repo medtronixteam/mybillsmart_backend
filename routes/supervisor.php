@@ -12,5 +12,5 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'supervisor'], functio
 
 Route::post('/user', [SupervisorController::class, 'userCreate']);
 Route::get('/user', [SupervisorController::class, 'userList']);
-
+Route::get('data', [SupervisorController::class, 'supervisorData']);
 });

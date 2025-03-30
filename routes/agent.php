@@ -37,4 +37,6 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'agent'], function () 
 
     Route::post('/user', [ClientController::class, 'userCreate']);
     Route::get('/user', [ClientController::class, 'userList']);
+
+    Route::get('data', [ContractController::class, 'agentData']);
 });
