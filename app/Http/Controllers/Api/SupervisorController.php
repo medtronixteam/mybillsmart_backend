@@ -69,4 +69,68 @@ else{
         $response=['status'=>"success",'code'=>200,'data'=>$users];
         return response($response,$response['code']);
     }
+
+
+
+
+    public function update(Request $request, $id)
+    {
+        $profile = User::find($id);
+        if (!$profile) {
+            return response()->json(['message' => 'Profile not found'], 500);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'city' => 'required',
+            'country' => 'required',
+            'address' => 'required',
+            'postal_code' => 'required|numeric',
+            'phone' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response(['message' => $validator->messages()->first(), 'status' => 'error', 'code' => 500]);
+        }
+        $profile->name = $request->name;
+        $profile->city = $request->city;
+        $profile->country = $request->country;
+        $profile->address = $request->address;
+        $profile->phone = $request->phone;
+        $profile->postal_code = $request->postal_code;
+        $profile->save();
+
+        return response(['message' => 'Profile has been updated', 'status' => 'success', 'code' => 200]);
+    }
+
+    public function enable($id)
+    {
+        $userEnable = User::find($id);
+        if (!$userEnable) {
+            return response()->json(['message' => 'User not found'], 500);
+        }
+        $userEnable->status = 1;
+        $userEnable->save();
+        return response()->json(['message' => ' User enabled successfully']);
+    }
+
+    public function disable($id)
+    {
+        $userDisable = User::find($id);
+        if (!$userDisable) {
+            return response()->json(['message' => 'User not found'], 500);
+        }
+        $userDisable->status = 0;
+        $userDisable->save();
+        return response()->json(['message' => 'User disabled successfully']);
+    }
+
+    public function delete($id)
+    {
+        $userDelete = User::find($id);
+        if (!$userDelete) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+        $userDelete->delete();
+        return response()->json(['message' => 'User deleted successfully']);
+    }
 }
