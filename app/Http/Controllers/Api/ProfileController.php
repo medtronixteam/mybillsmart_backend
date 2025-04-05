@@ -306,7 +306,7 @@ public function generateUrl(Request $request)
         return response()->json(['message' => $validator->errors(), 'status' => 'error'], 500);
     }
 
-    $randomId = Str::random(5);
+    $randomId = Str::random(6);
 
     $generatedUrl = Url::create([
         'email' => $request->email,
@@ -314,7 +314,7 @@ public function generateUrl(Request $request)
         'user_id' => auth('sanctum')->id(),
     ]);
 
-    $url = url("/Invoice/{$randomId}");
+    $url =config("services.frontendUrl").$randomId;
 
     return response()->json([
         'url' => $url,
