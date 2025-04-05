@@ -11,7 +11,7 @@ class StripePaymentController extends Controller
 {
     public function createPaymentIntent(Request $request)
     {
-        $validator = Validator::make($cleanData, [
+        $validator = Validator::make($request->all(), [
             'amount' => 'required|numeric',
         ]);
         if ($validator->fails()) {
@@ -38,7 +38,7 @@ class StripePaymentController extends Controller
     public function storeSubscription(Request $request)
 {
 
-    $validator = Validator::make($cleanData, [
+    $validator = Validator::make($request->all(), [
      'amount' => 'required|numeric',
         'payment_intent_id' => 'required|string',
     ]);
