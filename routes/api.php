@@ -3,6 +3,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\WhatsAppController;
+use App\Http\Controllers\StripePaymentController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\ContractController;
@@ -32,6 +33,9 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('/change-password', [ProfileController::class, 'changePassword']);
     Route::post('user/profile', [ProfileController::class, 'update']);
 
+
+Route::post('/create-payment-intent', [StripePaymentController::class, 'createPaymentIntent']);
+Route::post('/store-subscription', [StripePaymentController::class, 'storeSubscription']);
 
 
 
