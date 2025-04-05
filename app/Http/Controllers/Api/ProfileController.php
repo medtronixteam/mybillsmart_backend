@@ -9,11 +9,13 @@ use App\Models\User;
 use App\Models\Contract;
 use App\Models\Document;
 use App\Models\Invoice;
+use App\Models\Url;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 class ProfileController extends Controller
 {
     public function totalUsers()
@@ -293,5 +295,54 @@ public function listClients()
     $clients= User::where('group_id',auth('sanctum')->id())->get();
     $response=['status'=>"success",'code'=>200,'data'=>$clients];
     return response($response,$response['code']);
+}
+public function generateUrl(Request $request)
+{
+    $validator = Validator::make($request->all(), [
+        'email' => 'required|email|unique:urls,email',
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json(['message' => $validator->errors(), 'status' => 'error'], 500);
+    }
+
+    $randomId = Str::random(5);
+
+    $generatedUrl = Url::create([
+        'email' => $request->email,
+        'random_id' => $randomId,
+        'user_id' => auth('sanctum')->id(),
+    ]);
+
+    $url = url("/access/{$randomId}");
+
+    return response()->json([
+        'url' => $url,
+        'random_id' => $randomId,
+        'user_id' => auth('sanctum')->id(),
+    ], 200);
+}
+
+public function verifyUrl($randomId)
+{
+    try {
+        $urlData = Url::where('random_id', $randomId)->firstOrFail();
+
+        $url = url("/access/{$randomId}");
+
+        return response()->json([
+            'url' => $url,
+            'email' => $urlData->email,
+            'is_valid' => true,
+            'status' => 'success'
+        ], 200);
+
+    } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+        return response()->json([
+            'message' => 'Invalid URL or random ID not found',
+            'is_valid' => false,
+            'status' => 'error'
+        ], 404);
+    }
 }
 }
