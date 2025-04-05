@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Models\Contract;
+use App\Models\Invoice;
+use App\Models\Offer;
 class MainController extends Controller
 {
     public function login(){
@@ -26,9 +29,11 @@ class MainController extends Controller
     }
     public function dashboard(){
         $totalUsers = User::count();
+        $totalagent = User::where('role','agent')->count();
+        $totalgroup = User::where('role','group_admin')->count();
         $user = Auth::user();
         if ($user->role == 'admin') {
-            return view('admin.dashboard', compact('totalUsers'));
+            return view('admin.dashboard', compact('totalUsers','totalagent','totalgroup'));
         } else {
             return redirect()->route('login')->with('error', 'You do not have access to the dashboard.');
         }
@@ -37,6 +42,7 @@ class MainController extends Controller
         $users = User::all();
         return view('admin.user_list', compact('users'));
     }
+
     public function disable($userId)
     {
     $user = User::findOrFail($userId);
@@ -158,4 +164,20 @@ class MainController extends Controller
 
         return back()->with('error', 'Password has not been Updated!');
     }
+
+
+
+    public function contractsList(){
+        $contracts = Contract::with('offer')->latest()->get();
+        return view('admin.contracts_list', compact('contracts'));
+    }
+    public function invoiceList(){
+        $invoiceList = Invoice::with('user')->latest()->get();
+        return view('admin.invoice_list', compact('invoiceList'));
+    }
+    public function showOffer($id)
+{
+    $offer = Offer::with('contract')->findOrFail($id);
+    return view('admin.offers_view', compact('offer'));
+}
   }

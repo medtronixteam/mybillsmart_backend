@@ -10,8 +10,10 @@ class Invoice extends Model
     protected $casts = [
         'bill_info' => 'array',
     ];
-    public function agent()
+    public function user()
     {
         return $this->belongsTo(User::class, 'agent_id');
     }
+
+
 }
