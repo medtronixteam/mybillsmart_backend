@@ -336,9 +336,6 @@ public function verifyUrl($randomId)
             'message' => 'Invalid URL or expired',
             'status' => 'error'
         ], 404);
-
     }
-
-
 }
 }

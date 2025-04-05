@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('urls', function (Blueprint $table) {
-            $table->bolean('is_expired')->default(false);
+            $table->boolean('is_expired')->default(false);
         });
     }
 
