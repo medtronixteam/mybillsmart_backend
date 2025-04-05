@@ -32,3 +32,5 @@ Route::post('reset-name', [MainController::class, 'resetName'])->name('reset.nam
 Route::get('user/reset-password/{passId}', [MainController::class, 'reset'])->name('user.password');
 Route::post('Student/reset-pass', [MainController::class, 'changePass'])->name('change.password');
 
+
+
