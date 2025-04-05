@@ -31,6 +31,9 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('user/profile', [ProfileController::class, 'update']);
 
 
+Route::post('/create-payment-intent', [StripePaymentController::class, 'createPaymentIntent']);
+Route::post('/store-subscription', [StripePaymentController::class, 'storeSubscription']);
+
 
 
 
