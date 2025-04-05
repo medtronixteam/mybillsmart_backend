@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Stripe\Stripe;
 use Stripe\PaymentIntent;
-
+use App\Models\Subscription;
+use Validator;
 class StripePaymentController extends Controller
 {
     public function createPaymentIntent(Request $request)
