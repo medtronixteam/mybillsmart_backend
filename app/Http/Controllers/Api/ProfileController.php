@@ -314,7 +314,7 @@ public function generateUrl(Request $request)
         'user_id' => auth('sanctum')->id(),
     ]);
 
-    $url = url("/access/{$randomId}");
+    $url = url("/Invoice/{$randomId}");
 
     return response()->json([
         'url' => $url,
