@@ -125,7 +125,7 @@ class ProfileController extends Controller
             ]);
 
             if ($validator->fails()) {
-                return response()->json(['message' => $validator->errors(), 'status' => 'error'], 500);
+                return response()->json(['message' => $validator->messages()->first(), 'status' => 'error'], 500);
             }
 
             $user = $request->user();
@@ -151,7 +151,7 @@ class ProfileController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['message' => $validator->errors(), 'status' => 'error'], 500);
+            return response()->json(['message' => $validator->messages()->first(), 'status' => 'error'], 500);
         }
 
         $email = $request->email;
@@ -176,7 +176,7 @@ class ProfileController extends Controller
             'otp' => 'required|digits:6'
         ]);
         if ($validator->fails()) {
-            return response()->json(['message' => $validator->errors(), 'status' => 'error'], 500);
+            return response()->json(['message' => $validator->messages()->first(), 'status' => 'error'], 500);
         }
         // $email = $request->email;
         $enteredOtp = $request->otp;
@@ -205,7 +205,7 @@ class ProfileController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['message' => $validator->errors(), 'status' => 'error'], 500);
+            return response()->json(['message' => $validator->messages()->first(), 'status' => 'error'], 500);
         }
 
         $email = $request->email;
@@ -231,7 +231,7 @@ class ProfileController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['message' => $validator->errors(), 'status' => 'error'], 500);
+            return response()->json(['message' => $validator->messages()->first(), 'status' => 'error'], 500);
         }
         $user = User::where('email', $request->email)->first();
         $user->password = Hash::make($request->password);
@@ -303,7 +303,7 @@ public function generateUrl(Request $request)
     ]);
 
     if ($validator->fails()) {
-        return response()->json(['message' => $validator->errors(), 'status' => 'error'], 500);
+        return response()->json(['message' => $validator->messages()->first(), 'status' => 'error'], 500);
     }
 
     $randomId = Str::random(6);
@@ -325,24 +325,20 @@ public function generateUrl(Request $request)
 
 public function verifyUrl($randomId)
 {
-    try {
-        $urlData = Url::where('random_id', $randomId)->firstOrFail();
-
-        $url = url("/access/{$randomId}");
-
+    $urlData = Url::where('random_id', $randomId)->where('is_expired',false)->count();
+    if($urlData > 0){
         return response()->json([
-            'url' => $url,
-            'email' => $urlData->email,
-            'is_valid' => true,
+            "message"=>"Url is available"
             'status' => 'success'
         ], 200);
-
-    } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+    }else{
         return response()->json([
-            'message' => 'Invalid URL or random ID not found',
-            'is_valid' => false,
+            'message' => 'Invalid URL or expired',
             'status' => 'error'
         ], 404);
+
     }
+
+
 }
 }
