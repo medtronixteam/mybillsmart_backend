@@ -16,7 +16,7 @@ class OffersController extends Controller
     public function sendClientPortal(){
         $validator = Validator::make($request->all(), [
             'client_id' => 'required|integer|exists:users,id'
-            'offer_id' => 'required|integer|exists:offers,id'
+            'offer_id' => 'required|integer|exists:offers,id',
         ]);
         if ($validator->fails()) {
             return response()->json(['message' => $validator->messages()->first(),'status'=>"error"], 500);
