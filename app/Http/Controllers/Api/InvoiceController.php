@@ -35,6 +35,77 @@ class InvoiceController extends Controller
                 'address' => $address,
                 'CUPS' => $CUPS,
                 'bill_info' => $billInfo,
+                'group_id' => $request->group_id,
+                'agent_id' => auth('sanctum')->id(),//self id who adding
+            ]
+         );
+
+         return response()->json([
+             'message' => 'Invoice created successfully.','status'=>"success",'invoice'=>$invoice->id,
+         ], 201);
+     }
+     public function storeGroup(Request $request)
+     {
+
+         $validator = Validator::make($request->all(), [
+             'bill type' => 'required',
+             'address' => 'required|string',
+             'cups' => 'required|string',
+             'billing period' => 'required',
+             'group_id' => 'required',
+         ]);
+
+         if ($validator->fails()) {
+             return response()->json(['message' => $validator->errors()->first()], 500);
+         }
+         $billType = $request->input('bill type');
+         $bill_period = $request->input('billing period');
+         $CUPS = $request->input('cups');
+         $address = $request->input('address');
+         $billInfo = $request->except(['bill type', 'address','cups','billing period']);
+         $invoice = Invoice::create(
+            [
+                'bill_type' => $billType,
+                'billing_period' => $bill_period,
+                'address' => $address,
+                'CUPS' => $CUPS,
+                'bill_info' => $billInfo,
+                'group_id' => $request->group_id,
+                'agent_id' => auth('sanctum')->id(),//self id who adding
+            ]
+         );
+
+         return response()->json([
+             'message' => 'Invoice created successfully.','status'=>"success",'invoice'=>$invoice->id,
+         ], 201);
+     }
+     public function storClient(Request $request)
+     {
+
+         $validator = Validator::make($request->all(), [
+             'bill type' => 'required',
+             'address' => 'required|string',
+             'cups' => 'required|string',
+             'billing period' => 'required',
+             'group_id' => 'required',
+         ]);
+
+         if ($validator->fails()) {
+             return response()->json(['message' => $validator->errors()->first()], 500);
+         }
+         $billType = $request->input('bill type');
+         $bill_period = $request->input('billing period');
+         $CUPS = $request->input('cups');
+         $address = $request->input('address');
+         $billInfo = $request->except(['bill type', 'address','cups','billing period']);
+         $invoice = Invoice::create(
+            [
+                'bill_type' => $billType,
+                'billing_period' => $bill_period,
+                'address' => $address,
+                'CUPS' => $CUPS,
+                'bill_info' => $billInfo,
+                'group_id' => auth('sanctum')->id(),
                 'agent_id' => auth('sanctum')->id(),
             ]
          );

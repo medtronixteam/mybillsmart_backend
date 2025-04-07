@@ -15,7 +15,8 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('product_name');
-            $table->unsignedBigInteger('provider_id');
+            $table->unsignedBigInteger('group_id');
+            $table->unsignedBigInteger('addedby_id');
             $table->string('light_category')->nullable();
             $table->decimal('fixed_rate', 10, 2)->default(0);
             $table->decimal('rl1', 10, 2)->nullable();
@@ -32,7 +33,8 @@ return new class extends Migration
             $table->decimal('meter_rental', 10, 2)->default(0);
             $table->decimal('sales_commission', 10, 2)->default(0);
             $table->timestamps();
-            $table->foreign('provider_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('group_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('addedby_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

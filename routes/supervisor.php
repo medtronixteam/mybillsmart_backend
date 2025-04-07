@@ -16,5 +16,7 @@ Route::post('user/edit/{id}', [SupervisorController::class, 'update']);
 Route::post('user/enable/{id}', [SupervisorController::class, 'enable']);
 Route::post('user/disable/{id}', [SupervisorController::class, 'disable']);
 Route::delete('user/delete/{id}', [SupervisorController::class, 'delete']);
-Route::get('data', [SupervisorController::class, 'supervisorData']);
+
+//offers
+Route::get('dashboard/stats', [SupervisorController::class, 'supervisorData']);
 });
