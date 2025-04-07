@@ -139,7 +139,7 @@ public function agentInvoices()
 
 public function list(){
 
-    $invoiceData= Invoice::where('agent_id',auth('sanctum')->id())->latest()->get();
+    $invoiceData= Invoice::where('group_id',auth('sanctum')->id())->latest()->get();
     $response=['status'=>"success",'code'=>200,'data'=>$invoiceData];
     return response($response,$response['code']);
  }
