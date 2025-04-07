@@ -18,6 +18,8 @@ return new class extends Migration
             $table->decimal('contracted_rate', 8, 2);
             $table->date('closure_date');
             $table->string('status')->default('pending');
+            $table->foreignId('group_id')->constrained('users')->onDelete('cascade');
+            $table->integer('agent_id')->default(0);
             $table->timestamps();
         });
     }

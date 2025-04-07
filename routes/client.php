@@ -11,5 +11,9 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'client'], function ()
     Route::post('/documents', [ProfileController::class, 'store']);
     Route::get('contracts/list', [ContractController::class, 'clientContracts']);
 
-    Route::get('data', [ClientController::class, 'clientData']);
+    Route::get('dashboard/stats', [ClientController::class, 'clientData']);
+
+
+    //invoices
+    Route::post('invoices', [InvoiceController::class, 'storClient']);
 });
