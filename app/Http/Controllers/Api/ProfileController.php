@@ -18,13 +18,13 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 class ProfileController extends Controller
 {
-    public function totalUsers()
+    public function groupStats()
     {
         $totalUsers = User::where('group_id', auth('sanctum')->id())->count();
-        $pendingContracts = Contract::where('status', 'pending')->count();
-        $completedContracts = Contract::where('status', 'completed')->count();
-        $rejectedContracts = Contract::where('status', 'rejected')->count();
-        $totalInvoices = Invoice::where('agent_id', auth('sanctum')->id())->count();
+        $pendingContracts = Contract::where('status', 'pending')->where('group_id', auth('sanctum')->id())->count();
+        $completedContracts = Contract::where('status', 'completed')->where('group_id', auth('sanctum')->id())->count();
+        $rejectedContracts = Contract::where('status', 'rejected')->where('group_id', auth('sanctum')->id())->count();
+        $totalInvoices = Invoice::where('group_id', auth('sanctum')->id())->count();
         $response = [
             'status' => "success",
             'code' => 200,
