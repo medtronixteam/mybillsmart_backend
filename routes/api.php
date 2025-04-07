@@ -1,13 +1,11 @@
 <?php
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\WhatsAppController;
 use App\Http\Controllers\StripePaymentController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\ProfileController;
-use App\Http\Controllers\Api\ContractController;
-use App\Http\Controllers\Api\SupervisorController;
+use App\Http\Controllers\NotificationController;
 
 
 
@@ -34,9 +32,9 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('user/profile', [ProfileController::class, 'update']);
 
 
-Route::post('/create-payment-intent', [StripePaymentController::class, 'createPaymentIntent']);
-Route::post('/store-subscription', [StripePaymentController::class, 'storeSubscription']);
-
+    Route::post('/create-payment-intent', [StripePaymentController::class, 'createPaymentIntent']);
+    Route::post('/store-subscription', [StripePaymentController::class, 'storeSubscription']);
+    Route::post('whatsapp/pdf', [WhatsAppController::class, 'sendPDF']);
 
 
 
@@ -48,7 +46,7 @@ Route::get('/notifications', [NotificationController::class, 'getUserNotificatio
 Route::get('/notification/{id}', [NotificationController::class, 'getSingleNotification']);
 Route::put('/notification/read/{id}', [NotificationController::class, 'markAsRead']);
 
-Route::post('whatsapp/pdf', [WhatsAppController::class, 'sendPDF']);
+
 //others url
 require __DIR__ . '/supervisor.php';
 require __DIR__ . '/group_admin.php';

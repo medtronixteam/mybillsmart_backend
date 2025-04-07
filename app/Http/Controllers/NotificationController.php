@@ -28,6 +28,20 @@ class NotificationController extends Controller
 
         return response()->json(['message' => 'Notification sent successfully','status'=>'success', 'data' => $notification], 201);
     }
+    public static function pushNotification($user_id,$title,$message)
+    {
+
+
+        if ($user_id == null || $title == null || $message == null) {
+            return false;
+        }
+         Notification::create([
+            'user_id' => $user_id,
+            'title' => $title,
+            'message' => $message,
+        ]);
+        return true;
+    }
 
 
     public function getUserNotifications()

@@ -4,31 +4,36 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Offer;
 use App\Models\User;
+use App\Models\Invoice;
 use Illuminate\Http\Request;
-use Validator;
+use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 use App\Mail\OffersEmail;
 class OffersController extends Controller
 {
 
 
 
-    public function sendClientPortal(){
-        // $validator = Validator::make($request->all(), [
-        //     'client_id' => 'required|integer|exists:users,id',
-        //     'offer_id' => 'required|integer|exists:offers,id',
-        // ]);
-        // if ($validator->fails()) {
-        //     return response()->json(['message' => $validator->messages()->first(),'status'=>"error"], 500);
-        // }
+    public function sendClientPortal(Request $request){
+        $validator = Validator::make($request->all(), [
+            'client_id' => 'required|integer|exists:users,id',
+            'offer_id' => 'required|integer|exists:offers,id',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['message' => $validator->messages()->first(),'status'=>"error"], 500);
+        }
 
-        // $offers = Offer::find($request->offer_id);
-        // $offers->update([
-        //     'client_id' => $request->client_id,
-        // ])
-        // $client = Invoice::find($offers->invoice_id)->update([
-        //     'client_id' => $request->client_id,
-        // ]);
+        $offers = Offer::find($request->offer_id);
+        $offers->update([
+            'client_id' => $request->client_id,
+        ]);
+        $client = Invoice::find($offers->invoice_id)->update([
+            'client_id' => $request->client_id,
+        ]);
+        NotificationController::pushNotification($request->client_id, 'New Offers', 'You have received a new offers.');
+        $response=['status'=>"success",'code'=>200,'message'=>"Offers sent to Client portal successfully"];
+        return response($response,$response['code']);
     }
 
     public function list(){

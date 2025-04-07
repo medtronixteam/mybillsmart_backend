@@ -12,12 +12,13 @@ use App\Models\Invoice;
 use App\Models\Url;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-use Validator;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use App\Http\Controllers\NotificationController;
 class ProfileController extends Controller
 {
     public function groupStats()
@@ -276,8 +277,13 @@ public function store(Request $request)
             $validatedData[$field] = $request->file($field)->store('uploads', 'public');
         }
     }
-
+    $contracts=Contract::find('id',$request->contract_id);
+    if (!$contracts) {
+        return response(['message' => "Contract not exists", 'status' => 'error', 'code' => 500]);
+    }
     $documents = Document::create($validatedData);
+
+    NotificationController::pushNotification($contracts->agent_id, 'Documents Updated', 'Your client has been uploaded the documents.');
 
     return response()->json([
         'message' => 'Documents uploaded successfully',
