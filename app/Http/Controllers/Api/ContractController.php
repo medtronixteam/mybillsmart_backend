@@ -7,7 +7,7 @@ use App\Models\User;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
 use Validator;
-
+use App\Http\Controllers\NotificationController;
 class ContractController extends Controller
 {
 
@@ -80,7 +80,10 @@ class ContractController extends Controller
             $message = $validator->errors()->first();
             return response(['message' => $message, 'status' => 'error', 'code' => 500], 500);
         }
-
+        $contracts=Contract::find('id',$request->client_id);
+        if (!$contracts) {
+            return response(['message' => "Contract not exists", 'status' => 'error', 'code' => 500]);
+        }
         Contract::create([
             'client_id' => $request->client_id,
             'contracted_provider' => $request->contracted_provider,
@@ -89,6 +92,9 @@ class ContractController extends Controller
             'status' => $request->status,
             'offer_id' => $request->offer_id,
         ]);
+
+
+        NotificationController::pushNotification($contracts->client_id, 'Contract created', 'You have received a new contract.');
 
         return response(['message' => 'Contract has been created', 'status' => 'success', 'code' => 200], 200);
 
