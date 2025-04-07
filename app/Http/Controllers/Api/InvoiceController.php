@@ -106,6 +106,7 @@ class InvoiceController extends Controller
                 'CUPS' => $CUPS,
                 'bill_info' => $billInfo,
                 'group_id' => auth('sanctum')->id(),
+                'client_id' => auth('sanctum')->id(),
                 'agent_id' => auth('sanctum')->id(),
             ]
          );
@@ -142,5 +143,13 @@ public function list(){
     $response=['status'=>"success",'code'=>200,'data'=>$invoiceData];
     return response($response,$response['code']);
  }
+ //client portal client can see its invoices
+ public function clientInvoices_list(){
+
+    $invoiceData= Invoice::where('client_id',auth('sanctum')->id())->latest()->get();
+
+    return response(['status'=>"success",'code'=>200,'data'=>$invoiceData],200);
+ }
+
 
 }
