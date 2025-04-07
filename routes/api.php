@@ -42,16 +42,17 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/profile', fn() => auth('sanctum')->user());
 
 
+    Route::post('/notifications', [NotificationController::class, 'sendNotification']);
+    Route::get('/notifications', [NotificationController::class, 'getUserNotifications']);
+    Route::get('/notification/{id}', [NotificationController::class, 'getSingleNotification']);
+    Route::put('/notification/read/{id}', [NotificationController::class, 'markAsRead']);
 
 });
 Route::post('auth/verify-2fa', [TwoFactorApiController::class, 'validateToken']);
 
 Route::post('whatsapp/pdf', [WhatsAppController::class, 'sendPDF']);
 
-Route::post('/notifications', [NotificationController::class, 'sendNotification']);
-Route::get('/notifications', [NotificationController::class, 'getUserNotifications']);
-Route::get('/notification/{id}', [NotificationController::class, 'getSingleNotification']);
-Route::put('/notification/read/{id}', [NotificationController::class, 'markAsRead']);
+
 
 
 //others url
