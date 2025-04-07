@@ -17,6 +17,7 @@ class InvoiceController extends Controller
              'address' => 'required|string',
              'cups' => 'required|string',
              'billing period' => 'required',
+             'group_id' => 'required',
          ]);
 
          if ($validator->fails()) {
