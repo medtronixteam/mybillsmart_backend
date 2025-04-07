@@ -16,6 +16,8 @@ use Validator;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 class ProfileController extends Controller
 {
     public function groupStats()
@@ -338,4 +340,36 @@ public function verifyUrl($randomId)
         ], 500);
     }
 }
+public function truncateTableColumns(Request $request)
+{
+    $validator = Validator::make($request->all(), [
+        'table_name' => 'required|string'
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json(['message' => $validator->messages()->first(), 'status' => 'error'], 400);
+    }
+
+    $tableName = $request->table_name;
+
+    if (!Schema::hasTable($tableName)) {
+        return response()->json(['error' => 'Table not found'], 404);
+    }
+
+    try {
+        DB::table($tableName)->truncate();
+
+        return response()->json([
+            'message' => "Table '{$tableName}' has been truncated successfully",
+            'status' => 'success'
+        ]);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'error' => 'Failed to truncate table',
+            'details' => $e->getMessage()
+        ], 500);
+    }
+}
+
 }
