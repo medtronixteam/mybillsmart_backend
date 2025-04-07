@@ -335,7 +335,7 @@ public function verifyUrl($randomId)
         return response()->json([
             'message' => 'Invalid URL or expired',
             'status' => 'error'
-        ], 404);
+        ], 500);
     }
 }
 }
