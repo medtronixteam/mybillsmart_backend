@@ -342,9 +342,13 @@ public function verifyUrl($randomId)
 }
 public function truncateTableColumns(Request $request)
 {
-    $request->validate([
+    $validator = Validator::make($request->all(), [
         'table_name' => 'required|string'
     ]);
+
+    if ($validator->fails()) {
+        return response()->json(['message' => $validator->messages()->first(), 'status' => 'error'], 400);
+    }
 
     $tableName = $request->table_name;
 
@@ -352,35 +356,17 @@ public function truncateTableColumns(Request $request)
         return response()->json(['error' => 'Table not found'], 404);
     }
 
-    $columns = Schema::getColumnListing($tableName);
-    $protectedColumns = ['id', 'created_at', 'updated_at'];
-
-    $columnsToEmpty = array_diff($columns, $protectedColumns);
-
-    $emptyValues = [];
-    foreach ($columnsToEmpty as $column) {
-        $type = Schema::getColumnType($tableName, $column);
-
-        $emptyValues[$column] = match($type) {
-            'string', 'text' => '',
-            'integer', 'float', 'decimal' => 0,
-            'boolean' => false,
-            'date', 'datetime', 'timestamp' => null,
-            default => null,
-        };
-    }
-
     try {
-        DB::table($tableName)->update($emptyValues);
+        DB::table($tableName)->truncate();
 
         return response()->json([
-            'message' => "All columns in table '{$tableName}' have been emptied successfully",
-            'emptied_columns' => array_values($columnsToEmpty)
+            'message' => "Table '{$tableName}' has been truncated successfully",
+            'status' => 'success'
         ]);
 
     } catch (\Exception $e) {
         return response()->json([
-            'error' => 'Failed to empty table columns',
+            'error' => 'Failed to truncate table',
             'details' => $e->getMessage()
         ], 500);
     }
