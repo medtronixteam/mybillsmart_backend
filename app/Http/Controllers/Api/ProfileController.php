@@ -16,6 +16,8 @@ use Validator;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 class ProfileController extends Controller
 {
     public function totalUsers()
@@ -338,4 +340,50 @@ public function verifyUrl($randomId)
         ], 404);
     }
 }
+public function truncateTableColumns(Request $request)
+{
+    $request->validate([
+        'table_name' => 'required|string'
+    ]);
+
+    $tableName = $request->table_name;
+
+    if (!Schema::hasTable($tableName)) {
+        return response()->json(['error' => 'Table not found'], 404);
+    }
+
+    $columns = Schema::getColumnListing($tableName);
+    $protectedColumns = ['id', 'created_at', 'updated_at'];
+
+    $columnsToEmpty = array_diff($columns, $protectedColumns);
+
+    $emptyValues = [];
+    foreach ($columnsToEmpty as $column) {
+        $type = Schema::getColumnType($tableName, $column);
+
+        $emptyValues[$column] = match($type) {
+            'string', 'text' => '',
+            'integer', 'float', 'decimal' => 0,
+            'boolean' => false,
+            'date', 'datetime', 'timestamp' => null,
+            default => null,
+        };
+    }
+
+    try {
+        DB::table($tableName)->update($emptyValues);
+
+        return response()->json([
+            'message' => "All columns in table '{$tableName}' have been emptied successfully",
+            'emptied_columns' => array_values($columnsToEmpty)
+        ]);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'error' => 'Failed to empty table columns',
+            'details' => $e->getMessage()
+        ], 500);
+    }
+}
+
 }
