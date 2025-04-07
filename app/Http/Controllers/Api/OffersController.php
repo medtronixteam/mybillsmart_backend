@@ -14,21 +14,21 @@ class OffersController extends Controller
 
 
     public function sendClientPortal(){
-        $validator = Validator::make($request->all(), [
-            'client_id' => 'required|integer|exists:users,id',
-            'offer_id' => 'required|integer|exists:offers,id',
-        ]);
-        if ($validator->fails()) {
-            return response()->json(['message' => $validator->messages()->first(),'status'=>"error"], 500);
-        }
+        // $validator = Validator::make($request->all(), [
+        //     'client_id' => 'required|integer|exists:users,id',
+        //     'offer_id' => 'required|integer|exists:offers,id',
+        // ]);
+        // if ($validator->fails()) {
+        //     return response()->json(['message' => $validator->messages()->first(),'status'=>"error"], 500);
+        // }
 
-        $offers = Offer::find($request->offer_id);
-        $offers->update([
-            'client_id' => $request->client_id,
-        ])
-        $client = Invoice::find($offers->invoice_id)->update([
-            'client_id' => $request->client_id,
-        ]);
+        // $offers = Offer::find($request->offer_id);
+        // $offers->update([
+        //     'client_id' => $request->client_id,
+        // ])
+        // $client = Invoice::find($offers->invoice_id)->update([
+        //     'client_id' => $request->client_id,
+        // ]);
     }
 
     public function list(){
