@@ -32,7 +32,7 @@ class ProductController extends Controller
         public function index()
         {
             $adminOrGroupUserId = User::getGroupAdminOrFindByGroup(auth('sanctum')->id());
-            $products = Product::where('provider_id', $adminOrGroupUserId)->latest()->get();
+            $products = Product::where('group_id', $adminOrGroupUserId)->latest()->get();
             return response()->json($products,200);
         }
 
@@ -68,7 +68,7 @@ class ProductController extends Controller
 
         $product = Product::create(array_merge(
             $request->all(),
-            ['provider_id' =>$adminOrGroupUserId]
+            ['group_id' =>$adminOrGroupUserId,'addedby_id' => auth('sanctum')->id()]
         ));
         return response()->json(['message' => 'Product has been created'], 201);
         }
@@ -119,7 +119,7 @@ class ProductController extends Controller
 
             $product->update(array_merge(
                 $request->all(),
-                ['provider_id' => auth('sanctum')->id()]
+                // ['gr' => auth('sanctum')->id()]
             ));
             return response()->json(['message' => 'Product has been updated.'], 200);
         }
