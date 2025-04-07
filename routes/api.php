@@ -5,6 +5,7 @@ use App\Http\Controllers\WhatsAppController;
 use App\Http\Controllers\StripePaymentController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\ProfileController;
+use App\Http\Controllers\Api\TwoFactorApiController;
 use App\Http\Controllers\NotificationController;
 
 
@@ -34,12 +35,20 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
     Route::post('/create-payment-intent', [StripePaymentController::class, 'createPaymentIntent']);
     Route::post('/store-subscription', [StripePaymentController::class, 'storeSubscription']);
-    Route::post('whatsapp/pdf', [WhatsAppController::class, 'sendPDF']);
+
+
+    Route::get('auth/enable-2fa', [TwoFactorApiController::class, 'setup']);
+    Route::get('auth/disable-2fa', [TwoFactorApiController::class, 'disable']);
+    Route::post('auth/verify-2fa', [TwoFactorApiController::class, 'validateToken']);
+
 
 
 
 });
 
+Route::post('/2fa/verify', [TwoFactorApiController::class, 'verify']);
+
+Route::post('whatsapp/pdf', [WhatsAppController::class, 'sendPDF']);
 
 Route::post('/notifications', [NotificationController::class, 'sendNotification']);
 Route::get('/notifications', [NotificationController::class, 'getUserNotifications']);

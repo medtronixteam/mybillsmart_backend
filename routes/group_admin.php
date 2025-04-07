@@ -1,11 +1,10 @@
 <?php
-use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\OffersController;
 use App\Http\Controllers\Api\InvoiceController;
-use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\ContractController;
 Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'group'], function () {
 
