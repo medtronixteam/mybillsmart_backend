@@ -18,7 +18,7 @@ class ClientController extends Controller
 
         $totalContracts = Contract::where('client_id', auth('sanctum')->id())->count();
         $pendingContracts = Contract::where('status', 'pending')->where('client_id', auth('sanctum')->id())->count();
-        $completedContracts = Contract::where('status', 'completed')->where('client_id', auth('sanctum')->id())->->count();
+        $completedContracts = Contract::where('status', 'completed')->where('client_id', auth('sanctum')->id())->count();
         $rejectedContracts = Contract::where('status', 'rejected')->where('client_id', auth('sanctum')->id())->count();
 
         return response()->json([
