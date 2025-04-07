@@ -13,7 +13,7 @@ class SupervisorController extends Controller
     public function supervisorData()
     {
         $totalUsers = User::where('added_by', auth('sanctum')->id())->count();
-        $products = Product::count();
+        $products = Product::where('addedby_id',auth('sanctum')->id())->count();
         $response = [
             'status' => "success",
             'code' => 200,

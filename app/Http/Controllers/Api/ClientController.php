@@ -15,20 +15,23 @@ class ClientController extends Controller
 {
     public function clientData()
     {
-        $clientId = auth('sanctum')->id();
 
-        $totalContracts = Contract::where('client_id', $clientId)->count();
-        $totalDocuments = Document::where('client_id', $clientId)->count();
+        $totalContracts = Contract::where('client_id', auth('sanctum')->id())->count();
+        $pendingContracts = Contract::where('status', 'pending')->where('client_id', auth('sanctum')->id())->count();
+        $completedContracts = Contract::where('status', 'completed')->where('client_id', auth('sanctum')->id())->->count();
+        $rejectedContracts = Contract::where('status', 'rejected')->where('client_id', auth('sanctum')->id())->count();
 
         return response()->json([
-            'status' => 'success',
+            'status' => "success",
             'code' => 200,
-            'data' => [
-                'total_contracts' => $totalContracts,
-                'total_documents' => $totalDocuments,
-            ]
+            'tota_contracts' => $totalContracts,
+            'pending_contracts' => $pendingContracts,
+            'completed_contracts' => $completedContracts,
+            'rejected_contracts' => $rejectedContracts,
         ]);
-    }    function userCreate(Request $request) {
+
+    }
+    function userCreate(Request $request) {
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:20',
             'email' => 'required|email|unique:users',
