@@ -15,7 +15,7 @@ class OffersController extends Controller
 
     public function sendClientPortal(){
         $validator = Validator::make($request->all(), [
-            'client_id' => 'required|integer|exists:users,id'
+            'client_id' => 'required|integer|exists:users,id',
             'offer_id' => 'required|integer|exists:offers,id',
         ]);
         if ($validator->fails()) {
