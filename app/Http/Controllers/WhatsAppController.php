@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use App\Services\TwilioService;
 use Validator;
 class WhatsAppController extends Controller
@@ -22,7 +21,7 @@ class WhatsAppController extends Controller
         $validator = Validator::make($request->all(), [
                 'to' => 'required|string',
                 'message' => 'required|string',
-                'pdf' => 'required|file|mimes:pdf|max:2048'
+
         ]);
 
         if ($validator->fails()) {

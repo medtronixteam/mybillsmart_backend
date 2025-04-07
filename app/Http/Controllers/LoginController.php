@@ -28,6 +28,15 @@ class LoginController extends Controller
         }
         if (Auth::attempt($request->only('email', 'password'))) {
             $user = Auth::user();
+            // if ($user->google2fa_enable) {
+
+            //     return response()->json([
+
+            //     'message' => "2FA Required.",
+            //     'status' => 'error',
+            //     'code' => 500,
+            //     ]);
+            // }
             $token = $user->createToken('auth-token')->plainTextToken;
             unset($user->id);
             return response()->json([
