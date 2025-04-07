@@ -39,14 +39,12 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
     Route::get('auth/enable-2fa', [TwoFactorApiController::class, 'setup']);
     Route::get('auth/disable-2fa', [TwoFactorApiController::class, 'disable']);
-    Route::post('auth/verify-2fa', [TwoFactorApiController::class, 'validateToken']);
 
 
 
 
 });
-
-Route::post('/2fa/verify', [TwoFactorApiController::class, 'verify']);
+Route::post('auth/verify-2fa', [TwoFactorApiController::class, 'validateToken']);
 
 Route::post('whatsapp/pdf', [WhatsAppController::class, 'sendPDF']);
 
