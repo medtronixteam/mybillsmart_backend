@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::table('invoices', function (Blueprint $table) {
             $table->foreignId('group_id')->constrained('users')->onDelete('cascade');
+            $table->unsignedBigInteger('client_id')->default(0);
         });
     }
 
@@ -22,6 +23,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('invoices', function (Blueprint $table) {
+            $table->dropColumn('client_id');
             $table->dropColumn('group_id');
         });
     }
