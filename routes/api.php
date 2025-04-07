@@ -39,7 +39,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
     Route::get('auth/enable-2fa', [TwoFactorApiController::class, 'setup']);
     Route::get('auth/disable-2fa', [TwoFactorApiController::class, 'disable']);
-
+    Route::get('/profile', fn() => auth()->user());
 
 
 

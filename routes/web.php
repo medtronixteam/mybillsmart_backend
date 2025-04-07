@@ -30,10 +30,9 @@ Route::post('reset-pass', [MainController::class, 'resetPass'])->name('reset.pas
 Route::post('reset-name', [MainController::class, 'resetName'])->name('reset.name');
 //user
 Route::get('user/reset-password/{passId}', [MainController::class, 'reset'])->name('user.password');
-Route::post('Student/reset-pass', [MainController::class, 'changePass'])->name('change.password');
+Route::post('user/reset-pass', [MainController::class, 'changePass'])->name('change.password');
 
 
 Route::get('contracts/list', [MainController::class, 'contractsList'])->name('contracts.list');
 Route::get('invoice/list', [MainController::class, 'invoiceList'])->name('invoice.list');
 Route::get('offer/view/{id}', [MainController::class, 'showOffer'])->name('offers.view');
-    
