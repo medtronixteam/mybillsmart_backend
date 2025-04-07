@@ -328,8 +328,8 @@ public function verifyUrl($randomId)
     $urlData = Url::where('random_id', $randomId)->where('is_expired',false)->count();
     if($urlData > 0){
         return response()->json([
-            "message"=>"Url is available"
-            'status' => 'success'
+            "message"=>"Url is available",
+            'status' => 'success',
         ], 200);
     }else{
         return response()->json([
