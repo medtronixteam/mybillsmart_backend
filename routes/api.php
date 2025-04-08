@@ -2,6 +2,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\WhatsAppController;
+use App\Http\Controllers\ReferralController;
 use App\Http\Controllers\StripePaymentController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\ProfileController;
@@ -13,8 +14,8 @@ use App\Http\Controllers\NotificationController;
 
 //authentication
 Route::post('/login', [LoginController::class, 'login']);
-Route::post('/provider', [LoginController::class, 'providerSignup']);
-Route::post('/agent', [LoginController::class, 'agentSignup']);
+Route::post('/signup', [LoginController::class, 'referalRegister']);
+
 
 Route::get('/list/products/{groupId}', [ProductController::class, 'providerProducts']);
 
@@ -46,6 +47,9 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/notifications', [NotificationController::class, 'getUserNotifications']);
     Route::get('/notification/{id}', [NotificationController::class, 'getSingleNotification']);
     Route::put('/notification/read/{id}', [NotificationController::class, 'markAsRead']);
+
+
+
 
 });
 Route::post('auth/verify-2fa', [TwoFactorApiController::class, 'validateToken']);

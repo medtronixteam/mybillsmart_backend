@@ -55,7 +55,7 @@ class LoginController extends Controller
             ], 401);
         }
     }
-            function register(Request $request) {
+ function register(Request $request) {
             $validator = Validator::make($request->all(), [
                 'name' => 'required|max:20',
                 'email' => 'required|email|unique:users',
@@ -110,19 +110,18 @@ class LoginController extends Controller
             return response($response, $response['code']);
         }
 
-        public function providerSignup(Request $request)
-        {
+        function referalRegister(Request $request) {
             $validator = Validator::make($request->all(), [
                 'name' => 'required|max:20',
                 'email' => 'required|email|unique:users',
                 'password' => 'required',
-                'phone' => 'required',
-                'address' => 'required',
-                'country' => 'required',
-                'city' => 'required',
-                'postal_code' => 'required',
-            ]);
+                'postal_code' => 'nullable|numeric',
+                'address' => 'nullable|string',
+                'city' => 'nullable|string',
+                'country' => 'nullable|string',
+                'referal_code' => 'string|required',
 
+            ]);
             if ($validator->fails()) {
                 if ($validator->errors()->has('email')) {
                     $response = [
@@ -137,74 +136,45 @@ class LoginController extends Controller
                         'code' => 500
                     ];
                 }
-            } else {
-                $user = User::create([
-                    'name' => $request->name,
-                    'email' => $request->email,
-                    'password' => Hash::make($request->password),
-                    'phone' => $request->phone,
-                    'address' => $request->address,
-                    'country' => $request->country,
-                    'city' => $request->city,
-                    'postal_code' => $request->postal_code,
-                    'role' => 'provider',
-                ]);
 
+         }else{
+
+            $referal_code=User::where('referral_code',$request->referal_code);
+            if($referal_code->count() == 0){
                 $response = [
-                    'message' => "Provider registered successfully.",
-                    'status' => 'success',
-                    'code' => 200,
+                    'message'=>"Invalid Referal Code.",
+                    'status'=>'error',
+                    'code'=>500,
                 ];
+                return response($response, $response['code']);
             }
+          $useReferal=  $referal_code->first();
 
-            return response($response, $response['code']);
-        }
-                public function agentSignup(Request $request)
-        {
-            $validator = Validator::make($request->all(), [
-                'name' => 'required|max:20',
-                'email' => 'required|email|unique:users',
-                'password' => 'required',
-                'phone' => 'required',
-                'address' => 'required',
-                'country' => 'required',
-                'city' => 'required',
-                'postal_code' => 'required',
+            $adminOrGroupUserId = User::getGroupAdminOrFindByGroup($useReferal->id);
 
-            ]);
-            if ($validator->fails()) {
-                if ($validator->errors()->has('email')) {
-                    $response = [
-                        'message' => 'Email already exists.',
-                        'status' => 'error',
-                        'code' => 500
-                    ];
-                } else {
-                    $response = [
-                        'message' => $validator->messages()->first(),
-                        'status' => 'error',
-                        'code' => 500
-                    ];
-                }
-            }else{
-                $user= User::create([
-                    'name' => $request->name,
+               $user= User::create([
+                   'name' => $request->name,
                     'email' => $request->email,
+                    'role' => "agent",
+                    'group_id' => $adminOrGroupUserId,
+                    'added_by' => $useReferal->id,
+                    'referrer_id' => $useReferal->id,
                     'password' => Hash::make($request->password),
                     'phone' => $request->phone,
                     'address' => $request->address,
                     'country' => $request->country,
                     'city' => $request->city,
                     'postal_code' => $request->postal_code,
-                    'role' => 'agent',
                 ]);
+
+
                 $response = [
-                    'message'=>"Agent Register  Successfully.",
+                    'message'=>"Signup   Successfully.",
                     'status'=>'success',
                     'code'=>200,
+
                 ];
             }
             return response($response, $response['code']);
-
         }
     }

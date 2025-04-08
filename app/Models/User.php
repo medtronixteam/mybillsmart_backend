@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Str;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 class User extends Authenticatable
 {
@@ -70,4 +71,12 @@ class User extends Authenticatable
             return  null;
         }
     }
+    public static function generateReferralCode()
+{
+    do {
+        $code = strtoupper(Str::random(8));
+    } while (User::where('referral_code', $code)->exists());
+
+    return $code;
+}
 }

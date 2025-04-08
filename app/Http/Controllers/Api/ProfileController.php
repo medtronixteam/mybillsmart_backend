@@ -322,7 +322,7 @@ public function generateUrl(Request $request)
         'user_id' => auth('sanctum')->id(),
     ]);
 
-    $url =config("services.frontendUrl").$randomId;
+    $url =config("services.frontendUrl")."u/invoice/".$randomId;
 
     return response()->json([
         'url' => $url,
