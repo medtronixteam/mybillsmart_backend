@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\InvoiceController;
 use App\Http\Controllers\Api\ContractController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\ClientController;
+use App\Http\Controllers\ReferralController;
 
 
 Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'agent'], function () {
@@ -42,4 +43,7 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'agent'], function () 
     Route::get('/user', [ClientController::class, 'userList']);
 
     Route::get('dashboard/stats', [ContractController::class, 'agentData']);
+
+
+    Route::get('/referral-url', [ReferralController::class, 'getReferralUrl']);
 });

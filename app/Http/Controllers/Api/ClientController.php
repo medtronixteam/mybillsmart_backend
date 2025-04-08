@@ -9,7 +9,6 @@ use App\Models\User;
 use App\Models\Contract;
 use App\Models\Document;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
 
 class ClientController extends Controller
 {
