@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ReferralController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\OffersController;
 use App\Http\Controllers\Api\InvoiceController;
@@ -26,4 +27,8 @@ Route::post('invoices', [InvoiceController::class, 'storeGroup']);
 
 Route::get('contracts/list', [ContractController::class, 'contractslist']);
 Route::get('dashboard/stats', [ProfileController::class, 'groupStats']);
+
+
+Route::post('/referral/points', [ReferralController::class, 'updateReferalPoints']);
+
 });

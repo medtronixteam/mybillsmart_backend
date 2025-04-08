@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\Contract;
+use App\Models\ReferralPoints;
 use App\Models\Invoice;
 use App\Models\Offer;
 class MainController extends Controller
@@ -136,6 +137,16 @@ class MainController extends Controller
             'role' => $request->role,
             'status' => $request->status,
         ]);
+        if($request->role == 'group_admin'){
+            ReferralPoints::updateOrCreate(
+                ['group_id' => $user->id],
+                [
+                    'level_1_points' => $request->level_1_points,
+                    'level_2_points' => $request->level_2_points,
+                    'level_3_points' => $request->level_3_points,
+                ]
+            );
+        }
 
         return back()->with('success', 'User has been created successfully!');
     }
