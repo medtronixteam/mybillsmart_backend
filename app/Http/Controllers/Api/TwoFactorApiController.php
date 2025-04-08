@@ -33,7 +33,7 @@ class TwoFactorApiController extends Controller
                 'status' => 'success', 'code' => 200];
 
         } catch (\Throwable $th) {
-            $response = ['message' => "Something went wrong .",
+            $response = ['message' => "Something went wrong .".$th->getMessage(),
                 'status' => 'error', 'code' => 500];
 
         }
