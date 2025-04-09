@@ -40,8 +40,16 @@ class MainController extends Controller
         }
     }
     public function userList(){
-        $users = User::all();
+        $users = User::where('role','admin')->latest()->get();
         return view('admin.user_list', compact('users'));
+    }
+    public function groupAdmin(){
+        $users = User::where('role','group_admin')->latest()->get();
+        return view('admin.group_admin', compact('users'));
+    }
+    public function allUsers(){
+        $users = User::where('role','user')->latest()->get();
+        return view('admin.users', compact('users'));
     }
 
     public function disable($userId)
