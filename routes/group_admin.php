@@ -26,7 +26,7 @@ Route::post('/offers', [OffersController::class, 'store']);
 Route::get('invoices', [InvoiceController::class, 'agentInvoices']);
 Route::post('invoices', [InvoiceController::class, 'storeGroup']);
 
-Route::get('contracts/list', [ContractController::class, 'contractslist']);
+Route::get('contracts/list', [ContractController::class, 'groupContractsList']);
 Route::get('dashboard/stats', [ProfileController::class, 'groupStats']);
 
 
