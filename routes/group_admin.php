@@ -21,6 +21,7 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'group'], function () 
    Route::delete('/user/delete/{id}', [ProfileController::class, 'delete']);
 //offers
 Route::post('invoice/offers', [OffersController::class, 'viewOffers']);
+Route::post('/offers', [OffersController::class, 'store']);
 //invoices
 Route::get('invoices', [InvoiceController::class, 'agentInvoices']);
 Route::post('invoices', [InvoiceController::class, 'storeGroup']);
