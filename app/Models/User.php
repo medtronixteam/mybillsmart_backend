@@ -37,6 +37,7 @@ class User extends Authenticatable
         'google2fa_enable',
         'points',
         'referrer_id',
+        'last_login_at',
 
     ];
 

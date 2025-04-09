@@ -137,9 +137,9 @@ public function agentInvoices()
     return response()->json($invoices,200);
 }
 
-public function list(){
+public function agentList(){
 
-    $invoiceData= Invoice::where('group_id',auth('sanctum')->id())->latest()->get();
+    $invoiceData= Invoice::where('agent_id',auth('sanctum')->id())->latest()->get();
     $response=['status'=>"success",'code'=>200,'data'=>$invoiceData];
     return response($response,$response['code']);
  }
