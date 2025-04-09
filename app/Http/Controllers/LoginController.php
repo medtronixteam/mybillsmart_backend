@@ -39,6 +39,9 @@ class LoginController extends Controller
             // }
             $token = $user->createToken('auth-token')->plainTextToken;
             unset($user->id);
+            auth('sanctum')->user()->update([
+                'last_login_at' => now(),
+            ]);
             return response()->json([
                 'user' => $user,
 
