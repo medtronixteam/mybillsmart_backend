@@ -51,9 +51,17 @@ class ContractController extends Controller
         $response=['status'=>"success",'code'=>200,'data'=>$contracts];
         return response($response,$response['code']);
      }
-     public function contractslist(){
 
-        $contracts= Contract::where('client_id',auth('sanctum')->id())->latest()->get();
+     public function agentContractList(){
+
+        $contracts= Contract::where('agent_id',auth('sanctum')->id())->latest()->get();
+        $response=['status'=>"success",'code'=>200,'data'=>$contracts];
+        return response($response,$response['code']);
+     }
+
+     public function groupContractsList(){
+
+        $contracts= Contract::where('group_id',auth('sanctum')->id())->latest()->get();
         $response=['status'=>"success",'code'=>200,'data'=>$contracts];
         return response($response,$response['code']);
      }
@@ -80,10 +88,9 @@ class ContractController extends Controller
             $message = $validator->errors()->first();
             return response(['message' => $message, 'status' => 'error', 'code' => 500], 500);
         }
-        $contracts=Contract::find('id',$request->client_id);
-        if (!$contracts) {
-            return response(['message' => "Contract not exists", 'status' => 'error', 'code' => 500]);
-        }
+
+        $adminOrGroupUserId = User::getGroupAdminOrFindByGroup(auth('sanctum')->id());
+
         Contract::create([
             'client_id' => $request->client_id,
             'contracted_provider' => $request->contracted_provider,
@@ -91,10 +98,12 @@ class ContractController extends Controller
             'closure_date' => date('Y-m-d', strtotime($request->closure_date)),
             'status' => $request->status,
             'offer_id' => $request->offer_id,
+            'agent_id' => auth('sanctum')->id(),
+            'group_id' => $adminOrGroupUserId,
         ]);
 
 
-        NotificationController::pushNotification($contracts->client_id, 'Contract created', 'You have received a new contract.');
+        NotificationController::pushNotification($request->client_id, 'New Contract', 'You have received a new contract.');
 
         return response(['message' => 'Contract has been created', 'status' => 'success', 'code' => 200], 200);
 

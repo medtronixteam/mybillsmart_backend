@@ -30,7 +30,7 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'agent'], function () 
     Route::get('list/invoices', [InvoiceController::class, 'agentList']);
 
     //contracts
-    Route::get('contracts', [ContractController::class, 'list']);
+    Route::get('contracts', [ContractController::class, 'agentContractList']);
     Route::post('contracts', [ContractController::class, 'store']);
 
     Route::get('client/list', [ContractController::class, 'clientList']);
