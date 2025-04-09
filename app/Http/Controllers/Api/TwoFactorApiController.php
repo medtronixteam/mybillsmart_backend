@@ -68,7 +68,7 @@ class TwoFactorApiController extends Controller
 
             $user = auth('sanctum')->user();
 
-            $valid = $this->google2fa->verifyKey($user->google2fa_secret, $request->input('code'));
+            $valid = $this->google2fa->verifyKey($user->google2fa_secret, $request->code);
 
             if ($valid) {
 
