@@ -32,6 +32,12 @@ class User extends Authenticatable
         'role',
         'group_id',
         'added_by',
+        'referral_code',
+        'google2fa_secret',
+        'google2fa_enable',
+        'points',
+        'referrer_id',
+
     ];
 
     /**
