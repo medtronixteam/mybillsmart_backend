@@ -13,7 +13,7 @@
                 <li class="sidebar-item">
                     <a class="sidebar-link {{ request()->routeis('user.create') ? 'active' : '' }}"
                         href="{{ route('user.create') }}" aria-expanded="false"><i data-feather="tag"
-                            class="feather-icon"></i><span class="hide-menu">Create User
+                            class="feather-icon"></i><span class="hide-menu">Manage Users
                         </span></a>
                 </li>
                 <li class="sidebar-item">

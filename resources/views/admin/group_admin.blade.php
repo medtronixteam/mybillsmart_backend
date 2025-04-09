@@ -19,7 +19,7 @@
                 <div class="col-12">
                     <div class="card shadow">
                         <div class="card-header">
-                            <h2 class="">Admins</h2>
+                            <h2 class="">Group Admins</h2>
                         </div>
                         <div class="card-content">
                             <div class="card-body">
