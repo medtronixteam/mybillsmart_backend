@@ -49,14 +49,10 @@
                                                         @endif
                                                     </td>
                                                         <td>
-                                                            @if($item->offer_id)
                                                                 <a href="{{ route('offers.view', $item->offer_id) }}"
                                                                     class="btn btn-primary">
                                                                     View Offer
                                                                 </a>
-                                                            @else
-                                                                <span class="text-danger">No offer ID</span>
-                                                            @endif
                                                         </td>
                                                 </tr>
                                             @endforeach

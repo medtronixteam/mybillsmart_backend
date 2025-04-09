@@ -27,8 +27,8 @@
                                                 <th>Address</th>
                                                 <th>CUPS</th>
                                                 <th>Billing Period </th>
-                                                <th>Bill Info</th>
                                                 <th>Agent </th>
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -39,8 +39,13 @@
                                                     <td>{{ $item->address}}</td>
                                                     <td>{{ $item->CUPS }}</td>
                                                     <td>{{ $item->billing_period  }}</td>
-                                                    <td>{{ $item->bill_info }}</td>
                                                     <td>{{ $item->user->name }}</td>
+                                                    <td>
+                                                                <a href="{{ route('view.detail', $item->id) }}"
+                                                                    class="btn btn-primary">
+                                                                    View
+                                                                </a>
+                                                    </td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
