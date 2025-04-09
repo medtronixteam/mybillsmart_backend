@@ -18,6 +18,11 @@
                         </div>
                         <div class="card-content">
                             <div class="card-body">
+                                @if(!$offer)
+                                    <div class="alert alert-danger">
+                                        Offer not found for this contract
+                                    </div>
+                                @else
                                 <div class="table-responsive">
                                     <table class="table table-bordered">
                                         <thead class="bg-dark text-white">
@@ -30,20 +35,22 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                                <tr>
-                                                    <td>{{ $offer->id }}</td>
-                                                    <td>{{ $offer->product_name}}</td>
-                                                    <td>{{ $offer->provider_name}}</td>
-                                                    <td>{{ $offer->saving }}</td>
-                                                    <td>{{ $offer->sales_commission}}</td>
-                                                </tr>
+                                            <tr>
+                                                <td>{{ $offer->id }}</td>
+                                                <td>{{ $offer->product_name}}</td>
+                                                <td>{{ $offer->provider_name}}</td>
+                                                <td>{{ $offer->saving }}</td>
+                                                <td>{{ $offer->sales_commission}}</td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
+                                @endif
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    @endsection
+    </div>
+@endsection

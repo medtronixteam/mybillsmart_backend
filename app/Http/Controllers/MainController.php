@@ -188,7 +188,13 @@ class MainController extends Controller
     }
     public function showOffer($id)
 {
-    $offer = Offer::with('contract')->findOrFail($id);
+    $offer = Offer::with('contract')->find($id);
     return view('admin.offers_view', compact('offer'));
+}
+
+public function showDetail($id)
+{
+    $invoice = Invoice::find($id);
+    return view('admin.view_detail', compact('invoice'));
 }
   }

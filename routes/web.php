@@ -36,3 +36,4 @@ Route::post('user/reset-pass', [MainController::class, 'changePass'])->name('cha
 Route::get('contracts/list', [MainController::class, 'contractsList'])->name('contracts.list');
 Route::get('invoice/list', [MainController::class, 'invoiceList'])->name('invoice.list');
 Route::get('offer/view/{id}', [MainController::class, 'showOffer'])->name('offers.view');
+Route::get('view/detail/{id}', [MainController::class, 'showDetail'])->name('view.detail');
