@@ -32,5 +32,6 @@ Route::get('dashboard/stats', [ProfileController::class, 'groupStats']);
 
 
 Route::post('/referral/points', [ReferralController::class, 'updateReferalPoints']);
+Route::get('/referral/points', [ReferralController::class, 'ReferalPoints']);
 
 });
