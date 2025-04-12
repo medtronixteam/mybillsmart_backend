@@ -71,6 +71,7 @@ class ClientController extends Controller
                 'country' => $request->country,
                 'city' => $request->city,
                 'postal_code' => $request->postal_code,
+                'dob' => $request->dob,
             ]);
             $response = [
                 'message'=>"User Created  Successfully.",
