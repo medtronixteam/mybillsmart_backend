@@ -30,7 +30,7 @@ class GoalsController extends Controller
                 'group_id' => auth('sanctum')->id(),
             ]);
         }
-
+        //goals
         return response()->json(['message' => 'Goals created successfully','status'=>'success'], 201);
     }
 
