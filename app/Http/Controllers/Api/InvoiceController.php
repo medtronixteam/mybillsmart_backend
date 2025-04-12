@@ -131,9 +131,9 @@ public function index()
     $invoices = Invoice::where('agent_id', auth('sanctum')->id())->latest()->get();
     return response()->json($invoices,200);
 }
-public function agentInvoices()
+public function groupInvoices()
 {
-    $invoices = Invoice::where('agent_id', auth('sanctum')->id())->latest()->get();
+    $invoices = Invoice::where('group_id', auth('sanctum')->id())->latest()->get();
     return response()->json($invoices,200);
 }
 
