@@ -28,7 +28,7 @@ class GoalsController extends Controller
                 'task_name' => $validator['task_name'],
                 'start_date' => $validator['start_date'],
                 'end_date' => $validator['end_date'],
-                'created_by' => auth('sanctum')->id(),
+                'group_id' => auth('sanctum')->id(),
             ]);
         }
 
