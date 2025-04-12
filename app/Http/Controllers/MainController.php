@@ -131,6 +131,7 @@ class MainController extends Controller
             "postal_code" => 'required',
             "status" => 'required',
             "role" => 'required',
+            "dob" => 'nullable',
         ]);
 
         $user = User::create([

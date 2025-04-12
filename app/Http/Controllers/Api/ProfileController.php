@@ -390,6 +390,6 @@ public function truncateTableColumns(Request $request)
         ], 500);
     }
 }
-
+}
 
 
