@@ -14,8 +14,13 @@ return new class extends Migration
         Schema::create('auto_messages', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('message')->nullable();
-            $table->string('message')->nullable();
+            $table->string('type',20)->nullable();
+            $table->string('to_number',25)->nullable();
+            $table->text('message')->nullable();
+            $table->time('time_send')->nullable();
+            $table->date('date_send')->nullable();
+            $table->integer('status')->default(0);
+            $table->text('reason')->nullable();
             $table->timestamps();
         });
     }

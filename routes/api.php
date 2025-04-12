@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\GoalsController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\TwoFactorApiController;
+use App\Http\Controllers\Api\AutoMessageController;
 use App\Http\Controllers\NotificationController;
 
 
@@ -57,6 +58,8 @@ Route::post('auth/verify-2fa', [TwoFactorApiController::class, 'validateToken'])
 
 Route::post('whatsapp/pdf', [WhatsAppController::class, 'sendPDF']);
 
+
+Route::apiResource('auto-messages', AutoMessageController::class);
 
 
 
