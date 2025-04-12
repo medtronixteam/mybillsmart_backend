@@ -62,7 +62,7 @@ class GoalsController extends Controller
             return response()->json(['message' => $validator->messages()->first(),'status'=>'error'], 500);
         }
 
-        $goal->update(['status' => $validator['status']]);
+        $goal->update(['status' => $request->status]);
         return response()->json(['message' => 'Status updated','status'=>'success']);
     }
 
