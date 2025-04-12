@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Goal;
-use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 class GoalsController extends Controller
 {
