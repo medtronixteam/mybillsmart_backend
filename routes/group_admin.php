@@ -23,14 +23,16 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'group'], function () 
 Route::post('invoice/offers', [OffersController::class, 'viewOffers']);
 Route::post('/offers', [OffersController::class, 'store']);
 //invoices
-Route::get('invoices', [InvoiceController::class, 'agentInvoices']);
+Route::get('invoices', [InvoiceController::class, 'groupInvoices']);
 Route::post('invoices', [InvoiceController::class, 'storeGroup']);
+Route::get('invoices/{id}', [InvoiceController::class, 'show']);
 
 Route::get('contracts/list', [ContractController::class, 'groupContractsList']);
 Route::get('dashboard/stats', [ProfileController::class, 'groupStats']);
 
 
 Route::post('/referral/points', [ReferralController::class, 'updateReferalPoints']);
+Route::get('/referral/points', [ReferralController::class, 'ReferalPoints']);
 
 Route::get('view/details/{id}', [ProfileController::class, 'viewDetails']);
 });

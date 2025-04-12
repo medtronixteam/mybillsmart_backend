@@ -22,6 +22,22 @@ class ReferralController extends Controller
             'status' => 'success',
         ],200);
     }
+    public function ReferalPoints()
+    {
+
+        $referralPoints = ReferralPoints::where('group_id', auth('sanctum')->user())->first();
+        if ($referralPoints) {
+            return response()->json([
+                'data' => $referralPoints,
+                'status' => 'success',
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => "Referral points not found.",
+                'status' => 'error',
+            ], 404);
+        }
+    }
     public function updateReferalPoints(Request $request)
     {
         $validator = Validator::make($request->all(), [
