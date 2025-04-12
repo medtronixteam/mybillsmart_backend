@@ -13,6 +13,7 @@ class GoalsController extends Controller
             'user_ids' => 'required|array',
             'task_name' => 'required|string',
             'start_date' => 'required|date',
+            'points' => 'required|numeric',
             'end_date' => 'required|date|after_or_equal:start_date',
 
         ]);
@@ -24,9 +25,11 @@ class GoalsController extends Controller
         foreach ($request->user_ids as $user_id) {
             Goal::create([
                 'user_id' => $user_id,
-                'task_name' => $validator['task_name'],
-                'start_date' => $validator['start_date'],
-                'end_date' => $validator['end_date'],
+                'task_name' => $request->task_name,
+                'points' => $request->points,
+                'start_date' => $request->start_date,
+                'end_date' => $request->end_date,
+
                 'group_id' => auth('sanctum')->id(),
             ]);
         }
