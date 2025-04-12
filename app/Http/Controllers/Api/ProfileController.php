@@ -66,6 +66,7 @@ class ProfileController extends Controller
         $profile->address = $request->address;
         $profile->phone = $request->phone;
         $profile->postal_code = $request->postal_code;
+        $profile->dob = $request->dob;
         $profile->save();
 
         return response(['message' => 'Profile has been updated', 'status' => 'success', 'code' => 200]);
@@ -82,12 +83,23 @@ class ProfileController extends Controller
 
         public function detail($id)
         {
-            $user = User::find($id);
+            $user = User::with('invoices', 'contracts')->find($id);
+
             if (!$user) {
-                return response()->json(['message' => 'User not found'], 500);
+                return response()->json([
+                    'status' => 'error',
+                    'code' => 400,
+                    'message' => 'User not found'
+                ], 400);
             }
 
-            return response()->json(['status'=>"success",'code'=>200,'data'=>$user]);
+            return response()->json([
+                'status' => "success",
+                'code' => 200,
+                'data' => [
+                    'user' => $user,
+                ]
+            ]);
         }
         public function enable($id)
         {
@@ -380,27 +392,4 @@ public function truncateTableColumns(Request $request)
 }
 
 
-// ProfileController.php
-public function viewDetails($id)
-{
-    $user = User::with(['invoices', 'contracts'])->find($id);
 
-    if (!$user) {
-        return response()->json([
-            'status' => 'error',
-            'code' => 400,
-            'message' => 'User not found'
-        ], 400);
-    }
-
-    return response()->json([
-        'status' => "success",
-        'code' => 200,
-        'data' => [
-            'user' => $user,
-            'invoices' => $user->invoices,
-            'contracts' => $user->contracts
-        ]
-    ]);
-}
-}

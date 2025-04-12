@@ -53,6 +53,7 @@ else{
                 'country' => $request->country,
                 'city' => $request->city,
                 'postal_code' => $request->postal_code,
+                'dob' => $request->dob,
             ]);
             $response = [
                 'message'=>"User Created  Successfully.",
@@ -97,6 +98,7 @@ else{
         $profile->address = $request->address;
         $profile->phone = $request->phone;
         $profile->postal_code = $request->postal_code;
+        $profile->dob = $request->dob;
         $profile->save();
 
         return response(['message' => 'Profile has been updated', 'status' => 'success', 'code' => 200]);
