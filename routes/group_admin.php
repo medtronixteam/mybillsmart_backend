@@ -32,4 +32,5 @@ Route::get('dashboard/stats', [ProfileController::class, 'groupStats']);
 
 Route::post('/referral/points', [ReferralController::class, 'updateReferalPoints']);
 
+Route::get('view/details/{id}', [ProfileController::class, 'viewDetails']);
 });
