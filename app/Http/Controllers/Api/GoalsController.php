@@ -21,7 +21,7 @@ class GoalsController extends Controller
             return response()->json(['message' => $validator->messages()->first(),'status'=>'error'], 500);
         }
 
-        foreach ($validator['user_ids'] as $user_id) {
+        foreach ($request->user_ids as $user_id) {
             Goal::create([
                 'user_id' => $user_id,
                 'task_name' => $validator['task_name'],
