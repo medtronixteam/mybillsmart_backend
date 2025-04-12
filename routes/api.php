@@ -58,6 +58,9 @@ Route::post('auth/verify-2fa', [TwoFactorApiController::class, 'validateToken'])
 
 Route::post('whatsapp/pdf', [WhatsAppController::class, 'sendPDF']);
 
+Route::get('whatsapp/link/{id}', [WhatsAppController::class, 'linkWhats']);
+Route::get('whatsapp/unlink/{id}', [WhatsAppController::class, 'unlinkWhats']);
+
 
 Route::apiResource('auto-messages', AutoMessageController::class);
 

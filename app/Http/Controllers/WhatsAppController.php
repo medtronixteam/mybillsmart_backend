@@ -4,14 +4,26 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\TwilioService;
+use App\Models\User;
 use Validator;
 class WhatsAppController extends Controller
 {
     protected $twilioService;
 
-    public function __construct(TwilioService $twilioService)
+    // public function __construct(TwilioService $twilioService)
+    // {
+    //     $this->twilioService = $twilioService;
+    // }
+    public function linkWhats($id)
     {
-        $this->twilioService = $twilioService;
+        User::where('user_id', $id)->update(['whatsapp_link' => 1]);
+        return response()->json(['message' => 'WhatsApp linked successfully', 'status' => 'success']);
+    }
+
+    public function unlinkWhats($id)
+    {
+        User::where('user_id', $id)->update(['whatsapp_link' => 0]);
+        return response()->json(['message' => 'WhatsApp unlinked successfully', 'status' => 'success']);
     }
 
     public function sendPDF(Request $request)
