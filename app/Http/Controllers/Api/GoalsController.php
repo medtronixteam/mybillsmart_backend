@@ -77,5 +77,11 @@ class GoalsController extends Controller
         return response()->json(['data' => $goals,'status'=>'success'], 200);
 
     }
+    public function groupList() {
+        $goals = Goal::where('group_id',auth('sanctum')->id())->latest()->get();
+        return response()->json(['data' => $goals,'status'=>'success'], 200);
+
+    }
+
 
 }
