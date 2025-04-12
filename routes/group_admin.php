@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\OffersController;
 use App\Http\Controllers\Api\InvoiceController;
 use App\Http\Controllers\Api\ContractController;
+use App\Http\Controllers\Api\GoalsController;
 Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'group'], function () {
 
 
@@ -33,6 +34,8 @@ Route::get('dashboard/stats', [ProfileController::class, 'groupStats']);
 
 Route::post('/referral/points', [ReferralController::class, 'updateReferalPoints']);
 Route::get('/referral/points', [ReferralController::class, 'ReferalPoints']);
-
-// Route::get('view/details/{id}', [ProfileController::class, 'viewDetails']);
+Route::post('goals', [GoalsController::class, 'store']);
+Route::put('goals/{goal}', [GoalsController::class, 'update']);
+Route::patch('goals/{goal}/status', [GoalsController::class, 'changeStatus']);
+Route::delete('goals/{goal}', [GoalsController::class, 'delete']);
 });
