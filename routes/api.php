@@ -5,6 +5,7 @@ use App\Http\Controllers\WhatsAppController;
 use App\Http\Controllers\ReferralController;
 use App\Http\Controllers\StripePaymentController;
 use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\GoalsController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\TwoFactorApiController;
 use App\Http\Controllers\NotificationController;
@@ -48,8 +49,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/notification/{id}', [NotificationController::class, 'getSingleNotification']);
     Route::put('/notification/read/{id}', [NotificationController::class, 'markAsRead']);
 
-
-
+    //all
+    Route::get('goals', [GoalsController::class, 'list']);
 
 });
 Route::post('auth/verify-2fa', [TwoFactorApiController::class, 'validateToken']);
