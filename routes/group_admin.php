@@ -36,6 +36,7 @@ Route::post('/referral/points', [ReferralController::class, 'updateReferalPoints
 Route::get('/referral/points', [ReferralController::class, 'ReferalPoints']);
 
 Route::post('goals', [GoalsController::class, 'store']);
+Route::get('goals', [GoalsController::class, 'groupList']);
 Route::put('goals/{goal}', [GoalsController::class, 'update']);
 Route::patch('goals/{goal}/status', [GoalsController::class, 'changeStatus']);
 Route::delete('goals/{goal}', [GoalsController::class, 'delete']);
