@@ -88,11 +88,11 @@ class User extends Authenticatable
 }
 public function invoices()
 {
-    return $this->hasMany(Invoice::class);
+    return $this->hasMany(Invoice::class, 'agent_id');
 }
 
 public function contracts()
 {
-    return $this->hasMany(Contract::class);
+    return $this->hasMany(Contract::class, 'agent_id');
 }
 }

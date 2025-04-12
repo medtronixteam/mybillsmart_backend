@@ -58,6 +58,7 @@ class ProductController extends Controller
             'discount_period_end' => 'nullable|date',
             'meter_rental' => 'required|numeric',
             'sales_commission' => 'required|numeric',
+            'points_per_deal' => 'required|numeric',
         ]);
 
         if ($validator->fails()) {
@@ -111,6 +112,7 @@ class ProductController extends Controller
             'discount_period_end' => 'nullable|date',
             'meter_rental' => 'required|numeric',
             'sales_commission' => 'required|numeric',
+            'points_per_deal' => 'required|numeric',
             ]);
 
             if ($validator->fails()) {
