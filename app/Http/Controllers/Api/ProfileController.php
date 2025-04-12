@@ -66,6 +66,7 @@ class ProfileController extends Controller
         $profile->address = $request->address;
         $profile->phone = $request->phone;
         $profile->postal_code = $request->postal_code;
+        $profile->dob = $request->dob;
         $profile->save();
 
         return response(['message' => 'Profile has been updated', 'status' => 'success', 'code' => 200]);
@@ -82,12 +83,23 @@ class ProfileController extends Controller
 
         public function detail($id)
         {
-            $user = User::find($id);
+            $user = User::with('invoices', 'contracts')->find($id);
+
             if (!$user) {
-                return response()->json(['message' => 'User not found'], 500);
+                return response()->json([
+                    'status' => 'error',
+                    'code' => 400,
+                    'message' => 'User not found'
+                ], 400);
             }
 
-            return response()->json(['status'=>"success",'code'=>200,'data'=>$user]);
+            return response()->json([
+                'status' => "success",
+                'code' => 200,
+                'data' => [
+                    'user' => $user,
+                ]
+            ]);
         }
         public function enable($id)
         {
@@ -161,14 +173,14 @@ class ProfileController extends Controller
         $otp = rand(100000, 999999);
 
 
-        Cache::put('otp_', $otp, now()->addMinutes(5));
+        Cache::put('otp_', $otp, now()->addMinutes(2));
 
 
         Mail::raw("Your OTP code is: $otp", function ($message) use ($email) {
             $message->to($email)->subject('Password Reset OTP');
         });
 
-        return response()->json(['message' => 'OTP sent to your email. It will expire in 5 minute.']);
+        return response()->json(['message' => 'OTP sent to your email. It will expire in 2 minute.']);
     }
 
 
@@ -215,12 +227,13 @@ class ProfileController extends Controller
         $otp = rand(100000, 999999);
 
 
-        Cache::put('otp_' . $email, $otp, now()->addMinutes(2));
+        Cache::put('otp_', $otp, now()->addMinutes(2));
 
 
-        Mail::raw("Your new OTP code is: $otp", function ($message) use ($email) {
-            $message->to($email)->subject('Resend OTP');
+        Mail::raw("Your OTP code is: $otp", function ($message) use ($email) {
+            $message->to($email)->subject('Password Reset OTP');
         });
+
 
         return response()->json(['message' => 'New OTP sent to your email.']);
     }
@@ -378,4 +391,5 @@ public function truncateTableColumns(Request $request)
     }
 }
 
-}
+
+

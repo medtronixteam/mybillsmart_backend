@@ -144,6 +144,7 @@ class MainController extends Controller
             'postal_code' => $request->postal_code,
             'role' => $request->role,
             'status' => $request->status,
+            'dob' => $request->dob,
         ]);
         if($request->role == 'group_admin'){
             ReferralPoints::updateOrCreate(
