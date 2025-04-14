@@ -54,7 +54,7 @@
                                                         @elseif ($item->role == 'admin')
                                                             <span class="badge badge-info">Admin</span>
                                                             @else
-                                                            <span class="badge badge-warning">User</span>
+                                                            <span class="badge badge-warning">{{ $item->role }}</span>
                                                         @endif
                                                     </td>
                                                     <td>
