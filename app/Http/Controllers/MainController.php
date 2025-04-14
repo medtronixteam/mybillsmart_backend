@@ -194,7 +194,7 @@ class MainController extends Controller
     }
     public function invoiceList(){
         $invoiceList = Invoice::with('user')->latest()->paginate(10);
-        return $invoiceList;
+
         return view('admin.invoice_list', compact('invoiceList'));
     }
     public function showOffer($id)
