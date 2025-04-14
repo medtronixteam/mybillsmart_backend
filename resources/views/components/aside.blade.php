@@ -32,7 +32,7 @@
                 <li class="sidebar-item">
                     <a class="sidebar-link {{ request()->routeis('invoice.list') ? 'active' : '' }}"
                         href="{{ route('invoice.list') }}" aria-expanded="false"><i data-feather="tag"
-                            class="feather-icon"></i><span class="hide-menu">invoices
+                            class="feather-icon"></i><span class="hide-menu">Invoices List
                         </span></a>
                 </li>
             </ul>
