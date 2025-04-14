@@ -189,7 +189,7 @@ class MainController extends Controller
 
 
     public function contractsList(){
-        $contracts = Contract::with('offer')->latest()->get();
+        $contracts = Contract::with('offer')->latest()->paginate(10);
         return view('admin.contracts_list', compact('contracts'));
     }
     public function invoiceList(){
