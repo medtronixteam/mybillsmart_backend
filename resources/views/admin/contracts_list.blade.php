@@ -59,6 +59,9 @@
                                         </tbody>
                                     </table>
                                 </div>
+                                <div class="d-flex justify-content-center">
+                                    {{ $invoiceList->links('pagination::bootstrap-5') }}
+                                </div>
                             </div>
                         </div>
                     </div>
