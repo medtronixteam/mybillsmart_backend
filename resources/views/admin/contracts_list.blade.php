@@ -48,19 +48,19 @@
                                                             <span class="badge badge-warning">Rejected</span>
                                                         @endif
                                                     </td>
-                                                        <td>
-                                                                <a href="{{ route('offers.view', $item->offer_id) }}"
-                                                                    class="btn btn-primary">
-                                                                    View Offer
-                                                                </a>
-                                                        </td>
+                                                    <td>
+                                                        <a href="{{ route('offers.view', $item->offer_id) }}"
+                                                            class="btn btn-primary btn-sm">
+                                                            View Offers
+                                                        </a>
+                                                    </td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
                                     </table>
                                 </div>
                                 <div class="d-flex justify-content-center">
-                                    {{ $invoiceList->links('pagination::bootstrap-5') }}
+                                    {{ $contracts->links('pagination::bootstrap-5') }}
                                 </div>
                             </div>
                         </div>

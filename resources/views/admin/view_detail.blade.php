@@ -43,7 +43,7 @@
                                             <tr>
                                                 <th>#</th>
                                                 <th>Product Name</th>
-                                                <th>User</th>
+
                                                 <th>provider</th>
                                                 <th>Saving</th>
                                                 <th>sales Commission</th>
@@ -54,7 +54,7 @@
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
                                                     <td>{{ $offer->product_name }}</td>
-                                                    <td>{{ $offer->user->name }}</td>
+
                                                     <td>{{ $offer->provider_name }}</td>
                                                     <td>{{ $offer->saving }}</td>
                                                     <td>{{ $offer->sales_commission }}</td>
