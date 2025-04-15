@@ -73,6 +73,7 @@ class StripePaymentController extends Controller
 }
 public function handle(Request $request)
 {
+    Log::info('Request!'.$request->all());
     $payload = @file_get_contents('php://input');
     $sigHeader = $_SERVER['HTTP_STRIPE_SIGNATURE'];
     $endpointSecret = env('STRIPE_WEBHOOK_SECRET'); // You'll get this from Stripe dashboard
