@@ -151,9 +151,9 @@ class MainController extends Controller
             ReferralPoints::updateOrCreate(
                 ['group_id' => $user->id],
                 [
-                    'level_1_points' => $request->level_1_points,
-                    'level_2_points' => $request->level_2_points,
-                    'level_3_points' => $request->level_3_points,
+                    'level_1_points' => 10,
+                    'level_2_points' => 5,
+                    'level_3_points' => 3,
                 ]
             );
         }

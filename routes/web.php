@@ -26,7 +26,7 @@ Route::post('/users/disable/{userId}', [MainController::class, 'disable'])->name
 Route::post('/users/enable/{userId}', [MainController::class, 'enable'])->name('user.enable');
 Route::post('/users/delete/{deleteId}', [MainController::class, 'delete'])->name('user.delete');
 Route::get('user/create', [MainController::class, 'usersdata'])->name('user.create');
-Route::post('user/store', [MainController::class, 'storeUsers'])->name('user.store');
+Route::post('user/create', [MainController::class, 'storeUsers'])->name('user.store');
 Route::get('profile', [MainController::class, 'profile'])->name('profile');
 Route::post('reset-pass', [MainController::class, 'resetPass'])->name('reset.password');
 Route::post('reset-name', [MainController::class, 'resetName'])->name('reset.name');
