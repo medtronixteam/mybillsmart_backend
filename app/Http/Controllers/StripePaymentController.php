@@ -74,7 +74,7 @@ class StripePaymentController extends Controller
 }
 public function handle(Request $request)
 {
-    Log::info('Request!'.$request->all());
+    Log::info('Request!'.json_encode($request->all()));
     $payload = $request->getContent();
     $sigHeader = $request->header('Stripe-Signature');
     $webhookSecret = env('STRIPE_WEBHOOK_SECRET');
