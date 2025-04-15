@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class PaymentIntent extends Model
 {
-    protected $guarded=['id'];
+     protected $guarded = ['id'];
 }
