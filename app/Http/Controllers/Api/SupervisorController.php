@@ -82,12 +82,14 @@ else{
         }
 
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'city' => 'required',
-            'country' => 'required',
-            'address' => 'required',
-            'postal_code' => 'required|numeric',
-            'phone' => 'required',
+            'name' => 'required|max:20',
+            'email' => 'required|email|unique:users',
+            'role' => 'required|in:client,agent',
+            'postal_code' => 'nullable|numeric',
+            'address' => 'nullable|string',
+            'dob' => 'nullable|string',
+            'city' => 'nullable|string',
+            'country' => 'nullable|string',
         ]);
         if ($validator->fails()) {
             return response(['message' => $validator->messages()->first(), 'status' => 'error', 'code' => 500]);
