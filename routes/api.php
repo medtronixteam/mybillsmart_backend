@@ -65,6 +65,8 @@ Route::get('whatsapp/unlink/{id}', [WhatsAppController::class, 'unlinkWhats']);
 Route::apiResource('auto-messages', AutoMessageController::class);
 
 
+Route::post('/v1/stripe/webhook', [StripePaymentController::class, 'handle']);
+
 
 //others url
 require __DIR__ . '/supervisor.php';

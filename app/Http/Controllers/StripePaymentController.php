@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Stripe\Stripe;
+use Stripe\Webhook;
 use Stripe\PaymentIntent;
 use App\Models\Subscription;
+use Illuminate\Support\Facades\Log;
 use Validator;
 class StripePaymentController extends Controller
 {
@@ -60,4 +62,9 @@ class StripePaymentController extends Controller
         'subscription' => $subscription
     ],200);
 }
+public function handle(Request $request)
+{
+    Log::info('Stripe Webhook Received', $request->all());
+}
+
 }
