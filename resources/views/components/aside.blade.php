@@ -35,6 +35,12 @@
                             class="feather-icon"></i><span class="hide-menu">Invoices List
                         </span></a>
                 </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link {{ request()->routeis('plans') ? 'active' : '' }}"
+                        href="{{ route('plans') }}" aria-expanded="false"><i data-feather="tag"
+                            class="feather-icon"></i><span class="hide-menu">Plans
+                        </span></a>
+                </li>
             </ul>
         </nav>
     </div>
