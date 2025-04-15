@@ -79,7 +79,7 @@ public function handle(Request $request)
 
     Log::info('Request!'.json_encode($payload));
     $sigHeader = $request->header('Stripe-Signature');
-    $webhookSecret ='whsec_nAtBtDZXCXnhNwGOHt7EeffZv5e22GYQ';
+    $webhookSecret =env('STRIPE_WEBHOOK_SECRET');
 
     try {
         $event = Webhook::constructEvent(
