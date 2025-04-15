@@ -16,6 +16,7 @@ class StripePaymentController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'amount' => 'required|numeric',
+            'plan_name' => 'required',
 
         ]);
         if ($validator->fails()) {
@@ -35,7 +36,7 @@ class StripePaymentController extends Controller
         PaymentIntentModel::create([
             'user_id' => auth('sanctum')->id(),
             'amount' => $request->amount,
-            'plan_name' => 'starter',
+            'plan_name' => $request->plan_name,
             'currency' => 'eur',
             'stripe_payment_intent_id' => $paymentIntent->id,
             'status' => 'pending',
@@ -73,7 +74,7 @@ class StripePaymentController extends Controller
 }
 public function handle(Request $request)
 {
-    Log::info('Request!'.$request->all());
+    Log::info('Request!'.$request->all);
     $payload = @file_get_contents('php://input');
     $sigHeader = $_SERVER['HTTP_STRIPE_SIGNATURE'];
     $endpointSecret = env('STRIPE_WEBHOOK_SECRET'); // You'll get this from Stripe dashboard
