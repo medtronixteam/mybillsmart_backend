@@ -74,35 +74,30 @@ class StripePaymentController extends Controller
 }
 public function handle(Request $request)
 {
-    Log::info('Request!'.$request->all);
-    $payload = @file_get_contents('php://input');
-    $sigHeader = $_SERVER['HTTP_STRIPE_SIGNATURE'];
-    $endpointSecret = env('STRIPE_WEBHOOK_SECRET'); // You'll get this from Stripe dashboard
+    Log::info('Request!'.$request->all());
+    $payload = $request->getContent();
+    $sigHeader = $request->header('Stripe-Signature');
+    $webhookSecret = env('STRIPE_WEBHOOK_SECRET');
 
     try {
-        $event = Webhook::constructEvent($payload, $sigHeader, $endpointSecret);
-    } catch(\UnexpectedValueException $e) {
-        // Invalid payload
-        Log::error('Invalid payload');
-        return response()->json(['error' => 'Invalid payload'], 400);
-    } catch(\Stripe\Exception\SignatureVerificationException $e) {
-        // Invalid signature
-        Log::error('Invalid signature');
-        return response()->json(['error' => 'Invalid signature'], 400);
+        $event = Webhook::constructEvent(
+            $payload, $sigHeader, $webhookSecret
+        );
+    } catch (\UnexpectedValueException $e) {
+        return response('Invalid payload', 400);
+    } catch (\Stripe\Exception\SignatureVerificationException $e) {
+        return response('Invalid signature', 400);
     }
 
-    // Handle event types
     if ($event->type === 'payment_intent.succeeded') {
         $intent = $event->data->object;
-        Log::info('Payment!'.$intent);
+        $paymentIntentId = $intent->id;
+        $amountReceived = $intent->amount_received;
 
-        // Subscription::create([
-        //     'user_id' => 1, // you can attach metadata with user_id when creating the intent
-        //     'amount' => $intent->amount / 100,
-        //     'payment_intent_id' => $intent->id,
-        //     'start_date' => Carbon::now(),
-        //     'status' => 'active',
-        // ]);
+        // Example: update order/payment status in DB
+
+
+        Log::info('Payment succeeded for intent: ' . $paymentIntentId);
     }
 
     return response()->json(['status' => 'success']);
