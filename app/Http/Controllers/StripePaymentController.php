@@ -64,7 +64,37 @@ class StripePaymentController extends Controller
 }
 public function handle(Request $request)
 {
-    Log::info('Stripe Webhook Received', $request->all());
+    $payload = @file_get_contents('php://input');
+    $sigHeader = $_SERVER['HTTP_STRIPE_SIGNATURE'];
+    $endpointSecret = env('STRIPE_WEBHOOK_SECRET'); // You'll get this from Stripe dashboard
+
+    try {
+        $event = Webhook::constructEvent($payload, $sigHeader, $endpointSecret);
+    } catch(\UnexpectedValueException $e) {
+        // Invalid payload
+        Log::error('Invalid payload');
+        return response()->json(['error' => 'Invalid payload'], 400);
+    } catch(\Stripe\Exception\SignatureVerificationException $e) {
+        // Invalid signature
+        Log::error('Invalid signature');
+        return response()->json(['error' => 'Invalid signature'], 400);
+    }
+
+    // Handle event types
+    if ($event->type === 'payment_intent.succeeded') {
+        $intent = $event->data->object;
+        Log::info('Payment!'.$intent);
+
+        // Subscription::create([
+        //     'user_id' => 1, // you can attach metadata with user_id when creating the intent
+        //     'amount' => $intent->amount / 100,
+        //     'payment_intent_id' => $intent->id,
+        //     'start_date' => Carbon::now(),
+        //     'status' => 'active',
+        // ]);
+    }
+
+    return response()->json(['status' => 'success']);
 }
 
 }
