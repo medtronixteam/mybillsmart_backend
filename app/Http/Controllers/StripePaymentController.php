@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Stripe\Stripe;
 use Stripe\Webhook;
 use Stripe\PaymentIntent;
+use App\Models\PaymentIntent as PaymentIntentModel;
 use App\Models\Subscription;
 use Illuminate\Support\Facades\Log;
 use Validator;
@@ -15,6 +16,7 @@ class StripePaymentController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'amount' => 'required|numeric',
+            'plan_name' => 'required',
         ]);
         if ($validator->fails()) {
             return response()->json(['message' => $validator->messages()->first(),'status'=>"error"], 500);
@@ -30,7 +32,14 @@ class StripePaymentController extends Controller
                 'enabled' => true,
             ],
         ]);
-
+        PaymentIntentModel::create([
+            'user_id' => auth('sanctum')->id(),
+            'amount' => $request->amount,
+            'plan_name' => $request->plan_name,
+            'currency' => 'eur',
+            'stripe_payment_intent_id' => $paymentIntent->id,
+            'status' => 'pending',
+        ]);
         return response()->json([
             'clientSecret' => $paymentIntent->client_secret,
             'status'=>"success",
