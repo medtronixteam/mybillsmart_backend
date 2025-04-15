@@ -76,8 +76,10 @@ public function handle(Request $request)
 {
     Log::info('Request!'.json_encode($request->all()));
     $payload = $request->getContent();
+
+    Log::info('Request!'.json_encode($payload));
     $sigHeader = $request->header('Stripe-Signature');
-    $webhookSecret = env('STRIPE_WEBHOOK_SECRET');
+    $webhookSecret ='whsec_nAtBtDZXCXnhNwGOHt7EeffZv5e22GYQ';
 
     try {
         $event = Webhook::constructEvent(
@@ -98,6 +100,7 @@ public function handle(Request $request)
 
 
         Log::info('Payment succeeded for intent: ' . $paymentIntentId);
+        Log::info('Amount for intent: ' . $amountReceived);
     }
 
     return response()->json(['status' => 'success']);
