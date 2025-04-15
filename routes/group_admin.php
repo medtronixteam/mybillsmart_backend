@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\OffersController;
 use App\Http\Controllers\Api\InvoiceController;
 use App\Http\Controllers\Api\ContractController;
 use App\Http\Controllers\Api\GoalsController;
+use App\Http\Controllers\Api\SupervisorController;
 Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'group'], function () {
 
 
@@ -17,6 +18,8 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'group'], function () 
    Route::post('user/profile', [ProfileController::class, 'update']);
    Route::get('/users/list', [ProfileController::class, 'list']);
    Route::get('/user/detail/{id}', [ProfileController::class, 'detail']);
+   Route::post('user/edit/{id}', [SupervisorController::class, 'update']);
+
    Route::post('/user/enable/{id}', [ProfileController::class, 'enable']);
    Route::post('/user/disable/{id}', [ProfileController::class, 'disable']);
    Route::delete('/user/delete/{id}', [ProfileController::class, 'delete']);
