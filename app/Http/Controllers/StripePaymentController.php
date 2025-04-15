@@ -16,7 +16,7 @@ class StripePaymentController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'amount' => 'required|numeric',
-            'plan_name' => 'required',
+            'plan_id' => 'required',
 
         ]);
         if ($validator->fails()) {
@@ -36,7 +36,7 @@ class StripePaymentController extends Controller
         PaymentIntentModel::create([
             'user_id' => auth('sanctum')->id(),
             'amount' => $request->amount,
-            'plan_name' => $request->plan_name,
+            'plan_name' => $request->plan_id,
             'currency' => 'eur',
             'stripe_payment_intent_id' => $paymentIntent->id,
             'status' => 'pending',
