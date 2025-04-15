@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\InvoiceController;
 use App\Http\Controllers\Api\ContractController;
 use App\Http\Controllers\Api\GoalsController;
 use App\Http\Controllers\Api\SupervisorController;
+use App\Http\Controllers\Api\PlanContoller;
 Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'group'], function () {
 
 
@@ -43,4 +44,6 @@ Route::get('goals', [GoalsController::class, 'groupList']);
 Route::put('goals/{goal}', [GoalsController::class, 'update']);
 Route::patch('goals/{goal}/status', [GoalsController::class, 'changeStatus']);
 Route::delete('goals/{goal}', [GoalsController::class, 'delete']);
+
+Route::get('plans', [PlanContoller::class, 'index']);
 });
