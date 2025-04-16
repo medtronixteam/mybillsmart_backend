@@ -17,7 +17,7 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'group'], function () 
    Route::post('/user', [LoginController::class, 'register']);
 
    Route::post('user/profile', [ProfileController::class, 'update']);
-   Route::get('/users/list', [ProfileController::class, 'list']);
+   Route::get('/users/list', [ProfileController::class, 'groupUserList']);
    Route::get('/user/detail/{id}', [ProfileController::class, 'detail']);
    Route::post('user/edit/{id}', [SupervisorController::class, 'update']);
 

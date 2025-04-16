@@ -78,6 +78,12 @@ class ProfileController extends Controller
             $response=['status'=>"success",'code'=>200,'data'=>$users];
             return response($response,$response['code']);
         }
+        public function groupUserList()
+        {
+            $users= User::where('group_id',auth('sanctum')->id())->latest()->get();
+            $response=['status'=>"success",'code'=>200,'data'=>$users];
+            return response($response,$response['code']);
+        }
 
 
 
