@@ -81,8 +81,14 @@ class MainController extends Controller
     }
     public function userView($viewId){
         $user = User::findOrFail($viewId);
-        $groupUsers= User::where('group_id', $user->id)->limit(20)->latest()->get();
-        $groupInvoices= Invoice::where('group_id', $user->id)->limit(20)->latest()->get();
+        if ($user->role == 'group_admin') {
+            $groupUsers= User::where('group_id', $user->id)->limit(20)->latest()->get();
+            $groupInvoices= Invoice::where('group_id', $user->id)->limit(20)->latest()->get();
+        }else{
+            $groupUsers= [];
+            $groupInvoices= Invoice::where('agent_id', $user->id)->limit(20)->latest()->get();
+        }
+
         return view('admin.user_view', compact('user','groupUsers','groupInvoices'));
     }
     public function profile(){

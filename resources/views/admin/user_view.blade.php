@@ -54,6 +54,8 @@
                         </div>
                     </div>
                     {{-- end of card --}}
+                @if ($user->role=="group_admin")
+
                     <div class="card">
                         <div class="card-header bg-dark text-white">
                             <h2 class="mb-0">User Lists</h2>
@@ -90,6 +92,8 @@
                             </div>
                         </div>
                     </div>
+
+                @endif
                     {{-- end of card --}}
                     <div class="card">
                         <div class="card-header bg-dark text-white">
@@ -122,6 +126,7 @@
                         </div>
                     </div>
                     {{-- end of card --}}
+
                 </div>
             </div>
         </div>
