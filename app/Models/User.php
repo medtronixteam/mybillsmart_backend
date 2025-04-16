@@ -40,6 +40,10 @@ class User extends Authenticatable
         'last_login_at',
         'dob',
         'plan_name',
+        'plan_growth_name',
+        'euro_per_points',
+        'subscription_id',
+        'growth_subscription_id',
 
     ];
 

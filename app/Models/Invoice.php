@@ -14,9 +14,13 @@ class Invoice extends Model
     {
         return $this->belongsTo(User::class, 'agent_id');
     }
+    public function groupAdmin()
+    {
+        return $this->belongsTo(User::class, 'group_id');
+    }
 
     public function offers()
     {
         return $this->hasMany(Offer::class, 'invoice_id');
-    } 
+    }
 }

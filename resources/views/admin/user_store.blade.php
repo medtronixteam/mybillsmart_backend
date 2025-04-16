@@ -130,6 +130,16 @@
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                     </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="dob">Euro Per Point</label>
+                                            <input type="number" min="0" value="1" class="form-control" id="euro_per_points" name="euro_per_points"
+                                                value="">
+                                            @error('euro_per_points')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="address">Address</label>

@@ -28,13 +28,20 @@ class MainController extends Controller
         }
         return back()->with('error', 'Invalid email or Password');
     }
+
     public function dashboard(){
         $totalUsers = User::count();
         $totalagent = User::where('role','agent')->count();
         $totalgroup = User::where('role','group_admin')->count();
+        $topGroups = DB::table('invoices')
+            ->select('group_id', DB::raw('COUNT(*) as invoice_count'))
+            ->groupBy('group_id')
+            ->orderByDesc('invoice_count')
+            ->limit(10)
+            ->get();
         $user = Auth::user();
         if ($user->role == 'admin') {
-            return view('admin.dashboard', compact('totalUsers','totalagent','totalgroup'));
+            return view('admin.dashboard', compact('totalUsers','totalagent','totalgroup','topGroups'));
         } else {
             return redirect()->route('login')->with('error', 'You do not have access to the dashboard.');
         }
@@ -132,6 +139,7 @@ class MainController extends Controller
             "status" => 'required',
             "role" => 'required',
             "dob" => 'nullable',
+            "euro_per_points" => $request->role === 'group_admin' ? 'required' : 'nullable',
         ]);
 
         $user = User::create([
@@ -145,6 +153,7 @@ class MainController extends Controller
             'postal_code' => $request->postal_code,
             'role' => $request->role,
             'status' => $request->status,
+            'euro_per_points' => $request->euro_per_points,
             'dob' => $request->dob,
         ]);
         if($request->role == 'group_admin'){
