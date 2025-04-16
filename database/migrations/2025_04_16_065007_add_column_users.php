@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->unsignedBigInteger('subscription_id');
-            $table->unsignedBigInteger('growth_subscription_id');
+            $table->unsignedBigInteger('subscription_id')->nullable();
+            $table->unsignedBigInteger('growth_subscription_id')->nullable();
             $table->foreign('subscription_id')->references('id')->on('subscriptions')->onDelete('cascade');
             $table->foreign('growth_subscription_id')->references('id')->on('subscriptions')->onDelete('cascade');
             $table->string('plan_name')->nullable();
