@@ -6,14 +6,7 @@
         <div class="col">
             <input wire:model.debounce.300ms="user" type="text" class="form-control" placeholder="Filter by User Name">
         </div>
-        <div class="col">
-            <select wire:model="status" class="form-control">
-                <option value="">All Status</option>
-                <option value="pending">Pending</option>
-                <option value="succeeded">Succeeded</option>
-                <option value="failed">Failed</option>
-            </select>
-        </div>
+
         <div class="col">
             <input wire:model="date" type="date" class="form-control">
         </div>

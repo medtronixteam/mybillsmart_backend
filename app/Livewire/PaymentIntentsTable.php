@@ -14,23 +14,22 @@ class PaymentIntentsTable extends Component
     public $status = '';
     public $user = '';
     public $date = '';
+    public $intents= [];
 
     public function updating($field)
     {
         $this->resetPage();
     }
-
-    public function render()
+    public function mount()
     {
+
         $query = PaymentIntent::query();
 
         if ($this->planName) {
             $query->where('plan_name', 'like', '%' . $this->planName . '%');
         }
 
-        if ($this->status) {
-            $query->where('status', $this->status);
-        }
+
 
         if ($this->user) {
             $query->whereHas('user', function ($q) {
@@ -42,10 +41,11 @@ class PaymentIntentsTable extends Component
             $query->whereDate('created_at', $this->date);
         }
 
-        $intents = $query->with('user')->orderBy('created_at', 'desc')->paginate(10);
+        $this->intents = $query->with('user')->orderBy('created_at', 'desc')->paginate(10);
+    }
+    public function render()
+    {
 
-        return view('livewire.payment-intents-table', [
-            'intents' => $intents
-        ])->layout('layout.app');
+        return view('livewire.payment-intents-table')->layout('layout.app');
     }
 }
