@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreign('subscription_id')->references('id')->on('subscriptions')->onDelete('cascade');
             $table->foreign('growth_subscription_id')->references('id')->on('subscriptions')->onDelete('cascade');
             $table->string('plan_name')->nullable();
+            $table->double('euro_per_points')->default(1);
             $table->string('plan_growth_name')->nullable();
         });
     }
@@ -28,6 +29,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('plan_name');
+            $table->dropColumn('euro_per_points');
             $table->dropColumn('plan_growth_name');
             $table->dropColumn('subscription_id');
             $table->dropColumn('growth_subscription_id');
