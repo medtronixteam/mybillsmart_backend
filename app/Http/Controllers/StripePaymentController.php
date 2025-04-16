@@ -7,6 +7,7 @@ use Stripe\Stripe;
 use Stripe\Webhook;
 use Stripe\PaymentIntent;
 use App\Models\PaymentIntent as PaymentIntentModel;
+use App\Models\Plan;
 use App\Models\Subscription;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
@@ -17,20 +18,21 @@ class StripePaymentController extends Controller
     public function createPaymentIntent(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'amount' => 'required|numeric',
             'plan_id' => 'required',
-
         ]);
         if ($validator->fails()) {
             return response()->json(['message' => $validator->messages()->first(),'status'=>"error"], 500);
         }
         Stripe::setApiKey(env('STRIPE_SECRET'));
 
-        $amount = $request->amount * 100;
-
+        $plan = Plan::where('plan_name',strtolower($request->plan_id))->first();
+        if(!$plan){
+            return response()->json(['message' => 'Plan not found','status'=>"error"], 500);
+        }
+        $amount = $plan->amount * 100; // Convert to cents
         $paymentIntent = PaymentIntent::create([
             'amount' => $amount,
-            'currency' => 'usd',
+            'currency' => 'eur',
             'automatic_payment_methods' => [
                 'enabled' => true,
             ],
@@ -38,7 +40,7 @@ class StripePaymentController extends Controller
         PaymentIntentModel::create([
             'user_id' => auth('sanctum')->id(),
             'amount' => $request->amount,
-            'plan_name' => $request->plan_id,
+            'plan_name' => strtolower($request->plan_id),
             'currency' => 'eur',
             'stripe_payment_intent_id' => $paymentIntent->id,
             'status' => 'pending',
