@@ -8,6 +8,7 @@ use Stripe\Webhook;
 use Stripe\PaymentIntent;
 use App\Models\PaymentIntent as PaymentIntentModel;
 use App\Models\Subscription;
+use App\Models\User;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 use Validator;
@@ -102,7 +103,7 @@ public function handle(Request $request)
                 'status' => 'succeeded',
             ]);
             $PaymentIntentData = $PaymentIntent->first();
-            Subscription::create([
+            $subsc=Subscription::create([
             'user_id' =>$PaymentIntentData->user_id,
             'amount' => $PaymentIntentData->amount,
             'payment_intent_id' => $paymentIntentId,
@@ -110,6 +111,18 @@ public function handle(Request $request)
             'status' => 'active',
             'plan_name' =>  $PaymentIntentData->plan_name,
         ]);
+        if($PaymentIntentData->plan_name=="starter" OR $PaymentIntentData->plan_name=="pro" OR $PaymentIntentData->plan_name=="enterprise"){
+            User::find($PaymentIntentData->user_id)->update([
+                'plan_name' => $PaymentIntentData->plan_name,
+                'subscription_id' => $subsc->id,
+            ]);
+        }else{
+            User::find($PaymentIntentData->user_id)->update([
+                'plan_growth_name' => $PaymentIntentData->plan_name,
+                'growth_subscription_id' => $subsc->id,
+            ]);
+        }
+
 
     }
         // Example: update order/payment status in DB

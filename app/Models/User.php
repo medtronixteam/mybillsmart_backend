@@ -39,6 +39,7 @@ class User extends Authenticatable
         'referrer_id',
         'last_login_at',
         'dob',
+        'plan_name',
 
     ];
 
