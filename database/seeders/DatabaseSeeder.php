@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+       // $this->call(PaymentIntentsTableSeeder::class);
         // \App\Models\User::factory(10)->create();
         User::updateOrCreate([
             'email' => 'admin@developer.com',

@@ -1,14 +1,14 @@
 <div class="container mt-4">
     <div class="row mb-3">
         <div class="col">
-            <input wire:model.debounce.300ms="planName" type="text" class="form-control" placeholder="Filter by Plan Name">
+            <input wire:keyup="onChangeIn" wire:change="onChangeIn" wire:model.debounce.300ms="planName" type="text" class="form-control" placeholder="Filter by Plan Name">
         </div>
         <div class="col">
-            <input wire:model.debounce.300ms="user" type="text" class="form-control" placeholder="Filter by User Name">
+            <input wire:keyup="onChangeIn" wire:change="onChangeIn" wire:model.debounce.300ms="user" type="text" class="form-control" placeholder="Filter by User Name">
         </div>
 
         <div class="col">
-            <input wire:model="date" type="date" class="form-control">
+            <input wire:change="onChangeIn" wire:model="date" type="date" class="form-control">
         </div>
     </div>
 

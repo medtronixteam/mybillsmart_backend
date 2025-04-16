@@ -34,7 +34,7 @@
                         href="{{ route('invoice.list') }}" aria-expanded="false"><i data-feather="tag"
                             class="feather-icon"></i><span class="hide-menu">Invoices List
                         </span></a>
-                       
+
                 </li>
                 <li class="sidebar-item">
                     <a class="sidebar-link {{ request()->routeis('payments') ? 'active' : '' }}"
@@ -42,6 +42,13 @@
                             class="feather-icon"></i><span class="hide-menu">Payments
                         </span></a>
                 </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link {{ request()->routeis('subscriptions') ? 'active' : '' }}"
+                        href="{{ route('subscriptions') }}" aria-expanded="false"><i data-feather="tag"
+                            class="feather-icon"></i><span class="hide-menu">Subscriptions
+                        </span></a>
+                </li>
+
                 <li class="sidebar-item">
                     <a class="sidebar-link {{ request()->routeis('plans') ? 'active' : '' }}"
                         href="{{ route('plans') }}" aria-expanded="false"><i data-feather="tag"

@@ -1,36 +1,34 @@
-<?php namespace App\Livewire;
+<?php
+
+namespace App\Livewire;
 
 use Livewire\Component;
 use Livewire\WithPagination;
-use App\Models\PaymentIntent;
+use App\Models\Subscription;
 
-class PaymentIntentsTable extends Component
+class SubscriptionTable extends Component
 {
     use WithPagination;
 
     public $planName = '';
-    public $status = '';
     public $user = '';
-    public $date = '';
-
-    protected $queryString = ['planName', 'status', 'user', 'date'];
-
+    public $status = '';
+    public $start_date = '';
 
     public function updating($field)
     {
         $this->resetPage();
     }
-
     public function onChangeIn()
     {
 
     }
+
     public function render()
     {
-        $query = PaymentIntent::with('user');
+        $query = Subscription::with('user');
 
         if ($this->planName) {
-
             $query->where('plan_name', 'like', '%' . $this->planName . '%');
         }
 
@@ -44,12 +42,12 @@ class PaymentIntentsTable extends Component
             });
         }
 
-        if ($this->date) {
-            $query->whereDate('created_at', $this->date);
+        if ($this->start_date) {
+            $query->whereDate('start_date', $this->start_date);
         }
 
-        $intents = $query->orderBy('created_at', 'desc')->paginate(5);
+        $subscriptions = $query->orderBy('start_date', 'desc')->paginate(10);
 
-        return view('livewire.payment-intents-table', compact('intents'))->layout('layout.app');
+        return view('livewire.subscription-table', compact('subscriptions'))->layout('layout.app');
     }
 }
