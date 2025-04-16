@@ -9,6 +9,7 @@ use Stripe\PaymentIntent;
 use App\Models\PaymentIntent as PaymentIntentModel;
 use App\Models\Subscription;
 use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
 use Validator;
 class StripePaymentController extends Controller
 {
@@ -95,7 +96,22 @@ public function handle(Request $request)
         $intent = $event->data->object;
         $paymentIntentId = $intent->id;
         $amountReceived = $intent->amount_received;
+      $PaymentIntent=  PaymentIntentModel::where('stripe_payment_intent_id', $paymentIntentId);
+        if($PaymentIntent->exists()){
+            $PaymentIntent->update([
+                'status' => 'succeeded',
+            ]);
+            $PaymentIntentData = $PaymentIntent->first();
+            Subscription::create([
+            'user_id' =>$PaymentIntentData->user_id,
+            'amount' => $PaymentIntentData->amount,
+            'payment_intent_id' => $paymentIntentId,
+            'start_date' => Carbon::now(),
+            'status' => 'active',
+            'plan_name' =>  $PaymentIntentData->plan_name,
+        ]);
 
+    }
         // Example: update order/payment status in DB
 
 
