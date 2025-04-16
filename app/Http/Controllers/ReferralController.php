@@ -25,7 +25,7 @@ class ReferralController extends Controller
     public function ReferalPoints()
     {
 
-        $referralPoints = ReferralPoints::where('group_id', auth('sanctum')->user())->first();
+        $referralPoints = ReferralPoints::where('group_id', auth('sanctum')->id())->first();
         if ($referralPoints) {
             return response()->json([
                 'data' => $referralPoints,
