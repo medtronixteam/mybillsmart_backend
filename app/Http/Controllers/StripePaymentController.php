@@ -29,7 +29,7 @@ class StripePaymentController extends Controller
         if(!$plan){
             return response()->json(['message' => 'Plan not found','status'=>"error"], 500);
         }
-        $amount = $plan->price * 100; // Convert to cents
+        $amount = $plan->price * 100; // Convert to cents 000
         $paymentIntent = PaymentIntent::create([
             'amount' => $amount,
             'currency' => 'eur',
