@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\ContractController;
 use App\Http\Controllers\Api\GoalsController;
 use App\Http\Controllers\Api\SupervisorController;
 use App\Http\Controllers\Api\PlanContoller;
+use App\Http\Controllers\Api\ProductController;
 Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'group'], function () {
 
 
@@ -46,4 +47,7 @@ Route::patch('goals/{goal}/status', [GoalsController::class, 'changeStatus']);
 Route::delete('goals/{goal}', [GoalsController::class, 'delete']);
 
 Route::get('plans', [PlanContoller::class, 'index']);
+
+
+Route::apiResource('products', ProductController::class);
 });
