@@ -25,7 +25,7 @@ class StripePaymentController extends Controller
         }
         Stripe::setApiKey(env('STRIPE_SECRET'));
 
-        $plan = Plan::where('plan_name',strtolower($request->plan_id))->first();
+        $plan = Plan::where('name',strtolower($request->plan_id))->first();
         if(!$plan){
             return response()->json(['message' => 'Plan not found','status'=>"error"], 500);
         }
