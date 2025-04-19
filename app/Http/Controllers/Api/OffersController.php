@@ -59,7 +59,7 @@ class OffersController extends Controller
      public function viewOffers(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'invoice_id' => 'required|integer|exists:offers,id'
+            'invoice_id' => 'required|integer|exists:offers,invoice_id'
         ]);
         if ($validator->fails()) {
             return response()->json(['message' => $validator->messages()->first(),'status'=>"error"], 500);
