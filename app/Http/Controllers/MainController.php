@@ -33,8 +33,14 @@ class MainController extends Controller
         $totalUsers = User::count();
         $totalagent = User::where('role','agent')->count();
         $totalgroup = User::where('role','group_admin')->count();
-        $topGroups = DB::table('invoices')
-            ->select('group_id', DB::raw('COUNT(*) as invoice_count'))
+        // $topGroups = DB::table('invoices')
+        //     ->select('group_id', DB::raw('COUNT(*) as invoice_count'))
+        //     ->groupBy('group_id')
+        //     ->orderByDesc('invoice_count')
+        //     ->limit(10)
+        //     ->get();
+            $topGroups = Invoice::select('group_id')
+            ->selectRaw('COUNT(*) as invoice_count')
             ->groupBy('group_id')
             ->orderByDesc('invoice_count')
             ->limit(10)
