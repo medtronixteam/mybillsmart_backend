@@ -44,6 +44,7 @@ class User extends Authenticatable
         'euro_per_points',
         'subscription_id',
         'growth_subscription_id',
+        'two_factor_code', 'two_factor_expires_at'
 
     ];
 
