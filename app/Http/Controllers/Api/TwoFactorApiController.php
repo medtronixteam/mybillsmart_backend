@@ -4,6 +4,10 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use PragmaRX\Google2FALaravel\Google2FA;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
+
+use App\Mail\TwoFactorCodeMail;
 use Illuminate\Support\Facades\Validator;
 
 class TwoFactorApiController extends Controller
@@ -43,8 +47,10 @@ class TwoFactorApiController extends Controller
     public function disable()
     {
         $user = auth('sanctum')->user();
-        $user->google2fa_enable = false;
+        $user->twoFA_enable = false;
         $user->google2fa_secret = null;
+        $user->two_factor_code = null;
+        $user->two_factor_expires_at = null;
         $user->save();
 
         $response = ['message' => "2FA has been disabled.",
@@ -85,5 +91,40 @@ class TwoFactorApiController extends Controller
         }
         return response($response, $response['code']);
     }
+//2fa_enable
+    public function enable2Fa() {
+        $twoFactorCode = Str::random(6);
+        $user=auth('sanctum')->user();
+                $user->update([
+                    'two_factor_code' => $twoFactorCode,
+                    'two_factor_expires_at' => now()->addMinutes(10),
+                ]);
+
+                // Send 2FA code via email
+                Mail::to($user->email)->queue(new TwoFactorCodeMail($twoFactorCode));
+        return response()->json(['message' => 'Please check your email to verify code.','status'=>'success']);
+    }
+     // Verify 2FA code
+     public function verify2FA(Request $request)
+     {
+         $request->validate([
+             'two_factor_code' => 'required|string',
+         ]);
+
+         $user =auth('sanctum')->user();
+
+         if ($user->two_factor_code !== $request->two_factor_code || now()->gt($user->two_factor_expires_at)) {
+             return response()->json(['message' => 'Invalid or expired 2FA code','status'=>'error'], 500);
+         }
+
+         // Clear the 2FA code after successful verification
+         $user->update([
+            'twoFA_enable'=>true,
+             'two_factor_code' => null,
+             'two_factor_expires_at' => null,
+         ]);
+
+         return response()->json(['message' => '2FA verified successfully','status'=>'success']);
+     }
 
 }

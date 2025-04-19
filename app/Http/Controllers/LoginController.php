@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Mail\TwoFactorCodeMail;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Validator;
 
@@ -28,15 +31,18 @@ class LoginController extends Controller
         }
         if (Auth::attempt($request->only('email', 'password'))) {
             $user = Auth::user();
-            // if ($user->google2fa_enable) {
+            // Generate 2FA code
+            if($user->twoFA_enable):
 
-            //     return response()->json([
+                $twoFactorCode = Str::random(6);
+                $user->update([
+                    'two_factor_code' => $twoFactorCode,
+                    'two_factor_expires_at' => now()->addMinutes(10),
+                ]);
 
-            //     'message' => "2FA Required.",
-            //     'status' => 'error',
-            //     'code' => 500,
-            //     ]);
-            // }
+                // Send 2FA code via email
+                Mail::to($user->email)->queue(new TwoFactorCodeMail($twoFactorCode));
+            endif;
             $token = $user->createToken('auth-token')->plainTextToken;
             unset($user->id);
             auth('sanctum')->user()->update([

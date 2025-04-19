@@ -42,6 +42,10 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
     Route::get('auth/enable-2fa', [TwoFactorApiController::class, 'setup']);
     Route::get('auth/disable-2fa', [TwoFactorApiController::class, 'disable']);
+
+    Route::get('2fa/disable', [TwoFactorApiController::class, 'disable']);
+    Route::get('2fa/enable', [TwoFactorApiController::class, 'enable2Fa']);
+    Route::get('2fa/verify/code', [TwoFactorApiController::class, 'verify2FA']);
     Route::get('/profile', fn() => auth('sanctum')->user());
 
 
@@ -56,6 +60,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 });
 Route::post('auth/verify-2fa', [TwoFactorApiController::class, 'validateToken']);
 
+//2fa by email
 Route::post('whatsapp/pdf', [WhatsAppController::class, 'sendPDF']);
 
 Route::get('whatsapp/link/{id}', [WhatsAppController::class, 'linkWhats']);
