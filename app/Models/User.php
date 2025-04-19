@@ -34,7 +34,7 @@ class User extends Authenticatable
         'added_by',
         'referral_code',
         'google2fa_secret',
-        'google2fa_enable',
+        'twoFA_enable',
         'points',
         'referrer_id',
         'last_login_at',
