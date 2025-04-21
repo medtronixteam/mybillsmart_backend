@@ -7,6 +7,8 @@ use PragmaRX\Google2FALaravel\Google2FA;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Jenssegers\Agent\Agent;
+use App\Models\SessionHistory;
 
 use App\Mail\TwoFactorCodeMail;
 use Illuminate\Support\Facades\Validator;
@@ -132,7 +134,7 @@ class TwoFactorApiController extends Controller
          $request->validate([
              'two_factor_code' => 'required|string',
              'email' => 'required|email',
-            'password' => 'required',
+            'password' => 'required|min:2',
          ]);
 
          $user =auth('sanctum')->user();
@@ -155,6 +157,17 @@ class TwoFactorApiController extends Controller
             auth('sanctum')->user()->update([
                 'last_login_at' => now(),
             ]);
+                // Save session history
+                $agent = new Agent();
+                SessionHistory::create([
+                    'user_id'     => $user->id,
+                    'ip_address'  => $request->ip(),
+                    'device'      => $agent->device(),
+                    'platform'    => $agent->platform(),
+                    'browser'     => $agent->browser(),
+                    'session_id'  => session()->getId(),
+                    'logged_in_at'=> now(),
+                ]);
             return response()->json([
                 'user' => $user,
 
