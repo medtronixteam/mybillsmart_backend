@@ -32,4 +32,4 @@ RUN composer install --no-interaction --optimize-autoloader
 EXPOSE 8000
 
 # Start the application: run migrations, then queue:work, and then serve the Laravel app
-CMD ["sh", "-c", "php artisan migrate --seed && php artisan queue:work --daemon && php artisan serve --host=0.0.0.0 --port=8000"]
+CMD ["sh", "-c", "php artisan migrate --seed && php artisan serve --host=0.0.0.0 --port=8000"]
