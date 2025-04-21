@@ -48,7 +48,9 @@
                                     <h4>Total Users</h4>
                                 </div>
                                 <div class="card-body">
-                                    {{ $groupUsers->count() }}
+                                   @if ($user->role=="group_admin")
+                                   {{ $groupUsers->count() }}
+                                   @endif
                                 </div>
                             </div>
                         </div>
