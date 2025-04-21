@@ -52,7 +52,7 @@ class InvoiceController extends Controller
              'address' => 'required|string',
              'cups' => 'required|string',
              'billing period' => 'required',
-             'group_id' => 'required',
+             'group_id' => 'required|exists:users,id',
          ]);
 
          if ($validator->fails()) {
@@ -87,7 +87,7 @@ class InvoiceController extends Controller
              'address' => 'required|string',
              'cups' => 'required|string',
              'billing period' => 'required',
-             'group_id' => 'required',
+             'group_id' => 'required|exists:users,id',
          ]);
 
          if ($validator->fails()) {
@@ -105,7 +105,7 @@ class InvoiceController extends Controller
                 'address' => $address,
                 'CUPS' => $CUPS,
                 'bill_info' => $billInfo,
-                'group_id' => auth('sanctum')->id(),
+                'group_id' => $request->group_id,
                 'client_id' => auth('sanctum')->id(),
                 'agent_id' => auth('sanctum')->id(),
             ]
