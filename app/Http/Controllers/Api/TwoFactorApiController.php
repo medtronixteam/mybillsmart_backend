@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use PragmaRX\Google2FALaravel\Google2FA;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
@@ -123,6 +124,52 @@ class TwoFactorApiController extends Controller
              'two_factor_code' => null,
              'two_factor_expires_at' => null,
          ]);
+
+         return response()->json(['message' => '2FA verified successfully','status'=>'success']);
+     }
+     public function login2FA(Request $request)
+     {
+         $request->validate([
+             'two_factor_code' => 'required|string',
+             'email' => 'required|email',
+            'password' => 'required',
+         ]);
+
+         $user =auth('sanctum')->user();
+
+         if ($user->two_factor_code !== $request->two_factor_code || now()->gt($user->two_factor_expires_at)) {
+             return response()->json(['message' => 'Invalid or expired 2FA code','status'=>'error'], 500);
+         }
+
+         // Clear the 2FA code after successful verification
+         $user->update([
+            'twoFA_enable'=>true,
+             'two_factor_code' => null,
+             'two_factor_expires_at' => null,
+         ]);
+         if (Auth::attempt($request->only('email', 'password'))) {
+            $user = Auth::user();
+
+            $token = $user->createToken('auth-token')->plainTextToken;
+            unset($user->id);
+            auth('sanctum')->user()->update([
+                'last_login_at' => now(),
+            ]);
+            return response()->json([
+                'user' => $user,
+
+                'token' => $token,
+                'message' => "Login successfully.",
+                'status' => 'success',
+                'code' => 200
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => "Invalid email or password.",
+                'status' => 'error',
+                'code' => 401
+            ], 401);
+        }
 
          return response()->json(['message' => '2FA verified successfully','status'=>'success']);
      }
