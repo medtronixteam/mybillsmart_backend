@@ -134,7 +134,7 @@ class TwoFactorApiController extends Controller
          $request->validate([
              'two_factor_code' => 'required|string',
              'email' => 'required|email',
-            'password' => 'required',
+            'password' => 'required|min:2',
          ]);
 
          $user =auth('sanctum')->user();
