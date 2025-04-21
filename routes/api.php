@@ -16,6 +16,7 @@ use App\Http\Controllers\NotificationController;
 
 //authentication
 Route::post('/login', [LoginController::class, 'login']);
+Route::get('2fa/login', [TwoFactorApiController::class, 'login2FA']);
 Route::post('/signup', [LoginController::class, 'referalRegister']);
 
 
@@ -45,7 +46,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
     Route::get('2fa/disable', [TwoFactorApiController::class, 'disable']);
     Route::get('2fa/enable', [TwoFactorApiController::class, 'enable2Fa']);
-    Route::get('2fa/verify/code', [TwoFactorApiController::class, 'verify2FA']);
+    Route::post('2fa/verify/code', [TwoFactorApiController::class, 'verify2FA']);
+
     Route::get('/profile', fn() => auth('sanctum')->user());
 
 

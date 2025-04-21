@@ -42,6 +42,12 @@ class LoginController extends Controller
 
                 // Send 2FA code via email
                 Mail::to($user->email)->queue(new TwoFactorCodeMail($twoFactorCode));
+                return response()->json([
+
+                    'message' => "Code has been sent to your email for verification.",
+                    'status' => '2fa',
+                    'code' => 200
+                ], 200);
             endif;
             $token = $user->createToken('auth-token')->plainTextToken;
             unset($user->id);
