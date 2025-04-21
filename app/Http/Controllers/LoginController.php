@@ -212,7 +212,7 @@ class LoginController extends Controller
         }
         function sessionHistory() {
             return response([
-                'message'=>SessionHistory::findOrFail(auth('sanctum')->user()->id)->latest()->get(),
+                'message'=>SessionHistory::where('user_id',auth('sanctum')->user()->id)->latest()->get(),
                 'status'=>'success',
                 'code'=>200,
                 ], 200);
@@ -231,7 +231,7 @@ class LoginController extends Controller
                 ], 500);
             }
             return response([
-                'message'=>SessionHistory::findOrFail($request->user_id)->latest()->get(),
+                'message'=>SessionHistory::where('user_id',$request->user_id)->latest()->get(),
                 'status'=>'success',
                 'code'=>200,
                 ], 200);
