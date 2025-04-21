@@ -51,7 +51,6 @@ Route::get('plans', [PlanContoller::class, 'index']);
 
 Route::apiResource('products', ProductController::class);
 
-//session history
-
+//session history of agents/clients
 Route::post('session/history', [LoginController::class, 'sessionHistoryOther']);
 });
