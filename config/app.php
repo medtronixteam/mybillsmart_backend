@@ -104,7 +104,7 @@ return [
             explode(',', env('APP_PREVIOUS_KEYS', ''))
         ),
     ],
-
+    'Agent' => Jenssegers\Agent\Facades\Agent::class,
     /*
     |--------------------------------------------------------------------------
     | Maintenance Mode Driver

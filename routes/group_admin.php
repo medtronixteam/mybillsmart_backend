@@ -50,4 +50,8 @@ Route::get('plans', [PlanContoller::class, 'index']);
 
 
 Route::apiResource('products', ProductController::class);
+
+//session history
+
+Route::post('session/history', [LoginController::class, 'sessionHistoryOther']);
 });
