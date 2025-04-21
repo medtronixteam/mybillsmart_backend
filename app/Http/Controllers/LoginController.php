@@ -9,7 +9,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
-use Validator;
+use Jenssegers\Agent\Agent;
+use App\Models\SessionHistory;
+
+use Illuminate\Support\Facades\Validator;
 
 class LoginController extends Controller
 {
@@ -49,6 +52,19 @@ class LoginController extends Controller
                     'code' => 200
                 ], 200);
             endif;
+
+
+            // Save session history
+            $agent = new Agent();
+            SessionHistory::create([
+                'user_id'     => $user->id,
+                'ip_address'  => $request->ip(),
+                'device'      => $agent->device(),
+                'platform'    => $agent->platform(),
+                'browser'     => $agent->browser(),
+                'session_id'  => session()->getId(),
+                'logged_in_at'=> now(),
+            ]);
             $token = $user->createToken('auth-token')->plainTextToken;
             unset($user->id);
             auth('sanctum')->user()->update([
@@ -194,4 +210,33 @@ class LoginController extends Controller
             }
             return response($response, $response['code']);
         }
+        function sessionHistory() {
+            return response([
+                'message'=>SessionHistory::findOrFail(auth('sanctum')->user()->id)->latest()->get(),
+                'status'=>'success',
+                'code'=>200,
+                ], 200);
+        }
+        function sessionHistoryOther(Request $request) {
+            $validator = Validator::make($request->all(), [
+                'user_id' => 'required|exists:users,id',
+            ]);
+
+            if ($validator->fails()) {
+
+                return response()->json([
+                    'message' =>$validator->messages()->first(),
+                    'status' => 'error',
+                    'code' => 500
+                ], 500);
+            }
+            return response([
+                'message'=>SessionHistory::findOrFail($request->user_id)->latest()->get(),
+                'status'=>'success',
+                'code'=>200,
+                ], 200);
+        }
+
+
+
     }
