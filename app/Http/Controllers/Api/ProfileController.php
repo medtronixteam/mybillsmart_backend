@@ -27,7 +27,8 @@ class ProfileController extends Controller
         $pendingContracts = Contract::where('status', 'pending')->where('group_id', auth('sanctum')->id())->count();
         $completedContracts = Contract::where('status', 'completed')->where('group_id', auth('sanctum')->id())->count();
         $rejectedContracts = Contract::where('status', 'rejected')->where('group_id', auth('sanctum')->id())->count();
-        $totalInvoices = Invoice::where('group_id', auth('sanctum')->id())->count();
+        $totalInvoicesCount = Invoice::where('group_id', auth('sanctum')->id())->count();
+        $totalInvoicesData = Invoice::with('user')->where('group_id', auth('sanctum')->id())->limit(10)->latest()->get();
         $response = [
             'status' => "success",
             'code' => 200,
@@ -35,7 +36,8 @@ class ProfileController extends Controller
             'pending_contracts' => $pendingContracts,
             'completed_contracts' => $completedContracts,
             'rejected_contracts' => $rejectedContracts,
-            'total_invoices' => $totalInvoices,
+            'total_invoices' => $totalInvoicesCount,
+            'latest_invoices' => $totalInvoicesData,
         ];
 
         return response($response, $response['code']);
