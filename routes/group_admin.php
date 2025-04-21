@@ -53,4 +53,5 @@ Route::apiResource('products', ProductController::class);
 
 //session history of agents/clients
 Route::post('session/history', [LoginController::class, 'sessionHistoryOther']);
+
 });

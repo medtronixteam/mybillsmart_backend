@@ -19,6 +19,8 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use App\Http\Controllers\NotificationController;
+use App\Models\Offer;
+
 class ProfileController extends Controller
 {
     public function groupStats()
@@ -27,7 +29,9 @@ class ProfileController extends Controller
         $pendingContracts = Contract::where('status', 'pending')->where('group_id', auth('sanctum')->id())->count();
         $completedContracts = Contract::where('status', 'completed')->where('group_id', auth('sanctum')->id())->count();
         $rejectedContracts = Contract::where('status', 'rejected')->where('group_id', auth('sanctum')->id())->count();
-        $totalInvoices = Invoice::where('group_id', auth('sanctum')->id())->count();
+        $totalInvoicesCount = Invoice::where('group_id', auth('sanctum')->id())->count();
+        $latest_invoices = Invoice::with('user')->where('group_id', auth('sanctum')->id())->limit(10)->latest()->get();
+        $latest_offers = Offer::with('user')->where('group_id', auth('sanctum')->id())->limit(10)->latest()->get();
         $response = [
             'status' => "success",
             'code' => 200,
@@ -35,7 +39,9 @@ class ProfileController extends Controller
             'pending_contracts' => $pendingContracts,
             'completed_contracts' => $completedContracts,
             'rejected_contracts' => $rejectedContracts,
-            'total_invoices' => $totalInvoices,
+            'total_invoices' => $totalInvoicesCount,
+            'latest_invoices' => $latest_invoices,
+            'latest_offers' => $latest_offers,
         ];
 
         return response($response, $response['code']);
