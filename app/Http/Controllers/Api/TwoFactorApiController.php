@@ -137,21 +137,20 @@ class TwoFactorApiController extends Controller
             'password' => 'required|min:2',
          ]);
 
-         $user =auth('sanctum')->user();
+         if (Auth::attempt($request->only('email', 'password'))) {
+            $user = Auth::user();
 
          if ($user->two_factor_code !== $request->two_factor_code || now()->gt($user->two_factor_expires_at)) {
+            Auth::logout();
              return response()->json(['message' => 'Invalid or expired 2FA code','status'=>'error'], 500);
          }
 
          // Clear the 2FA code after successful verification
-         $user->update([
-            'twoFA_enable'=>true,
-             'two_factor_code' => null,
-             'two_factor_expires_at' => null,
-         ]);
-         if (Auth::attempt($request->only('email', 'password'))) {
-            $user = Auth::user();
-
+            $user->update([
+                'twoFA_enable'=>true,
+                'two_factor_code' => null,
+                'two_factor_expires_at' => null,
+            ]);
             $token = $user->createToken('auth-token')->plainTextToken;
             unset($user->id);
             auth('sanctum')->user()->update([
