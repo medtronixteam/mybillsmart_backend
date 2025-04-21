@@ -219,7 +219,7 @@ class LoginController extends Controller
         }
         function sessionHistoryOther(Request $request) {
             $validator = Validator::make($request->all(), [
-                'user_id' => 'required|exists:users,id',
+                'user_id' => 'required',
             ]);
 
             if ($validator->fails()) {
