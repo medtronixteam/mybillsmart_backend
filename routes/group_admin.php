@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\GoalsController;
 use App\Http\Controllers\Api\SupervisorController;
 use App\Http\Controllers\Api\PlanContoller;
 use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\PaymentIntentController;
 Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'group'], function () {
 
 
@@ -53,5 +54,9 @@ Route::apiResource('products', ProductController::class);
 
 //session history of agents/clients
 Route::post('session/history', [LoginController::class, 'sessionHistoryOther']);
+
+
+
+Route::get('/order/history', [PaymentIntentController::class, 'orderHistory']);
 
 });
