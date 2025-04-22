@@ -58,5 +58,6 @@ Route::post('session/history', [LoginController::class, 'sessionHistoryOther']);
 
 
 Route::get('/order/history', [PaymentIntentController::class, 'orderHistory']);
+Route::get('/subscription/history', [PaymentIntentController::class, 'subscriptionHistory']);
 
 });

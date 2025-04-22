@@ -17,5 +17,6 @@ class PaymentIntent extends Model
     protected $hidden = [
         'stripe_payment_intent_id',
         'id',
+        'user_id',
     ];
 }
