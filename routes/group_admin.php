@@ -56,8 +56,12 @@ Route::apiResource('products', ProductController::class);
 Route::post('session/history', [LoginController::class, 'sessionHistoryOther']);
 
 
-
+//payments
 Route::get('/order/history', [PaymentIntentController::class, 'orderHistory']);
 Route::get('/subscription/history', [PaymentIntentController::class, 'subscriptionHistory']);
 
+//comapny
+
+Route::get('company/details', [PaymentIntentController::class, 'companyDetails']);
+Route::post('company/details', [PaymentIntentController::class, 'updateCompanyDetails']);
 });
