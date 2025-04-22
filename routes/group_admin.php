@@ -22,7 +22,7 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'group'], function () 
    Route::post('user/profile', [ProfileController::class, 'update']);
    Route::get('/users/list', [ProfileController::class, 'groupUserList']);
    Route::get('/user/detail/{id}', [ProfileController::class, 'detail']);
-   Route::put('user/edit/{id}', [SupervisorController::class, 'update']);
+   Route::post('user/edit/{id}', [SupervisorController::class, 'update']);
 
    Route::post('/user/enable/{id}', [ProfileController::class, 'enable']);
    Route::post('/user/disable/{id}', [ProfileController::class, 'disable']);
