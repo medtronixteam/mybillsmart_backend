@@ -31,7 +31,7 @@ class ProfileController extends Controller
         $rejectedContracts = Contract::where('status', 'rejected')->where('group_id', auth('sanctum')->id())->count();
         $totalInvoicesCount = Invoice::where('group_id', auth('sanctum')->id())->count();
         $latest_invoices = Invoice::with('user')->where('group_id', auth('sanctum')->id())->limit(10)->latest()->get();
-        $latest_offers = Offer::with('user')->where('group_id', auth('sanctum')->id())->limit(10)->latest()->get();
+       // $latest_offers = Offer::with('user')->where('group_id', auth('sanctum')->id())->limit(10)->latest()->get();
         $response = [
             'status' => "success",
             'code' => 200,
@@ -41,7 +41,6 @@ class ProfileController extends Controller
             'rejected_contracts' => $rejectedContracts,
             'total_invoices' => $totalInvoicesCount,
             'latest_invoices' => $latest_invoices,
-            'latest_offers' => $latest_offers,
         ];
 
         return response($response, $response['code']);
