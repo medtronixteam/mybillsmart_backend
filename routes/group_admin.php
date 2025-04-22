@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\SupervisorController;
 use App\Http\Controllers\Api\PlanContoller;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\PaymentIntentController;
+use App\Http\Controllers\Api\CompanyController;
 Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'group'], function () {
 
 
@@ -62,6 +63,6 @@ Route::get('/subscription/history', [PaymentIntentController::class, 'subscripti
 
 //comapny
 
-Route::get('company/details', [PaymentIntentController::class, 'companyDetails']);
-Route::post('company/details', [PaymentIntentController::class, 'updateCompanyDetails']);
+Route::get('company/details', [CompanyController::class, 'companyDetails']);
+Route::post('company/details', [CompanyController::class, 'updateCompanyDetails']);
 });
