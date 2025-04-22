@@ -83,7 +83,6 @@ else{
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:20',
-            'email' => 'required|email|unique:users',
             'role' => 'required|in:client,agent',
             'postal_code' => 'nullable|numeric',
             'address' => 'nullable|string',
