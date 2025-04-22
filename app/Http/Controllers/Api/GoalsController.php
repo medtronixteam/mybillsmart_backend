@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\NotificationController;
 use Illuminate\Http\Request;
 use App\Models\Goal;
+use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 class GoalsController extends Controller
 {
@@ -29,7 +31,6 @@ class GoalsController extends Controller
                 'points' => $request->points,
                 'start_date' => $request->start_date,
                 'end_date' => $request->end_date,
-
                 'group_id' => auth('sanctum')->id(),
             ]);
         }
@@ -61,6 +62,16 @@ class GoalsController extends Controller
         if ($validator->fails()) {
             return response()->json(['message' => $validator->messages()->first(),'status'=>'error'], 500);
         }
+        NotificationController::pushNotification($goal->user_id, 'Goal Status Changed', 'Your goal status has been changed to '.$request->status);
+
+        if ($request->status== 'completed') {
+            User::where('id',$goal->user_id)->increment('points',$goal->points);
+            if($goal->points>0){
+                NotificationController::pushNotification($goal->user_id, 'You got '.$goal->points.' points', $goal->points.' points  has been added for completing task');
+            }
+
+        }
+
 
         $goal->update(['status' => $request->status]);
         return response()->json(['message' => 'Status updated','status'=>'success']);
