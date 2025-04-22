@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\InvoiceController;
 use App\Http\Controllers\Api\ContractController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\ClientController;
+use App\Http\Controllers\Api\GoalsController;
 use App\Http\Controllers\ReferralController;
 
 
@@ -46,4 +47,6 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'agent'], function () 
 
 //DS
     Route::get('/referral-url', [ReferralController::class, 'getReferralUrl']);
+    Route::get('/referral-url', [ReferralController::class, 'getReferralUrl']);
+    Route::get('goal', [GoalsController::class, 'agentGoals']);
 });
