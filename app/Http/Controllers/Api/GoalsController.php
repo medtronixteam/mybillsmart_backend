@@ -93,6 +93,12 @@ class GoalsController extends Controller
         return response()->json(['data' => $goals,'status'=>'success'], 200);
 
     }
+    public function agentGoals() {
+        $goals = Goal::where('user_id',auth('sanctum')->id())->latest()->get();
+        return response()->json(['data' => $goals,'status'=>'success'], 200);
+
+    }
+
 
 
 }
