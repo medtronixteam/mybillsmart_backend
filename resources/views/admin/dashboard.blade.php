@@ -72,6 +72,11 @@
                         </div>
                         <div class="card-body">
                             <table class="table ">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Group Admin</th>
+                                    <th>Invoices</th>
+                                </tr>
                                 @foreach ($topGroups as $item)
                                     <tr>
                                         <td>{{$loop->iteration}}</td>
