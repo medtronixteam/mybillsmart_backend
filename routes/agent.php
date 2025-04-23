@@ -42,11 +42,13 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'agent'], function () 
 
     Route::post('/user', [ClientController::class, 'userCreate']);
     Route::get('/user', [ClientController::class, 'userList']);
-
+    Route::post('user/edit/{id}', [ClientController::class, 'update']);
+    Route::post('user/enable/{id}', [ClientController::class, 'enable']);
+    Route::post('user/disable/{id}', [ClientController::class, 'disable']);
+    Route::delete('user/delete/{id}', [ClientController::class, 'delete']);
     Route::get('dashboard/stats', [ContractController::class, 'agentData']);
 
 //DS
-    Route::get('/referral-url', [ReferralController::class, 'getReferralUrl']);
     Route::get('/referral-url', [ReferralController::class, 'getReferralUrl']);
     Route::get('goals', [GoalsController::class, 'agentGoals']);
 });
