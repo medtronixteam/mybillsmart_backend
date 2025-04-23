@@ -53,3 +53,4 @@ Route::delete('user/delete/{id}', [ClientController::class, 'delete']);
     Route::get('/referral-url', [ReferralController::class, 'getReferralUrl']);
     Route::get('goals', [GoalsController::class, 'agentGoals']);
 });
+..
