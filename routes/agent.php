@@ -47,6 +47,5 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'agent'], function () 
 
 //DS
     Route::get('/referral-url', [ReferralController::class, 'getReferralUrl']);
-    Route::get('/referral-url', [ReferralController::class, 'getReferralUrl']);
     Route::get('goals', [GoalsController::class, 'agentGoals']);
 });
