@@ -15,6 +15,7 @@ class InvoiceMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
+      //  auth()->user()->groupInvoices()->count();
         return $next($request);
     }
 }
