@@ -96,6 +96,12 @@
                         <span class="hide-menu">Manage Plans</span>
                     </a>
                 </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link {{ request()->routeis('agrrements') ? 'active' : '' }}"
+                        href="{{ route('agreements') }}" aria-expanded="false"><i data-feather="tag"
+                            class="feather-icon"></i><span class="hide-menu">Agreements
+                        </span></a>
+                </li>
             </ul>
         </nav>
     </div>
