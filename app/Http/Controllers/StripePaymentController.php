@@ -28,8 +28,12 @@ class StripePaymentController extends Controller
         $paymentIntentModel = PaymentIntentModel::find($request->order_id);
         try {
             $paymentIntent = PaymentIntent::retrieve($paymentIntentModel->stripe_payment_intent_id);
+            $chargeId = $paymentIntent->latest_charge;
+
+            $charge = \Stripe\Charge::retrieve($chargeId);
+            $receiptUrl = $charge->receipt_url;
            // $receiptUrl = $paymentIntent->charges->data[0]->receipt_url;
-            return response()->json(['message' => $paymentIntent, 'status' => "success"], 200);
+            return response()->json(['message' => $receiptUrl, 'status' => "success"], 200);
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage().'Error retrieving payment intent', 'status' => "error"], 500);
         }
