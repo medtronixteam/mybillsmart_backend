@@ -24,10 +24,7 @@ class StripePaymentController extends Controller
         if ($validator->fails()) {
             return response()->json(['message' => $validator->messages()->first(), 'status' => "error"], 500);
         }
-        $paymentIntentModel = PaymentIntentModel::where('stripe_payment_intent_id', $request->order_id)->first();
-        if (!$paymentIntentModel) {
-            return response()->json(['message' => 'Receipt not found', 'status' => "error"], 500);
-        }
+        $paymentIntentModel = PaymentIntentModel::find($request->order_id);
         try {
             $paymentIntent = PaymentIntent::retrieve($paymentIntentModel->stripe_payment_intent_id);
             $receiptUrl = $paymentIntent->charges->data[0]->receipt_url;
