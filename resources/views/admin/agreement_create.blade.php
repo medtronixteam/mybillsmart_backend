@@ -21,11 +21,9 @@
                                 <div class="alert alert-success">
                                     {{ session('success') }}
                                 </div>
-
                             @endif
-                            <form action="{{ $data ? route('agreements.update') :  route('agreements.store') }}" method="POST">
+                            <form action="{{ $data ? route('agreements.update') : route('agreements.store') }}" method="POST">
                                 @csrf
-
                                 <input type="text" name="edit_id" value="{{$data?$data->id:"" }}" hidden>
                                 <div class="form-group">
                                     <label for="name">Title</label>
@@ -37,22 +35,22 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="email">description</label>
-                                            <textarea class="form-control" id="description" name="description"
-                                               value="{{$data? $data->description:''}}"> </textarea>
+                                            <label for="email">Description</label>
+                                            <textarea id="editor" class="form-control" name="description">{{ $data ? $data->description : '' }}</textarea>
                                             @error('description')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>
                                     </div>
+                                </div>
                                 <button type="submit" class="btn btn-primary">Save</button>
-                        </form>
+                            </form>
                         </div>
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    </div>
 @endsection
+
+
