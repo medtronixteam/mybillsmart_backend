@@ -28,9 +28,7 @@
                             </div>
                         </div>
                     </div>
-                    {{-- end of card --}}
-
                 </div>
             </div>
         </div>
-@endsection
+    @endsection
