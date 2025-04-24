@@ -5,8 +5,7 @@ use App\Models\Product;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Validator;
-
+use Illuminate\Support\Facades\Validator;
 class ProductController extends Controller
 {
 
