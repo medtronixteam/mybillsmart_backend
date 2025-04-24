@@ -5,7 +5,7 @@ use App\Http\Controllers\MainController;
 use App\Livewire\PlanForm;
 use App\Livewire\PaymentIntentsTable;
 use App\Livewire\SubscriptionTable;
-
+use App\Http\Controllers\AgreementController;
 
 
 
@@ -48,3 +48,10 @@ Route::get('plans', PlanForm::class)->name('plans');
 Route::get('payments', PaymentIntentsTable::class)->name('payments');
 Route::get('subscriptions', SubscriptionTable::class)->name('subscriptions');
 
+Route::post('agreements', [AgreementController::class, 'store'])->name('agreements.store');
+Route::get('agreements/list', [AgreementController::class, 'agreements'])->name('agreements');
+Route::get('agreements', [AgreementController::class, 'index'])->name('agreements.create');
+Route::get('agreements/view/{id}', [AgreementController::class, 'view'])->name('agreements.view');
+Route::get('agreements/edit/{id}', [AgreementController::class, 'edit'])->name('agreements.edit');
+Route::post('agreements/update', [AgreementController::class, 'update'])->name('agreements.update');
+Route::post('/agreements/delete/{deleteId}', [AgreementController::class, 'delete'])->name('agreements.delete');

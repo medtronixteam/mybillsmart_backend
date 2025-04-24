@@ -47,7 +47,7 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'agent'], function () 
     Route::post('user/disable/{id}', [ClientController::class, 'disable']);
     Route::delete('user/delete/{id}', [ClientController::class, 'delete']);
     Route::get('dashboard/stats', [ContractController::class, 'agentData']);
-
+    Route::get('/user/detail/{id}', [ClientController::class, 'detail']);
 //DS
     Route::get('/referral-url', [ReferralController::class, 'getReferralUrl']);
     Route::get('/referral-url', [ReferralController::class, 'getReferralUrl']);
