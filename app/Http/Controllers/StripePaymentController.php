@@ -24,6 +24,7 @@ class StripePaymentController extends Controller
         if ($validator->fails()) {
             return response()->json(['message' => $validator->messages()->first(), 'status' => "error"], 500);
         }
+        Stripe::setApiKey(env('STRIPE_SECRET'));
         $paymentIntentModel = PaymentIntentModel::find($request->order_id);
         try {
             $paymentIntent = PaymentIntent::retrieve($paymentIntentModel->stripe_payment_intent_id);
