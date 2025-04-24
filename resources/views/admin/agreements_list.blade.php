@@ -5,7 +5,7 @@
         <div class="page-breadcrumb">
             <div class="row">
                 <div class="col-12 d-flex justify-content-between">
-                    <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">Agreement List</h3>
+                    <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">Global Agreements</h3>
                     <a href="{{ route('agreements.create') }}" class="btn btn-info">Add Agreements</a>
                 </div>
             </div>
@@ -15,7 +15,7 @@
                 <div class="col-12">
                     <div class="card shadow">
                         <div class="card-header">
-                            <h2 class="">Agreements</h2>
+                            {{-- <h2 class="">Agreements</h2> --}}
                         </div>
                         <div class="card-content">
                             <div class="card-body">
