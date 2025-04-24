@@ -12,15 +12,17 @@
                         <div class="card-content">
                             <div class="card-body">
                                 <div class="row mb-3">
-                                    <div class="col-md-6">
+                                    <div class="col-6">
                                         <p><strong>Title:</strong> {{ $agreements->title }}</p>
-                                        <p><strong>Description:</strong> {{ $agreements->description }}</p>
+
 
                                     </div>
-                                    <div class="col-md-6">
-                                        <p><strong>status:</strong> {{ $agreements->status }}</p>
+                                    <div class="col-6">
                                         <p><strong>Created At:</strong> {{ $agreements->created_at->format('d M, Y') }}</p>
 
+                                    </div>
+                                    <div class="col -12">
+                                        <p><strong>Description:</strong> {{ $agreements->description }}</p>
                                     </div>
                                 </div>
                             </div>
