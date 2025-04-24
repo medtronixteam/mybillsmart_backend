@@ -30,6 +30,8 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'group'], function () 
 //offers
 Route::post('invoice/offers', [OffersController::class, 'viewOffers']);
 Route::post('/offers', [OffersController::class, 'store']);
+Route::post('/send/client/portal', [OffersController::class, 'sendClientPortal']);
+
 //invoices
 Route::get('invoices', [InvoiceController::class, 'groupInvoices']);
 Route::post('invoices', [InvoiceController::class, 'storeGroup']);

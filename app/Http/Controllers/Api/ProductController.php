@@ -25,7 +25,7 @@ class ProductController extends Controller
             }
             //
 
-           // $products = Product::where('provider_id',$groupId)->latest()->get();
+            //$products = Product::where('provider_id',$groupId)->latest()->get();
             $products = Product::latest()->get();
             return response()->json($products,200);
         }
