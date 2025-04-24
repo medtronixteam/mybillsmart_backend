@@ -151,4 +151,24 @@ class ClientController extends Controller
         $userDelete->delete();
         return response()->json(['message' => 'User deleted successfully']);
     }
+    public function detail($id)
+    {
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json([
+                'status' => 'error',
+                'code' => 400,
+                'message' => 'User not found'
+            ], 400);
+        }
+
+        return response()->json([
+            'status' => "success",
+            'code' => 200,
+            'data' => [
+                'user' => $user,
+            ]
+        ]);
+    }
 }
