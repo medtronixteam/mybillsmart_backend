@@ -18,19 +18,22 @@ class OffersController extends Controller
     public function sendClientPortal(Request $request){
         $validator = Validator::make($request->all(), [
             'client_id' => 'required|integer|exists:users,id',
-            'offer_id' => 'required|integer|exists:offers,id',
+            'invoice_id' => 'required|integer|exists:invoices,id',
         ]);
         if ($validator->fails()) {
             return response()->json(['message' => $validator->messages()->first(),'status'=>"error"], 500);
         }
+        $client = Invoice::find($request->invoice_id);
 
-        $offers = Offer::find($request->offer_id);
+        $client->update([
+            'client_id' => $request->client_id,
+        ]);
+
+        $offers = Offer::find($request->invoice_id);
         $offers->update([
             'client_id' => $request->client_id,
         ]);
-        $client = Invoice::find($offers->invoice_id)->update([
-            'client_id' => $request->client_id,
-        ]);
+
         NotificationController::pushNotification($request->client_id, 'New Offers', 'You have received a new offers.');
         $response=['status'=>"success",'code'=>200,'message'=>"Offers sent to Client portal successfully"];
         return response($response,$response['code']);
