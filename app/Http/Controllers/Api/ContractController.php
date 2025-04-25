@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Contract;
 use App\Models\User;
+use App\Models\Profit;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
-use Validator;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\NotificationController;
 class ContractController extends Controller
 {
@@ -108,4 +109,34 @@ class ContractController extends Controller
         return response(['message' => 'Contract has been created', 'status' => 'success', 'code' => 200], 200);
 
      }
+     public function contractStatus(Request $request)
+     {
+         $validator = Validator::make($request->all(), [
+             'contract_id' => 'required|exists:contracts,id',
+             'status' => 'required|in:pending,confirmed,rejected',
+         ]);
+
+         if ($validator->fails()) {
+             return response()->json(['message' => $validator->messages()->first()], 500);
+         }
+
+         $contract = Contract::find($request->contract_id);
+         if($contract->client_id!=0 && $contract->client_id!=null){
+
+         }
+         if($request->status == 'confirmed'){
+            Profit::create([
+                'user_id' => $contract->client_id,
+                'points' => 10,
+                'description' => 'Contract Confirmed',
+            ]);
+
+            NotificationController::pushNotification($contract->client_id, 'Contract Confirmed', 'Your contract has been confirmed.');
+         }
+
+         $contract->update(['status' => $request->status]);
+
+         return response()->json(['message' => 'Contract status updated successfully'], 200);
+     }
+
 }
