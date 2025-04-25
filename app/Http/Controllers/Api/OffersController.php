@@ -15,28 +15,32 @@ class OffersController extends Controller
 
 
 
-    public function sendClientPortal(Request $request){
+    public function sendClientPortal(Request $request) {
         $validator = Validator::make($request->all(), [
             'client_id' => 'required|integer|exists:users,id',
             'invoice_id' => 'required|integer|exists:invoices,id',
         ]);
-        if ($validator->fails()) {
-            return response()->json(['message' => $validator->messages()->first(),'status'=>"error"], 500);
-        }
-        $client = Invoice::find($request->invoice_id);
 
-        $client->update([
+        if ($validator->fails()) {
+            return response()->json(['message' => $validator->messages()->first(), 'status' => "error"], 500);
+        }
+
+        $invoice = Invoice::find($request->invoice_id);
+
+        $invoice->update([
             'client_id' => $request->client_id,
         ]);
 
-        $offers = Offer::find($request->invoice_id);
-        $offers->update([
+        $offer = Offer::where('invoice_id', $request->invoice_id)->first();
+
+        $offer->update([
             'client_id' => $request->client_id,
         ]);
 
         NotificationController::pushNotification($request->client_id, 'New Offers', 'You have received a new offers.');
-        $response=['status'=>"success",'code'=>200,'message'=>"Offers sent to Client portal successfully"];
-        return response($response,$response['code']);
+
+        $response = ['status' => "success", 'code' => 200, 'message' => "Offers sent to Client portal successfully"];
+        return response($response, $response['code']);
     }
 
     public function list(){
