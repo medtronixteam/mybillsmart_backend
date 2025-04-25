@@ -40,8 +40,7 @@
                     <td>{{ $sub->user?->name ?? '-' }}</td>
                     <td>{{ ucfirst($sub->status) }}</td>
                     <td>${{ $sub->amount }}</td>
-                    <td>{{ $sub->start_date ? $sub->start_date->format('Y-m-d') : '-' }}</td>
-                </tr>
+                    <td>{{ $sub->start_date ? \Carbon\Carbon::parse($sub->start_date)->format('Y-m-d') : '-' }}</td>                </tr>
             @empty
                 <tr>
                     <td colspan="6">No subscriptions found.</td>
