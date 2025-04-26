@@ -67,4 +67,11 @@ Route::get('/subscription/history', [PaymentIntentController::class, 'subscripti
 
 Route::get('company/details', [CompanyController::class, 'companyDetails']);
 Route::post('company/details', [CompanyController::class, 'updateCompanyDetails']);
+
+//agreements
+Route::post('/agreements', [ProfileController::class, 'agreementStore']);
+Route::get('/agreements', [ProfileController::class, 'agreementList']);
+Route::get('/agreement/view/{id}', [ProfileController::class, 'agreementView']);
+Route::post('agreement/edit/{id}', [ProfileController::class, 'agreementUpdate']);
+Route::delete('/agreement/delete/{id}', [ProfileController::class, 'agreementDelete']);
 });
