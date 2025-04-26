@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use App\Http\Controllers\NotificationController;
 use App\Models\Offer;
+use App\Models\Agreement;
 
 class ProfileController extends Controller
 {
@@ -402,6 +403,89 @@ public function truncateTableColumns(Request $request)
         ], 500);
     }
 }
+//agreements
+
+public function agreementStore(Request $request)
+{
+    $validator = Validator::make($request->all(), [
+        'title' => 'required|string',
+        'description' => 'required|string',
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json(['message' => $validator->messages()->first(), 'status' => 'error'], 500);
+    }
+
+    $agreement = Agreement::create([
+        'title' => $request->title,
+        'description' => $request->description,
+        'status' => 'private',
+        'group_id' => auth('sanctum')->id(),
+        'added_by' => auth('sanctum')->id(),
+    ]);
+
+    return response()->json([
+        'message' => 'Agreement created successfully',
+        'status' => 'success',
+         'code' => 200
+    ]);
 }
+     public function agreementList()
+        {
+            $agreement= Agreement::latest()->get();
+            $response=['status'=>"success",'code'=>200,'data'=>$agreement];
+            return response($response,$response['code']);
+        }
 
+        public function agreementView($id)
+        {
+            $agreement = Agreement::find($id);
 
+            if (!$agreement) {
+                return response()->json([
+                    'status' => 'error',
+                    'code' => 400,
+                    'message' => 'Agreement not found'
+                ], 400);
+            }
+
+            return response()->json([
+                'status' => "success",
+                'code' => 200,
+                'data' => [
+                'agreement' => $agreement,
+                ]
+            ]);
+        }
+
+        public function agreementUpdate(Request $request, $id)
+        {
+            $profile = Agreement::find($id);
+            if (!$profile) {
+                return response()->json(['message' => 'Agreement not found'], 500);
+            }
+
+            $validator = Validator::make($request->all(), [
+                'title' => 'required|string',
+                'description' => 'required|string',
+            ]);
+            if ($validator->fails()) {
+                return response(['message' => $validator->messages()->first(), 'status' => 'error', 'code' => 500]);
+            }
+            $profile->title = $request->title;
+            $profile->description = $request->description;
+            $profile->save();
+
+            return response(['message' => 'Agreement has been updated', 'status' => 'success', 'code' => 200]);
+        }
+
+        public function agreementDelete($id)
+        {
+            $agreement = Agreement::find($id);
+            if (!$agreement) {
+                return response()->json(['message' => 'Agreement not found'], 404);
+            }
+            $agreement->delete();
+            return response()->json(['message' => 'Agreement deleted successfully']);
+        }
+}
