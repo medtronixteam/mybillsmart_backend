@@ -9,6 +9,8 @@ use App\Models\Invoice;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\NotificationController;
+use App\Models\Offer;
+
 class ContractController extends Controller
 {
 
@@ -122,16 +124,23 @@ class ContractController extends Controller
 
          $contract = Contract::find($request->contract_id);
          if($contract->client_id!=0 && $contract->client_id!=null){
-
+            return response()->json(['message' => "Contract not assigned to any client"], 500);
          }
+         $offers=Offer::find($contract->offer_id);
+
          if($request->status == 'confirmed'){
             Profit::create([
-                'user_id' => $contract->client_id,
+                'user_id' => $contract->agent_id,
                 'points' => 10,
                 'description' => 'Contract Confirmed',
             ]);
-
-            NotificationController::pushNotification($contract->client_id, 'Contract Confirmed', 'Your contract has been confirmed.');
+            $userAgent=User::find($contract->agent_id);
+            $userAgent->increment('points', 10);
+           $groupAdmin= User::getGroupAdminOrFindByGroup($userAgent->id);
+           if($groupAdmin){
+            NotificationController::pushNotification($groupAdmin, 'Contract Confirmed', 'Contract has been confirmed by '.$userAgent->name);
+           }
+            NotificationController::pushNotification($contract->client_id, 'Contract Confirmed', 'Your contract has been confirmed by '.$userAgent->name);
          }
 
          $contract->update(['status' => $request->status]);
