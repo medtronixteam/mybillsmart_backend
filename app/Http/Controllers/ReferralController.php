@@ -16,7 +16,7 @@ class ReferralController extends Controller
             $user->referral_code = User::generateReferralCode();
             $user->save();
         }
-        $referralUrl =config("services.frontendUrl")."signup?ref=".$user->referral_code;
+        $referralUrl =config("services.frontendUrl")."/signup?ref=".$user->referral_code;
         return response()->json([
             'referral_url' => $referralUrl,
             'status' => 'success',
