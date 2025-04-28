@@ -61,6 +61,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     //session history
     Route::get('session/history', [LoginController::class, 'sessionHistory']);
 
+    Route::get('plan/info', [StripePaymentController::class, 'planInfo']);
+
 });
 Route::post('auth/verify-2fa', [TwoFactorApiController::class, 'validateToken']);
 

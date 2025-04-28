@@ -17,20 +17,20 @@ class InvoiceMiddleware
     public function handle(Request $request, Closure $next): Response
     {
 
-        if(!Auth::user()->plan_name){
+        if(!auth('sanctum')->user()->plan_name){
             return response()->json(['message' => 'You have not purchased any plan.'], 403);
         }
        $starter= Plan::where('name','starter')->first();
        $pro= Plan::where('name','pro')->first();
        $enterprise= Plan::where('name','enterprise')->first();
 
-        if(Auth::user()->plan_name == 'free' && Auth::user()->invoices()->count() > $starter->invoices){
+        if(auth('sanctum')->user()->plan_name == 'free' && auth('sanctum')->user()->invoices()->count() > $starter->invoices){
             return response()->json(['message' => 'You have reached the limit  for the Starter plan.'], 403);
         }
-        if(Auth::user()->plan_name == 'pro' && Auth::user()->invoices()->count() > $pro->invoices){
+        if(auth('sanctum')->user()->plan_name == 'pro' && auth('sanctum')->user()->invoices()->count() > $pro->invoices){
             return response()->json(['message' => 'You have reached the limit  for the Pro plan.'], 403);
         }
-        if(Auth::user()->plan_name == 'enterprise' && Auth::user()->invoices()->count() > $enterprise->invoices){
+        if(auth('sanctum')->user()->plan_name == 'enterprise' && auth('sanctum')->user()->invoices()->count() > $enterprise->invoices){
             return response()->json(['message' => 'You have reached the limit  for the Enterprise plan.'], 403);
         }
 
