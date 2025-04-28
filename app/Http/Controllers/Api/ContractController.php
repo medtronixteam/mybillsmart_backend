@@ -81,10 +81,13 @@ class ContractController extends Controller
         $validator = Validator::make($request->all(), [
             'client_id' => 'required',
             'contracted_provider' => 'required',
+
             'contracted_rate' => 'required',
             'closure_date' => 'required|date_format:Y-m-d',
-            'status' => 'required|in:pending,Confirmed,Rejected',
+
             'offer_id' => 'required',
+            'agreement_id' => 'required',
+            'note' => 'nullable',
         ]);
 
         if ($validator->fails()) {
@@ -99,16 +102,18 @@ class ContractController extends Controller
             'contracted_provider' => $request->contracted_provider,
             'contracted_rate' => $request->contracted_rate,
             'closure_date' => date('Y-m-d', strtotime($request->closure_date)),
-            'status' => $request->status,
+            'status' => 'pending',
             'offer_id' => $request->offer_id,
+            'note' => $request->note,
+            'agreement_id' => $request->agreement_id,
             'agent_id' => auth('sanctum')->id(),
             'group_id' => $adminOrGroupUserId,
         ]);
 
 
-        NotificationController::pushNotification($request->client_id, 'New Contract', 'You have received a new contract.');
+        NotificationController::pushNotification($request->client_id, 'New Agreement Request', 'You have received a new Agreement.Please upload the required documents.');
 
-        return response(['message' => 'Contract has been created', 'status' => 'success', 'code' => 200], 200);
+        return response(['message' => 'Agreement has been added, Waiting for client approval', 'status' => 'success', 'code' => 200], 200);
 
      }
      public function contractStatus(Request $request)
@@ -129,18 +134,22 @@ class ContractController extends Controller
          $offers=Offer::find($contract->offer_id);
 
          if($request->status == 'confirmed'){
+            $userAgent=User::find($contract->agent_id);
+            $groupAdmin= User::getGroupAdminOrFindByGroup($userAgent->id);
+            $userAgent->increment('points', 10);
+
             Profit::create([
                 'user_id' => $contract->agent_id,
-                'points' => 10,
-                'description' => 'Contract Confirmed',
+                'contract_id' => $contract->id,
+                'amount' => $offers->sales_commission,
+                'group_id' => $groupAdmin,
             ]);
-            $userAgent=User::find($contract->agent_id);
-            $userAgent->increment('points', 10);
-           $groupAdmin= User::getGroupAdminOrFindByGroup($userAgent->id);
+
+
            if($groupAdmin){
-            NotificationController::pushNotification($groupAdmin, 'Contract Confirmed', 'Contract has been confirmed by '.$userAgent->name);
+            NotificationController::pushNotification($groupAdmin, 'Agreement Confirmed', 'Agreement has been confirmed by '.$userAgent->name);
            }
-            NotificationController::pushNotification($contract->client_id, 'Contract Confirmed', 'Your contract has been confirmed by '.$userAgent->name);
+            NotificationController::pushNotification($contract->client_id, 'Agreement Confirmed', 'Your Agreement has been confirmed by '.$userAgent->name);
          }
 
          $contract->update(['status' => $request->status]);
