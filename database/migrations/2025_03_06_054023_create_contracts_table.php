@@ -11,21 +11,23 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('contracts', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('client_id')->default(0);
-            $table->string('contracted_provider');
-            $table->longText('note')->nullable();
-            $table->decimal('contracted_rate', 8, 2);
-            $table->date('closure_date');
-            $table->string('status')->default('pending');
-            $table->foreignId('group_id')->constrained('users')->onDelete('cascade');
-            $table->integer('agent_id')->default(0);
-            $table->unsignedBigInteger('agreement_id')->nullable();
-            $table->foreign('agreement_id')->references('id')->on('agreements')->onDelete('cascade');
-
-            $table->timestamps();
-        });
+        // Check if the table doesn't already exist
+        if (!Schema::hasTable('contracts')) {
+            Schema::create('contracts', function (Blueprint $table) {
+                $table->id();
+                $table->unsignedBigInteger('client_id')->default(0);
+                $table->string('contracted_provider');
+                $table->longText('note')->nullable();
+                $table->decimal('contracted_rate', 8, 2);
+                $table->date('closure_date');
+                $table->string('status')->default('pending');
+                $table->foreignId('group_id')->constrained('users')->onDelete('cascade');
+                $table->integer('agent_id')->default(0);
+                $table->unsignedBigInteger('agreement_id')->nullable();
+                $table->foreign('agreement_id')->references('id')->on('agreements')->onDelete('cascade');
+                $table->timestamps();
+            });
+        }
     }
 
     /**
