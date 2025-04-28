@@ -2,10 +2,11 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Plan;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-
+use Illuminate\Support\Facades\Auth;
 class InvoiceMiddleware
 {
     /**
@@ -15,7 +16,24 @@ class InvoiceMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-      //  auth()->user()->groupInvoices()->count();
+
+        if(!Auth::user()->plan_name){
+            return response()->json(['message' => 'You have not purchased any plan.'], 403);
+        }
+       $starter= Plan::where('name','starter')->first();
+       $pro= Plan::where('name','pro')->first();
+       $enterprise= Plan::where('name','enterprise')->first();
+
+        if(Auth::user()->plan_name == 'free' && Auth::user()->invoices()->count() > $starter->invoices){
+            return response()->json(['message' => 'You have reached the limit  for the Starter plan.'], 403);
+        }
+        if(Auth::user()->plan_name == 'pro' && Auth::user()->invoices()->count() > $pro->invoices){
+            return response()->json(['message' => 'You have reached the limit  for the Pro plan.'], 403);
+        }
+        if(Auth::user()->plan_name == 'enterprise' && Auth::user()->invoices()->count() > $enterprise->invoices){
+            return response()->json(['message' => 'You have reached the limit  for the Enterprise plan.'], 403);
+        }
+
         return $next($request);
     }
 }
