@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\PlanContoller;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\PaymentIntentController;
 use App\Http\Controllers\Api\CompanyController;
+use App\Http\Middleware\InvoiceMiddleware;
 Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'group'], function () {
 
 
@@ -34,7 +35,7 @@ Route::post('/send/client/portal', [OffersController::class, 'sendClientPortal']
 
 //invoices
 Route::get('invoices', [InvoiceController::class, 'groupInvoices']);
-Route::post('invoices', [InvoiceController::class, 'storeGroup']);
+Route::post('invoices', [InvoiceController::class, 'storeGroup'])->middleware(InvoiceMiddleware::class);
 Route::get('invoices/{id}', [InvoiceController::class, 'show']);
 
 Route::get('contracts/list', [ContractController::class, 'groupContractsList']);
