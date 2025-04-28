@@ -187,7 +187,7 @@ class LoginController extends Controller
                $user= User::create([
                    'name' => $request->name,
                     'email' => $request->email,
-                    'role' => "agent",
+                    'role' => "user",
                     'group_id' => $adminOrGroupUserId,
                     'added_by' => $useReferal->id,
                     'referrer_id' => $useReferal->id,
