@@ -12,15 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('contracts', function (Blueprint $table) {
-            if (!Schema::hasColumn('contracts', 'agreement_id')) {
-                $table->unsignedBigInteger('agreement_id')->nullable()->after('id');
-                $table->foreign('agreement_id')->references('id')->on('users')->onDelete('cascade');
-            }
 
-            // Add fulltext index on 'note' column if column exists
-            if (Schema::hasColumn('contracts', 'note')) {
-                $table->fullText('note');
-            }
+
+            $table->unsignedBigInteger('agreement_id')->nullable()->after('id');
+            $table->fullText('note')->nullable();
+            $table->foreign('agreement_id')->references('id')->on('users')->onDelete('cascade');
 
         });
     }
@@ -31,14 +27,9 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('contracts', function (Blueprint $table) {
-            if (Schema::hasColumn('contracts', 'agreement_id')) {
-                $table->dropForeign(['agreement_id']);
-                $table->dropColumn('agreement_id');
-            }
-            if (Schema::hasColumn('contracts', 'note')) {
-                // Drop fulltext index if exists
-                $table->dropIndex(['note']); // drop fulltext index
-            }
+            $table->dropForeign(['agreement_id']);
+            $table->dropColumn('agreement_id');
+            $table->dropColumn('note');
         });
     }
 };
