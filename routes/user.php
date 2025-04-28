@@ -14,7 +14,7 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'user'], function () {
     Route::post('/offers', [OffersController::class, 'store']);
 
 
-    //user
+    //client management
     Route::post('/user', [ClientController::class, 'userCreate']);
     Route::get('/user', [ClientController::class, 'userList']);
     Route::post('user/edit/{id}', [ClientController::class, 'update']);
