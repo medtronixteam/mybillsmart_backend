@@ -12,6 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('contracts', function (Blueprint $table) {
+            if (!Schema::hasColumn('contracts', 'agreement_id')) {
+                $table->dropForeign(['agreement_id']);
+                $table->dropColumn('agreement_id');
+            }
+
+
             $table->unsignedBigInteger('agreement_id')->nullable()->after('id');
             $table->fullText('note')->nullable();
             $table->foreign('agreement_id')->references('id')->on('users')->onDelete('cascade');
