@@ -10,6 +10,8 @@ class PlanForm extends Component
     public $name;
     public $price;
     public $duration;
+    public $invoices;
+    public $agents;
     public $planId; // To track the plan being edited
     public $isEditing = false; // To toggle between create and edit modes
 
@@ -24,10 +26,31 @@ class PlanForm extends Component
     {
 
         Plan::updateOrCreate(
-            ['name' => $this->plans[$index]['name']],
-            ['price' => $newPrice]
+            ['name' => strtolower($this->plans[$index]['name'])],
+            ['price' => $newPrice],
+            ['invoices' => $this->invoices],
+            ['agents' => $this->agents],
         );
         $this->plans[$index]['price'] = $newPrice;
+    }
+    public function updateInvoice($index, $invoices)
+    {
+
+        Plan::updateOrCreate(
+            ['name' => strtolower($this->plans[$index]['name'])],
+            ['invoices' => $invoices],
+
+        );
+    }
+    public function updateAgents($index, $agents)
+    {
+
+        Plan::updateOrCreate(
+            ['name' => strtolower($this->plans[$index]['name'])],
+
+            ['agents' => $agents],
+        );
+
     }
 
     public function render()
