@@ -67,7 +67,7 @@ Route::get('/subscription/history', [PaymentIntentController::class, 'subscripti
 
 Route::get('company/details', [CompanyController::class, 'companyDetails']);
 Route::post('company/details', [CompanyController::class, 'updateCompanyDetails']);
-
+Route::get('client/list', [ContractController::class, 'clientList']);
 //agreements
 Route::post('/agreements', [ProfileController::class, 'agreementStore']);
 Route::get('/agreements', [ProfileController::class, 'agreementList']);
