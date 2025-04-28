@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('client_id')->default(0);
             $table->string('contracted_provider');
-            $table->text('note')->nullable();
+            $table->longText('note')->nullable();
             $table->decimal('contracted_rate', 8, 2);
             $table->date('closure_date');
             $table->string('status')->default('pending');
