@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::table('contracts', function (Blueprint $table) {
             if (!Schema::hasColumn('contracts', 'agreement_id')) {
-                $table->dropForeign(['agreement_id']);
-                $table->dropColumn('agreement_id');
+                $table->unsignedBigInteger('agreement_id')->nullable()->after('id');
+                $table->foreign('agreement_id')->references('id')->on('users')->onDelete('cascade');
             }
 
+            if (!Schema::hasColumn('contracts', 'note')) {
+                $table->fullText('note')->nullable();
+            }
 
-            $table->unsignedBigInteger('agreement_id')->nullable()->after('id');
-            $table->fullText('note')->nullable();
-            $table->foreign('agreement_id')->references('id')->on('users')->onDelete('cascade');
 
         });
     }
