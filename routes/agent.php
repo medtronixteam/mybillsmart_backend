@@ -9,6 +9,9 @@ use App\Http\Controllers\Api\ClientController;
 use App\Http\Controllers\Api\GoalsController;
 use App\Http\Controllers\ReferralController;
 
+//middlewares
+use App\Http\Middleware\InvoiceMiddleware;
+
 
 Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'agent'], function () {
 
@@ -22,8 +25,8 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'agent'], function () 
     Route::post('invoice/offers', [OffersController::class, 'view']);
 
     //invoices
+    Route::post('invoices', [InvoiceController::class, 'store'])->middleware(InvoiceMiddleware::class);
 
-    Route::post('invoices', [InvoiceController::class, 'store']);
     Route::get('invoices', [InvoiceController::class, 'index']);
     Route::get('invoices/{id}', [InvoiceController::class, 'show']);
 
