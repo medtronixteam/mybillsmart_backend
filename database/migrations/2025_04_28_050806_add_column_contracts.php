@@ -12,7 +12,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('contracts', function (Blueprint $table) {
-            // Add agreement_id column if not exists
             if (!Schema::hasColumn('contracts', 'agreement_id')) {
                 $table->unsignedBigInteger('agreement_id')->nullable()->after('id');
                 $table->foreign('agreement_id')->references('id')->on('users')->onDelete('cascade');
@@ -22,6 +21,7 @@ return new class extends Migration
             if (Schema::hasColumn('contracts', 'note')) {
                 $table->fullText('note');
             }
+
         });
     }
 
