@@ -56,11 +56,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/notifications', [NotificationController::class, 'getUserNotifications']);
     Route::get('/notification/{id}', [NotificationController::class, 'getSingleNotification']);
     Route::put('/notification/read/{id}', [NotificationController::class, 'markAsRead']);
-
     //all
     Route::get('goals', [GoalsController::class, 'list']);
-
-
     //session history
     Route::get('session/history', [LoginController::class, 'sessionHistory']);
 
@@ -85,3 +82,4 @@ require __DIR__ . '/supervisor.php';
 require __DIR__ . '/group_admin.php';
 require __DIR__ . '/agent.php';
 require __DIR__ . '/client.php';
+require __DIR__ . '/user.php';
