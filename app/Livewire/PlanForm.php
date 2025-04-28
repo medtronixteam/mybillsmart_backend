@@ -35,22 +35,15 @@ class PlanForm extends Component
     }
     public function updateInvoice($index, $invoices)
     {
-
-        Plan::updateOrCreate(
-            ['name' => strtolower($this->plans[$index]['name'])],
-            ['invoices' => $invoices],
-
-        );
+        Plan::where('name', strtolower($this->plans[$index]['name']))->update([
+            'invoices' => $invoices,
+        ]);
     }
     public function updateAgents($index, $agents)
     {
-
-        Plan::updateOrCreate(
-            ['name' => strtolower($this->plans[$index]['name'])],
-
-            ['agents' => $agents],
-        );
-
+        Plan::where('name', strtolower($this->plans[$index]['name']))->update([
+            'agents' => $agents,
+        ]);
     }
 
     public function render()
