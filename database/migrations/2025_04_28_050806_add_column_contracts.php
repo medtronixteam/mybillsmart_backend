@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::table('contracts', function (Blueprint $table) {
 
-
             $table->unsignedBigInteger('agreement_id')->nullable()->after('id');
             $table->fullText('note')->nullable();
             $table->foreign('agreement_id')->references('id')->on('users')->onDelete('cascade');

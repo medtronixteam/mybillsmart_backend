@@ -74,7 +74,7 @@ class ClientController extends Controller
                 'dob' => $request->dob,
             ]);
             $response = [
-                'message'=>"User Created  Successfully.",
+                'message'=>ucfirst($request->role)." Account Created Successfully.",
                 'status'=>'success',
                 'code'=>200,
 
