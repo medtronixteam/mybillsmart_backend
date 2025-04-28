@@ -19,11 +19,17 @@ return new class extends Migration
             $table->decimal('contracted_rate', 8, 2);
             $table->date('closure_date');
             $table->date('start_date')->nullable();
-
             $table->string('status')->default('pending');
-            $table->foreignId('group_id')->constrained('users')->onDelete('cascade');
+            
+            // Group ID foreign key explicitly defined
+            $table->unsignedBigInteger('group_id');
+            $table->foreign('group_id')->references('id')->on('users')->onDelete('cascade');
+
             $table->integer('agent_id')->default(0);
-            $table->foreignId('agreement_id')->constrained('agreements')->onDelete('cascade');
+            
+            // Agreement ID foreign key explicitly defined
+            $table->unsignedBigInteger('agreement_id');
+            $table->foreign('agreement_id')->references('id')->on('agreements')->onDelete('cascade');
 
             $table->timestamps();
         });
