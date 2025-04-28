@@ -17,10 +17,10 @@ return new class extends Migration
                 $table->foreign('agreement_id')->references('id')->on('users')->onDelete('cascade');
             }
 
-            if (!Schema::hasColumn('contracts', 'note')) {
-                $table->fullText('note')->nullable();
+            // Add fulltext index on 'note' column if column exists
+            if (Schema::hasColumn('contracts', 'note')) {
+                $table->fullText('note');
             }
-
 
         });
     }
@@ -31,9 +31,14 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('contracts', function (Blueprint $table) {
-            $table->dropForeign(['agreement_id']);
-            $table->dropColumn('agreement_id');
-            $table->dropColumn('note');
+            if (Schema::hasColumn('contracts', 'agreement_id')) {
+                $table->dropForeign(['agreement_id']);
+                $table->dropColumn('agreement_id');
+            }
+            if (Schema::hasColumn('contracts', 'note')) {
+                // Drop fulltext index if exists
+                $table->dropIndex(['note']); // drop fulltext index
+            }
         });
     }
 };
