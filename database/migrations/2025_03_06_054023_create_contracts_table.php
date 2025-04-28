@@ -20,9 +20,8 @@ return new class extends Migration
             $table->date('closure_date');
             $table->string('status')->default('pending');
             $table->foreignId('group_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('agreement_id')->constrained('agreements')->onDelete('cascade');
             $table->integer('agent_id')->default(0);
-            $table->unsignedBigInteger('agreement_id')->nullable();
-            $table->foreign('agreement_id')->references('id')->on('agreements')->onDelete('cascade');
 
             $table->timestamps();
         });
