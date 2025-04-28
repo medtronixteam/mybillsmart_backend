@@ -38,6 +38,7 @@ Route::post('invoices', [InvoiceController::class, 'storeGroup']);
 Route::get('invoices/{id}', [InvoiceController::class, 'show']);
 
 Route::get('contracts/list', [ContractController::class, 'groupContractsList']);
+Route::post('contracts', [ContractController::class, 'store']);
 Route::get('dashboard/stats', [ProfileController::class, 'groupStats']);
 
 
@@ -59,19 +60,19 @@ Route::apiResource('products', ProductController::class);
 Route::post('session/history', [LoginController::class, 'sessionHistoryOther']);
 
 
-//payments
-Route::get('/order/history', [PaymentIntentController::class, 'orderHistory']);
-Route::get('/subscription/history', [PaymentIntentController::class, 'subscriptionHistory']);
+    //payments
+    Route::get('/order/history', [PaymentIntentController::class, 'orderHistory']);
+    Route::get('/subscription/history', [PaymentIntentController::class, 'subscriptionHistory']);
 
-//comapny
+    //comapny
 
-Route::get('company/details', [CompanyController::class, 'companyDetails']);
-Route::post('company/details', [CompanyController::class, 'updateCompanyDetails']);
-Route::get('client/list', [ContractController::class, 'clientList']);
-//agreements
-Route::post('/agreements', [ProfileController::class, 'agreementStore']);
-Route::get('/agreements', [ProfileController::class, 'agreementList']);
-Route::get('/agreement/view/{id}', [ProfileController::class, 'agreementView']);
-Route::post('agreement/edit/{id}', [ProfileController::class, 'agreementUpdate']);
-Route::delete('/agreement/delete/{id}', [ProfileController::class, 'agreementDelete']);
+    Route::get('company/details', [CompanyController::class, 'companyDetails']);
+    Route::post('company/details', [CompanyController::class, 'updateCompanyDetails']);
+    Route::get('client/list', [ContractController::class, 'clientList']);
+    //agreements
+    Route::post('/agreements', [ProfileController::class, 'agreementStore']);
+    Route::get('/agreements', [ProfileController::class, 'agreementList']);
+    Route::get('/agreement/view/{id}', [ProfileController::class, 'agreementView']);
+    Route::post('agreement/edit/{id}', [ProfileController::class, 'agreementUpdate']);
+    Route::delete('/agreement/delete/{id}', [ProfileController::class, 'agreementDelete']);
 });
