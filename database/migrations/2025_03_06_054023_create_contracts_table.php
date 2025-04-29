@@ -11,28 +11,28 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('contracts', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('client_id')->default(0);
-            $table->string('contracted_provider');
-            $table->longText('note')->nullable();
-            $table->decimal('contracted_rate', 8, 2);
-            $table->date('closure_date');
-            $table->date('start_date')->nullable();
-            $table->string('status')->default('pending');
-            
-            // Group ID foreign key explicitly defined
-            $table->unsignedBigInteger('group_id');
-            $table->foreign('group_id')->references('id')->on('users')->onDelete('cascade');
+        if (!Schema::hasTable('contracts')) { // ✅ yahan check lag gaya
+            Schema::create('contracts', function (Blueprint $table) {
+                $table->id();
+                $table->unsignedBigInteger('client_id')->default(0);
+                $table->string('contracted_provider');
+                $table->longText('note')->nullable();
+                $table->decimal('contracted_rate', 8, 2);
+                $table->date('closure_date');
+                $table->date('start_date')->nullable();
+                $table->string('status')->default('pending');
+                
+                $table->unsignedBigInteger('group_id');
+                $table->foreign('group_id')->references('id')->on('users')->onDelete('cascade');
 
-            $table->integer('agent_id')->default(0);
-            
-            // Agreement ID foreign key explicitly defined
-            $table->unsignedBigInteger('agreement_id');
-            $table->foreign('agreement_id')->references('id')->on('agreements')->onDelete('cascade');
+                $table->integer('agent_id')->default(0);
+                
+                $table->unsignedBigInteger('agreement_id');
+                $table->foreign('agreement_id')->references('id')->on('agreements')->onDelete('cascade');
 
-            $table->timestamps();
-        });
+                $table->timestamps();
+            });
+        }
     }
 
     /**
