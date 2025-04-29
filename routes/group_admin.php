@@ -35,7 +35,8 @@ Route::post('/send/client/portal', [OffersController::class, 'sendClientPortal']
 
 //invoices
 Route::get('invoices', [InvoiceController::class, 'groupInvoices']);
-Route::post('invoices', [InvoiceController::class, 'storeGroup'])->middleware(InvoiceMiddleware::class);
+Route::post('invoices', [InvoiceController::class, 'storeGroup']);
+//->middleware(InvoiceMiddleware::class)
 Route::get('invoices/{id}', [InvoiceController::class, 'show']);
 
 Route::get('contracts/list', [ContractController::class, 'groupContractsList']);
