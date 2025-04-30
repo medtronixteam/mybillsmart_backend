@@ -60,6 +60,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/notifications', [NotificationController::class, 'getUserNotifications']);
     Route::get('/notification/{id}', [NotificationController::class, 'getSingleNotification']);
     Route::put('/notification/read/{id}', [NotificationController::class, 'markAsRead']);
+    Route::get('/notification/mark/read', [NotificationController::class, 'markAsReadAll']);
     //all
     Route::get('goals', [GoalsController::class, 'list']);
     //session history
