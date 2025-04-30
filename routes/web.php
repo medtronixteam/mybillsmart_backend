@@ -49,7 +49,7 @@ Route::get('payments', PaymentIntentsTable::class)->name('payments');
 Route::get('subscriptions', SubscriptionTable::class)->name('subscriptions');
 
 Route::post('agreements', [AgreementController::class, 'store'])->name('agreements.store');
-Route::get('agreements/list', [AgreementController::class, 'agreements'])->name('agreement   s');
+Route::get('agreements/list', [AgreementController::class, 'agreements'])->name('agreements');
 Route::get('agreements', [AgreementController::class, 'index'])->name('agreements.create');
 Route::get('agreements/view/{id}', [AgreementController::class, 'view'])->name('agreements.view');
 Route::get('agreements/edit/{id}', [AgreementController::class, 'edit'])->name('agreements.edit');
