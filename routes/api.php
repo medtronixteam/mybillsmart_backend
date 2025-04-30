@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\GoalsController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\TwoFactorApiController;
+use App\Http\Controllers\Api\CompanyController;
 use App\Http\Controllers\Api\AutoMessageController;
 use App\Http\Controllers\NotificationController;
 
@@ -65,6 +66,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('session/history', [LoginController::class, 'sessionHistory']);
 
     Route::get('plan/info', [StripePaymentController::class, 'planInfo']);
+    Route::get('company/info/{id}', [CompanyController::class, 'specificCompanyInfo']);
 
 });
 Route::post('auth/verify-2fa', [TwoFactorApiController::class, 'validateToken']);
