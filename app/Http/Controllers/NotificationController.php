@@ -78,4 +78,14 @@ class NotificationController extends Controller
 
         return response()->json(['message' => 'Notification marked as read','status'=>'success'],200);
     }
+    public function markAsReadAll()
+    {
+        $notification = Notification::where('user_id',auth('sanctum')->id())
+            ->where('is_read', false)
+            ->update(['is_read' => true]);
+
+
+        return response()->json(['message' => 'Notifications marked as read','status'=>'success'],200);
+    }
 }
+
