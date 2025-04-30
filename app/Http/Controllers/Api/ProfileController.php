@@ -296,7 +296,7 @@ public function store(Request $request)
     $validatedData = $validator->validated();
 
     $validatedData['client_id'] = auth('sanctum')->id();
-    $validatedData['contract_id'] = $request->contract_id;
+   // $validatedData['contract_id'] = $request->contract_id;
 
     foreach (['id_card_front', 'id_card_back', 'bank_receipt', 'last_service_invoice', 'lease_agreement', 'bank_account_certificate'] as $field) {
         if ($request->hasFile($field)) {
