@@ -25,7 +25,7 @@ class WhatsAppController extends Controller
         User::where('user_id', $id)->update(['whatsapp_link' => 0]);
         return response()->json(['message' => 'WhatsApp unlinked successfully', 'status' => 'success']);
     }
-
+    
     public function sendPDF(Request $request)
     {
 
