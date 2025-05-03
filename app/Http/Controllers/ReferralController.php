@@ -22,6 +22,14 @@ class ReferralController extends Controller
             'status' => 'success',
         ],200);
     }
+    public function refferedUsers()
+    {
+        return response()->json([
+            'refferedUsers' =>User::where('referrer_id',auth('sanctum')->id())->latest()->get(),
+            'status' => 'success',
+        ],200);
+    }
+
     public function commissionUser(Request $request)
     {
         $validator = Validator::make($request->all(), [
