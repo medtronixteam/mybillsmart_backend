@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use App\Services\UserService;
 
 class StripePaymentController extends Controller
 {
@@ -81,9 +82,9 @@ class StripePaymentController extends Controller
         if(!auth('sanctum')->user()->plan_name){
             return response()->json([ 'status' => "error",'message' => 'You have not purchased any plan.'], 403);
         }
-        $userService = app(UserService::class);
 
-        $allowed = $userService->getTotalInvoiceLimit();
+
+        $allowed = UserService::getTotalInvoiceLimit();
         $used = auth('sanctum')->user()->invoices()
              ->whereBetween('created_at', [
                  Carbon::now()->startOfMonth(),
