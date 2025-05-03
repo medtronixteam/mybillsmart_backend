@@ -157,13 +157,16 @@ class StripePaymentController extends Controller
                 $PaymentIntent->update([
                     'status' => 'succeeded',
                 ]);
+
                 $PaymentIntentData = $PaymentIntent->first();
                 $subsc = Subscription::create([
                     'user_id' => $PaymentIntentData->user_id,
                     'amount' => $PaymentIntentData->amount,
                     'payment_intent_id' => $paymentIntentId,
                     'start_date' => Carbon::now(),
+                    'end_date' =>Carbon::now()->addMonth(),
                     'status' => 'active',
+
                     'plan_name' =>  $PaymentIntentData->plan_name,
                 ]);
                 if ($PaymentIntentData->plan_name == "starter" or $PaymentIntentData->plan_name == "pro" or $PaymentIntentData->plan_name == "enterprise") {
