@@ -35,7 +35,7 @@ class ReferralController extends Controller
         $validator = Validator::make($request->all(), [
             'user_id' => 'required|exists:users,id',
             'commission' => 'required|numeric',
-            'notify_user'=>'required|in:yes:no',
+            'notify_user'=>'required|in:yes,no',
         ]);
 
 
