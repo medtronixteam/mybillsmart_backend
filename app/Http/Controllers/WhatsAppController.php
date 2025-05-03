@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\TwilioService;
 use App\Models\User;
+use App\Models\Whatsapp;
 use Validator;
 class WhatsAppController extends Controller
 {
@@ -14,18 +15,36 @@ class WhatsAppController extends Controller
     // {
     //     $this->twilioService = $twilioService;
     // }
-    public function linkWhats($id)
+    public function linkWhats(Request $request)
     {
-        User::where('user_id', $id)->update(['whatsapp_link' => 1]);
-        return response()->json(['message' => 'WhatsApp linked successfully', 'status' => 'success']);
+
+        $validator = Validator::make($request->all(), [
+            'session_name' => 'required|string',
+        ]);
+        if ($validator->fails()) {
+            return response(['message' => $validator->messages()->first(), 'status' => 'error', 'code' => 500]);
+        }
+        $session = Whatsapp::updateOrCreate(
+            ['user_id' => auth()->user()->id],
+            ['session_name' => $request->session_name]
+        );
+
+        return response(['message' => 'WhatsApp linked successfully', 'status' => 'success', 'code' => 200]);
     }
 
-    public function unlinkWhats($id)
+
+    public function unlinkWhats()
     {
-        User::where('user_id', $id)->update(['whatsapp_link' => 0]);
-        return response()->json(['message' => 'WhatsApp unlinked successfully', 'status' => 'success']);
+
+        $deleted = Whatsapp::where('user_id', auth()->user()->id)->delete();
+
+        if ($deleted) {
+            return response(['message' => 'WhatsApp unlinked successfully', 'status' => 'success', 'code' => 200]);
+        } else {
+            return response(['message' => 'Something went wrong', 'status' => 'success', 'code' => 200]);
+        }
     }
-    
+
     public function sendPDF(Request $request)
     {
 

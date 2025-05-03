@@ -44,10 +44,11 @@
                                         </div>
                                     </div>
                                     <div class="col-md-4">
-                                        <div class="form-group">
+                                        <div class="form-group position-relative">
                                             <label for="password">Password</label>
-                                            <input type="text" class="form-control" id="password" name="password"
-                                                value="">
+                                            <input type="password" class="form-control" id="password" name="password">
+                                            <span toggle="#password" class="fa fa-fw fa-eye field-icon toggle-password"
+                                                  style="position: absolute; top: 43px; right: 15px; cursor: pointer;"></span>
                                             @error('password')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
@@ -158,4 +159,19 @@
         </div>
     </div>
     </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const togglePassword = document.querySelector(".toggle-password");
+            const passwordField = document.querySelector("#password");
+
+            togglePassword.addEventListener("click", function () {
+                const type = passwordField.getAttribute("type") === "password" ? "text" : "password";
+                passwordField.setAttribute("type", type);
+
+                this.classList.toggle("fa-eye");
+                this.classList.toggle("fa-eye-slash");
+            });
+        });
+    </script>
 @endsection
+
