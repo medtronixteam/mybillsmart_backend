@@ -13,7 +13,7 @@
                         <img src="{{url('assets/images/logoMain.png')}}" alt="homepage" class="light-logo" />
                     </b> --}}
                     <span class="logo-text">
-                        <img src="{{url('assets/images/bill.png')}}" alt="homepage" class="dark-logo img-fluid" style="height: 35px"/>
+                        <img src="{{url('assets/images/mylogo.png')}}" alt="homepage" class="dark-logo img-fluid" style="height: 35px"/>
                     </span>
                 </a>
             </div>
