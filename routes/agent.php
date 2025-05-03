@@ -25,7 +25,7 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'agent'], function () 
     Route::post('invoice/offers', [OffersController::class, 'view']);
 
     //invoices
-    Route::post('invoices', [InvoiceController::class, 'store'])->middleware(InvoiceMiddleware::class);
+    Route::post('invoices', [InvoiceController::class, 'store']);
 
     Route::get('invoices', [InvoiceController::class, 'index']);
     Route::get('invoices/{id}', [InvoiceController::class, 'show']);
@@ -56,5 +56,7 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'agent'], function () 
     Route::get('/user/detail/{id}', [ClientController::class, 'detail']);
 //DS
     Route::get('/referral-url', [ReferralController::class, 'getReferralUrl']);
+    Route::get('/referral/users', [ReferralController::class, 'refferedUsers']);
+    Route::post('/commission/user', [ReferralController::class, 'commissionUser']);
     Route::get('goals', [GoalsController::class, 'agentGoals']);
 });

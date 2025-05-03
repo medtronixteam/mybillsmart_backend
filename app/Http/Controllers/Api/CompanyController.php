@@ -16,6 +16,16 @@ class CompanyController extends Controller
            'status' => 'success',
        ], 200);
    }
+   public function specificCompanyInfo($id)
+   {
+       $companyDetails = CompanyDetail::where('user_id', $id)->first();
+       return response()->json([
+           'message' => 'Company Details fetched successfully',
+           'data' => $companyDetails,
+           'status' => 'success',
+       ], 200);
+   }
+
    public function updateCompanyDetails(Request $request)
    {
     $validator = Validator::make($request->all(), [

@@ -55,3 +55,7 @@ Route::get('agreements/view/{id}', [AgreementController::class, 'view'])->name('
 Route::get('agreements/edit/{id}', [AgreementController::class, 'edit'])->name('agreements.edit');
 Route::post('agreements/update', [AgreementController::class, 'update'])->name('agreements.update');
 Route::post('/agreements/delete/{deleteId}', [AgreementController::class, 'delete'])->name('agreements.delete');
+
+
+
+

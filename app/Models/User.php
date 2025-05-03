@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 class User extends Authenticatable
 {
@@ -107,4 +108,16 @@ public function contracts()
     return $this->hasMany(Contract::class, 'agent_id');
 }
 
+public function activeSubscriptions()
+{
+    $now =Carbon::now();
+
+    return $this->hasMany(Subscription::class)->where(function ($query) use ($now) {
+        $query->whereDate('start_date', '<=', $now)
+              ->whereDate('end_date', '>=', $now)
+              ->where('status', 'active');
+    });
 }
+
+}
+

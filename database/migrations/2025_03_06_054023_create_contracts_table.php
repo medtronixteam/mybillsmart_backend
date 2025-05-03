@@ -11,17 +11,25 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('contracts', function (Blueprint $table) {
+
+        if (!Schema::hasTable('contracts')) {
+              Schema::create('contracts', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('client_id')->default(0);
             $table->string('contracted_provider');
+            $table->longText('note')->nullable();
             $table->decimal('contracted_rate', 8, 2);
             $table->date('closure_date');
+            $table->date('start_date')->nullable();
+
             $table->string('status')->default('pending');
             $table->foreignId('group_id')->constrained('users')->onDelete('cascade');
             $table->integer('agent_id')->default(0);
+            $table->foreignId('agreement_id')->constrained('agreements')->onDelete('cascade');
+
             $table->timestamps();
         });
+    }
     }
 
     /**
