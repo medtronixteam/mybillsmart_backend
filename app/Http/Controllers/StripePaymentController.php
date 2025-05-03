@@ -81,6 +81,18 @@ class StripePaymentController extends Controller
         if(!auth('sanctum')->user()->plan_name){
             return response()->json([ 'status' => "error",'message' => 'You have not purchased any plan.'], 403);
         }
+        $userService = app(UserService::class);
+
+        $allowed = $userService->getTotalInvoiceLimit();
+        $used = auth('sanctum')->user()->invoices()
+             ->whereBetween('created_at', [
+                 Carbon::now()->startOfMonth(),
+                 Carbon::now()->endOfMonth()
+             ])
+             ->count();
+             if ($used >= $allowed) {
+                return response()->json([ 'status' => "error",'message' => 'Monthly invoice limit reached.'], 403);
+            }
        $starter= Plan::where('name','starter')->first();
        $pro= Plan::where('name','pro')->first();
        $enterprise= Plan::where('name','enterprise')->first();
@@ -174,10 +186,16 @@ class StripePaymentController extends Controller
                         'plan_name' => $PaymentIntentData->plan_name,
                         'subscription_id' => $subsc->id,
                     ]);
+                    $subsc->update([
+                        'type' => "plan",
+                    ]);
                 } else {
                     User::find($PaymentIntentData->user_id)->update([
                         'plan_growth_name' => $PaymentIntentData->plan_name,
                         'growth_subscription_id' => $subsc->id,
+                    ]);
+                    $subsc->update([
+                        'type' => "expansion_pack",
                     ]);
                 }
             }

@@ -9,7 +9,7 @@ class UserService
 {
     public function getTotalInvoiceLimit(?User $user = null): int
     {
-        $user = $user ?: Auth::user();
+        $user = $user ?: auth('sanctum')->user();
 
         if (!$user) {
             return 0;
