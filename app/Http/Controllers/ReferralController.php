@@ -16,12 +16,36 @@ class ReferralController extends Controller
             $user->referral_code = User::generateReferralCode();
             $user->save();
         }
-        $referralUrl =config("services.frontendUrl")."/signup?ref=".$user->referral_code;
+        $referralUrl =config("services.frontendUrl")."signup?ref=".$user->referral_code;
         return response()->json([
             'referral_url' => $referralUrl,
             'status' => 'success',
         ],200);
     }
+    public function commissionUser(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required|exists:users,id',
+            'commission' => 'required|numeric',
+            'notify_user'=>'required|in:yes:no',
+        ]);
+
+
+        if ($validator->fails()) {
+            return response()->json(['message' => $validator->messages()->first(), 'status' => 'error',], 500);
+        }
+
+        $user = User::find($request->user_id);
+        $user->commission = $request->commission;
+        $user->save();
+        return response()->json([
+            'message' => "Commission updated successfully.",
+            'status' => 'success',
+        ], 200);
+
+    }
+
+
     public function ReferalPoints()
     {
 
