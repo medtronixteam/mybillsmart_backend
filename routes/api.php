@@ -79,6 +79,9 @@ Route::post('whatsapp/pdf', [WhatsAppController::class, 'sendPDF']);
 Route::get('whatsapp/link/{id}', [WhatsAppController::class, 'linkWhats']);
 Route::get('whatsapp/unlink/{id}', [WhatsAppController::class, 'unlinkWhats']);
 
+Route::post('whatsapp/link', [WhatsAppController::class, 'link']);
+Route::get('whatsapp/unlink/{id}', [WhatsAppController::class, 'unlink']);
+
 
 Route::apiResource('auto-messages', AutoMessageController::class);
 
