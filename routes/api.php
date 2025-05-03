@@ -8,10 +8,14 @@ use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\GoalsController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\TwoFactorApiController;
+use App\Http\Controllers\Api\CompanyController;
 use App\Http\Controllers\Api\AutoMessageController;
 use App\Http\Controllers\NotificationController;
 
 
+use App\Http\Controllers\Api\InvoiceController;
+use App\Http\Controllers\Api\ClientController;
+use App\Http\Controllers\Api\OffersController;
 
 
 //authentication
@@ -56,12 +60,15 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/notifications', [NotificationController::class, 'getUserNotifications']);
     Route::get('/notification/{id}', [NotificationController::class, 'getSingleNotification']);
     Route::put('/notification/read/{id}', [NotificationController::class, 'markAsRead']);
+    Route::get('/notification/mark/read', [NotificationController::class, 'markAsReadAll']);
     //all
     Route::get('goals', [GoalsController::class, 'list']);
     //session history
     Route::get('session/history', [LoginController::class, 'sessionHistory']);
 
     Route::get('plan/info', [StripePaymentController::class, 'planInfo']);
+    Route::get('agents/info', [StripePaymentController::class, 'planInfo']);
+    Route::get('company/info/{id}', [CompanyController::class, 'specificCompanyInfo']);
 
 });
 Route::post('auth/verify-2fa', [TwoFactorApiController::class, 'validateToken']);
@@ -82,9 +89,28 @@ Route::apiResource('auto-messages', AutoMessageController::class);
 Route::post('/v1/stripe/webhook', [StripePaymentController::class, 'handle']);
 
 
+
+Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'member'], function () {
+
+    Route::post('invoices', [InvoiceController::class, 'store']);
+    Route::get('invoices', [InvoiceController::class, 'index']);
+    Route::post('invoice/offers', [OffersController::class, 'view']);
+    Route::post('/offers', [OffersController::class, 'store']);
+
+
+    //client management
+    Route::post('/user', [ClientController::class, 'userCreate']);
+    Route::get('/user', [ClientController::class, 'userList']);
+    Route::post('user/edit/{id}', [ClientController::class, 'update']);
+    Route::post('user/enable/{id}', [ClientController::class, 'enable']);
+    Route::post('user/disable/{id}', [ClientController::class, 'disable']);
+    Route::delete('user/delete/{id}', [ClientController::class, 'delete']);
+});
+
+
 //others url
 require __DIR__ . '/supervisor.php';
 require __DIR__ . '/group_admin.php';
 require __DIR__ . '/agent.php';
 require __DIR__ . '/client.php';
-require __DIR__ . '/user.php';
+//require __DIR__ . '/user.php';
