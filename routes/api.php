@@ -69,18 +69,19 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('plan/info', [StripePaymentController::class, 'planInfo']);
     Route::get('agents/info', [StripePaymentController::class, 'planInfo']);
     Route::get('company/info/{id}', [CompanyController::class, 'specificCompanyInfo']);
+//whtsapp
 
+Route::post('whatsapp/link', [WhatsAppController::class, 'linkWhats']);
+Route::get('whatsapp/unlink', [WhatsAppController::class, 'unlinkWhats']);
 });
 Route::post('auth/verify-2fa', [TwoFactorApiController::class, 'validateToken']);
 
 //2fa by email
 Route::post('whatsapp/pdf', [WhatsAppController::class, 'sendPDF']);
 
-Route::get('whatsapp/link/{id}', [WhatsAppController::class, 'linkWhats']);
-Route::get('whatsapp/unlink/{id}', [WhatsAppController::class, 'unlinkWhats']);
 
-Route::post('whatsapp/link', [WhatsAppController::class, 'link']);
-Route::get('whatsapp/unlink/{id}', [WhatsAppController::class, 'unlink']);
+
+
 
 
 Route::apiResource('auto-messages', AutoMessageController::class);
