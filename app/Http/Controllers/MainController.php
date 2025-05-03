@@ -61,7 +61,7 @@ class MainController extends Controller
         return view('admin.group_admin', compact('users'));
     }
     public function allUsers(){
-        $users = User::where('role','agent')->OrWhere('role','supervisor')->latest()->get();
+        $users = User::whereNot('role','group_admin')->whereNot('role','admin')->latest()->get();
         return view('admin.users', compact('users'));
     }
 
