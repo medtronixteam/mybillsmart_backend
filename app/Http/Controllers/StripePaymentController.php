@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+
 use App\Services\UserService;
 
 class StripePaymentController extends Controller
@@ -83,17 +84,17 @@ class StripePaymentController extends Controller
             return response()->json([ 'status' => "error",'message' => 'You have not purchased any plan.'], 403);
         }
 
+        //    $userService =new UserService();
+        // $allowed = $userService->getTotalInvoiceLimit();
+        // $used = auth('sanctum')->user()->invoices()
+        //      ->whereBetween('created_at', [
+        //          Carbon::now()->startOfMonth(),
+        //          Carbon::now()->endOfMonth()
+        //      ])->count();
 
-        $allowed = UserService::getTotalInvoiceLimit();
-        $used = auth('sanctum')->user()->invoices()
-             ->whereBetween('created_at', [
-                 Carbon::now()->startOfMonth(),
-                 Carbon::now()->endOfMonth()
-             ])
-             ->count();
-             if ($used >= $allowed) {
-                return response()->json([ 'status' => "error",'message' => 'Monthly invoice limit reached.'], 403);
-            }
+        //      if ($used >= $allowed) {
+        //         return response()->json([ 'status' => "error",'message' => 'Monthly invoice limit reached.'], 403);
+        //     }
        $starter= Plan::where('name','starter')->first();
        $pro= Plan::where('name','pro')->first();
        $enterprise= Plan::where('name','enterprise')->first();
