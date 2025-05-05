@@ -13,12 +13,15 @@ class PlansTableSeeder extends Seeder
     public function run(): void
     {
         $plans = [
-            ['name' => 'starter', 'price' => 99, 'duration' => 'monthly'],
-            ['name' => 'pro', 'price' => 450, 'duration' => 'monthly'],
-            ['name' => 'enterprise', 'price' => 1890, 'duration' => 'monthly'],
-            ['name' => 'growth_pack', 'price' => 420, 'duration' => 'monthly'],
-            ['name' => 'scale_pack', 'price' => 790, 'duration' => 'monthly'],
-            ['name' => 'max_pack', 'price' => 1700, 'duration' => 'monthly'],
+            ['name' => 'starter','monthly_price' => 1700,'annual_price' => 1700, 'duration' => 'monthly'],
+            ['name' => 'pro', 'monthly_price' => 1700,'annual_price' => 1700, 'duration' => 'monthly'],
+            ['name' => 'enterprise', 'monthly_price' => 1700,'annual_price' => 1700, 'duration' => 'monthly'],
+            ['name' => 'growth_pack', 'monthly_price' => 1700,'annual_price' => 1700, 'duration' => 'monthly'],
+            ['name' => 'scale_pack', 'monthly_price' => 1700,'annual_price' => 1700, 'duration' => 'monthly'],
+            ['name' => 'max_pack', 'monthly_price' => 1700,'annual_price' => 1700, 'duration' => 'monthly'],
+            ['name' => 'volume_mini', 'monthly_price' => 1700,'annual_price' => 1700, 'duration' => 'monthly'],
+            ['name' => 'volume_medium', 'monthly_price' => 1700,'annual_price' => 1700, 'duration' => 'monthly'],
+            ['name' => 'volume_max', 'monthly_price' => 1700,'annual_price' => 1700, 'duration' => 'monthly'],
         ];
 
         // Loop through each plan and use updateOrCreate
