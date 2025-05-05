@@ -136,4 +136,150 @@ class ProductController extends Controller
         $product->delete();
         return response()->json(['message' => 'Product deleted successfully'], 200);
         }
+
+
+        //electricity products
+
+        public function electricityProducts(Request $request)
+        {
+
+        $validator = Validator::make($request->all(), [
+
+            'product_name' => 'required|string',
+            'provider_name' => 'required|string',
+            'light_category' => 'required|string',
+            'fixed_rate' => 'required|numeric',
+            'rl1' => 'nullable|numeric',
+            'rl2' => 'nullable|numeric',
+            'rl3' => 'nullable|numeric',
+            'p1' => 'nullable|numeric',
+            'p2' => 'nullable|numeric',
+            'p3' => 'nullable|numeric',
+            'p4' => 'nullable|numeric',
+            'p5' => 'nullable|numeric',
+            'p6' => 'nullable|numeric',
+            'discount_period_start' => 'nullable|date',
+            'discount_period_end' => 'nullable|date',
+            'meter_rental' => 'required|numeric',
+            'sales_commission' => 'required|numeric',
+            'points_per_deal' => 'required|numeric',
+            'validity_period_from'=>'required|date',
+            'validity_period_to'=>'required|date',
+            'contact_terms'=>'required|string',
+            'contract_duration'=>'required|string',
+            'power_term'=>'required|numeric',
+            'peak'=>'required|string',
+            'off_peak'=>'required|string',
+            'energy_term_by_time'=>'required|string',
+            'variable_term_by_tariff'=>'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['message' => $validator->messages()->first()], 500);
+        }
+
+        $adminOrGroupUserId = User::getGroupAdminOrFindByGroup(auth('sanctum')->id());
+
+        $product = Product::create(array_merge(
+            $request->all(),
+            ['group_id' =>$adminOrGroupUserId,'addedby_id' => auth('sanctum')->id(),'agreement_type' => 'electricity']
+        ));
+        return response()->json(['message' => 'Product has been created'], 201);
+        }
+        //gas products
+
+        public function gassProducts(Request $request)
+        {
+
+        $validator = Validator::make($request->all(), [
+
+            'product_name' => 'required|string',
+            'provider_name' => 'required|string',
+            'light_category' => 'required|string',
+            'fixed_rate' => 'required|numeric',
+            'rl1' => 'nullable|numeric',
+            'rl2' => 'nullable|numeric',
+            'rl3' => 'nullable|numeric',
+            'p1' => 'nullable|numeric',
+            'p2' => 'nullable|numeric',
+            'p3' => 'nullable|numeric',
+            'p4' => 'nullable|numeric',
+            'p5' => 'nullable|numeric',
+            'p6' => 'nullable|numeric',
+            'discount_period_start' => 'nullable|date',
+            'discount_period_end' => 'nullable|date',
+            'meter_rental' => 'required|numeric',
+            'sales_commission' => 'required|numeric',
+            'points_per_deal' => 'required|numeric',
+            'validity_period_from'=>'required|date',
+            'validity_period_to'=>'required|date',
+            'contact_terms'=>'required|string',
+            'contract_duration'=>'required|string',
+            'power_term'=>'required|numeric',
+            'peak'=>'required|string',
+            'off_peak'=>'required|string',
+            'energy_term_by_time'=>'required|string',
+            'variable_term_by_tariff'=>'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['message' => $validator->messages()->first()], 500);
+        }
+
+        $adminOrGroupUserId = User::getGroupAdminOrFindByGroup(auth('sanctum')->id());
+
+        $product = Product::create(array_merge(
+            $request->all(),
+            ['group_id' =>$adminOrGroupUserId,'addedby_id' => auth('sanctum')->id(),'agreement_type' => 'gas']
+        ));
+        return response()->json(['message' => 'Product has been created'], 201);
+        }
+        //both products
+
+        public function bothProducts(Request $request)
+        {
+
+        $validator = Validator::make($request->all(), [
+
+            'product_name' => 'required|string',
+            'provider_name' => 'required|string',
+            'light_category' => 'required|string',
+            'fixed_rate' => 'required|numeric',
+            'rl1' => 'nullable|numeric',
+            'rl2' => 'nullable|numeric',
+            'rl3' => 'nullable|numeric',
+            'p1' => 'nullable|numeric',
+            'p2' => 'nullable|numeric',
+            'p3' => 'nullable|numeric',
+            'p4' => 'nullable|numeric',
+            'p5' => 'nullable|numeric',
+            'p6' => 'nullable|numeric',
+            'discount_period_start' => 'nullable|date',
+            'discount_period_end' => 'nullable|date',
+            'meter_rental' => 'required|numeric',
+            'sales_commission' => 'required|numeric',
+            'points_per_deal' => 'required|numeric',
+            'validity_period_from'=>'required|date',
+            'validity_period_to'=>'required|date',
+            'contact_terms'=>'required|string',
+            'contract_duration'=>'required|string',
+            'power_term'=>'required|numeric',
+            'peak'=>'required|string',
+            'off_peak'=>'required|string',
+            'energy_term_by_time'=>'required|string',
+            'variable_term_by_tariff'=>'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['message' => $validator->messages()->first()], 500);
+        }
+
+        $adminOrGroupUserId = User::getGroupAdminOrFindByGroup(auth('sanctum')->id());
+
+        $product = Product::create(array_merge(
+            $request->all(),
+            ['group_id' =>$adminOrGroupUserId,'addedby_id' => auth('sanctum')->id(),'agreement_type' => 'both']
+        ));
+        return response()->json(['message' => 'Product has been created'], 201);
+        }
 }

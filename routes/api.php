@@ -25,6 +25,9 @@ Route::post('/signup', [LoginController::class, 'referalRegister']);
 
 
 Route::get('/list/products/{groupId}', [ProductController::class, 'providerProducts']);
+Route::post('/electricity/products', [ProductController::class, 'electricityProducts']);
+Route::post('/gas/products', [ProductController::class, 'gassProducts']);
+Route::post('/both/products', [ProductController::class, 'bothProducts']);
 
 
 Route::post('/forgot-password', [ProfileController::class, 'forgotPassword']);
