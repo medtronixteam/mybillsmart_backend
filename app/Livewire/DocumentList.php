@@ -57,6 +57,7 @@ class DocumentList extends Component
 
 
     $this->deleteId = $id;
+    $this->dispatch('showModal', ['Hello from Livewire!']);
   //  $this->dispatchBrowserEvent('saved-successfully');
 }
 
