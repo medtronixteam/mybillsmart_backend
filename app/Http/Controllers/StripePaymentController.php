@@ -45,15 +45,21 @@ class StripePaymentController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'plan_id' => 'required',
+            'duration' => 'required',
         ]);
         if ($validator->fails()) {
             return response()->json(['message' => $validator->messages()->first(), 'status' => "error"], 500);
         }
         Stripe::setApiKey(env('STRIPE_SECRET'));
-
         $plan = Plan::where('name', strtolower($request->plan_id))->first();
         if (!$plan) {
             return response()->json(['message' => 'Plan not found', 'status' => "error"], 500);
+        }
+        $packages = array("starter", "pro", "enterprise");
+
+        if (!in_array(strtolower($request->plan_id), $packages) AND strtolower($request->duration)!="monthly") {
+            return response()->json(['message' => 'Invalid plan', 'status' => "error"], 500);
+
         }
         $amount = $plan->price * 100; // Convert to cents 000
         $paymentIntent = PaymentIntent::create([
@@ -67,6 +73,7 @@ class StripePaymentController extends Controller
             'user_id' => auth('sanctum')->id(),
             'amount' => $request->amount,
             'plan_name' => strtolower($request->plan_id),
+            'plan_duration' => strtolower($request->duration),
             'currency' => 'eur',
             'stripe_payment_intent_id' => $paymentIntent->id,
             'status' => 'pending',
@@ -173,15 +180,20 @@ class StripePaymentController extends Controller
                 ]);
 
                 $PaymentIntentData = $PaymentIntent->first();
+                if($PaymentIntentData->plan_duration == "annual"){
+                    $end_date= Carbon::now()->addYear();
+                }else{
+                    $end_date= Carbon::now()->addMonth();
+                }
                 $subsc = Subscription::create([
                     'user_id' => $PaymentIntentData->user_id,
                     'amount' => $PaymentIntentData->amount,
                     'payment_intent_id' => $paymentIntentId,
                     'start_date' => Carbon::now(),
-                    'end_date' =>Carbon::now()->addMonth(),
+                    'end_date' =>$end_date,
                     'status' => 'active',
-
                     'plan_name' =>  $PaymentIntentData->plan_name,
+                    'plan_duration' =>  $PaymentIntentData->plan_duration,
                 ]);
                 if ($PaymentIntentData->plan_name == "starter" or $PaymentIntentData->plan_name == "pro" or $PaymentIntentData->plan_name == "enterprise") {
                     User::find($PaymentIntentData->user_id)->update([
@@ -191,16 +203,8 @@ class StripePaymentController extends Controller
                     $subsc->update([
                         'type' => "plan",
                     ]);
-                } else {
-                    User::find($PaymentIntentData->user_id)->update([
-                        'plan_growth_name' => $PaymentIntentData->plan_name,
-                        'growth_subscription_id' => $subsc->id,
-                    ]);
-                    $subsc->update([
-                        'type' => "expansion_pack",
-                    ]);
                 }
-            }
+            }//end of intent exists
             // Example: update order/payment status in DB
 
 
