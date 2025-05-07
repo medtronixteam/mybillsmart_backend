@@ -67,6 +67,7 @@ class StripePaymentController extends Controller
         } else {
             $amount = $plan->monthly_price*100;
         }
+        Log::info('Payment Intent Amount----->: ' . $amount);
 
         $paymentIntent = PaymentIntent::create([
             'amount' => $amount,
@@ -77,7 +78,7 @@ class StripePaymentController extends Controller
         ]);
             PaymentIntentModel::create([
                 'user_id' => auth('sanctum')->id(),
-                'amount' => $request->amount,
+                'amount' => $amount,
                 'plan_name' => strtolower($request->plan_id),
                 'plan_duration' => strtolower($request->duration),
                 'currency' => 'eur',
