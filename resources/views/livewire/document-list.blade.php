@@ -93,8 +93,7 @@
                                         </button> --}}
                                         <!-- Update the delete button -->
                                         <button wire:click="confirmDelete('{{ $filename }}')"
-                                            class="btn btn-sm btn-danger" data-toggle="modal"
-                                            data-target="#deleteModal">
+                                            class="btn btn-sm btn-danger" >
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </td>
@@ -117,7 +116,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button onclick="hideModal()" type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -125,7 +124,7 @@
                     Are you sure you want to delete this document?
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" onclick="hideModal()" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     <button type="button" class="btn btn-danger" wire:click="deleteConfirmed">Delete</button>
                 </div>
             </div>
@@ -136,10 +135,18 @@
 
     @push('scripts')
         <script>
+             function hideModal() {
+                    $('#deleteModal').modal('hide');
+                    $('.modal-backdrop').fadeOut();
+                }
             document.addEventListener('livewire:initialized', function() {
+
                 Livewire.on('hideModal', (data) => {
                     $('#deleteModal').modal('hide');
                     $('.modal-backdrop').fadeOut();
+                });
+                Livewire.on('showModal', (data) => {
+                    $('#deleteModal').modal('show');
                 });
                 Livewire.on('fileSelected', function() {
                     let input = document.getElementById('customFile');
