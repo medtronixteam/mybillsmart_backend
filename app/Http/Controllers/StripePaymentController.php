@@ -50,6 +50,8 @@ class StripePaymentController extends Controller
         if ($validator->fails()) {
             return response()->json(['message' => $validator->messages()->first(), 'status' => "error"], 500);
         }
+
+        try {
         Stripe::setApiKey(env('STRIPE_SECRET'));
         $plan = Plan::where('name', strtolower($request->plan_id))->first();
         if (!$plan) {
@@ -57,7 +59,7 @@ class StripePaymentController extends Controller
         }
         $packages = array("starter", "pro", "enterprise");
 
-        if (!in_array(strtolower($request->plan_id), $packages) AND strtolower($request->duration)!="monthly") {
+        if (!in_array(strtolower($request->plan_id), $packages) && strtolower($request->duration)!="monthly") {
             return response()->json(['message' => 'Invalid plan', 'status' => "error"], 500);
 
         }
@@ -69,20 +71,24 @@ class StripePaymentController extends Controller
                 'enabled' => true,
             ],
         ]);
-        PaymentIntentModel::create([
-            'user_id' => auth('sanctum')->id(),
-            'amount' => $request->amount,
-            'plan_name' => strtolower($request->plan_id),
-            'plan_duration' => strtolower($request->duration),
-            'currency' => 'eur',
-            'stripe_payment_intent_id' => $paymentIntent->id,
-            'status' => 'pending',
-        ]);
+            PaymentIntentModel::create([
+                'user_id' => auth('sanctum')->id(),
+                'amount' => $request->amount,
+                'plan_name' => strtolower($request->plan_id),
+                'plan_duration' => strtolower($request->duration),
+                'currency' => 'eur',
+                'stripe_payment_intent_id' => $paymentIntent->id,
+                'status' => 'pending',
+            ]);
         return response()->json([
             'clientSecret' => $paymentIntent->client_secret,
             'status' => "success",
             'paymentIntentId' => $paymentIntent->id,
         ], 200);
+        } catch (\Exception $e) {
+            Log::info('Payment Intent Creation----->: ' . $e->getMessage());
+            return response()->json(['message' => 'Unable to process Request of Payment Please try later', 'status' => "error"], 500);
+        }
     }
 
     public function planInfo()
