@@ -138,10 +138,9 @@
         <script>
             document.addEventListener('livewire:initialized', function() {
                 Livewire.on('hideModal', (data) => {
-                $('#deleteModal').modal('hide');
-                $('.modal-backdrop').fadeOut();
-
-            });
+                    $('#deleteModal').modal('hide');
+                    $('.modal-backdrop').fadeOut();
+                });
                 Livewire.on('fileSelected', function() {
                     let input = document.getElementById('customFile');
                     input.addEventListener('change', function() {

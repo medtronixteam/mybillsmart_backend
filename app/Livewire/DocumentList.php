@@ -66,6 +66,7 @@ class DocumentList extends Component
             $response = Http::delete($this->endUrl.'/delete_pdf/'.$this->deleteId);
 
             if ($response->successful()) {
+                $this->dispatch('hideModal', ['Hello from Livewire!']);
                 $this->deleteId = null; // Reset deleteId after deletion
 
                 session()->flash('message', 'Document deleted successfully.');
@@ -73,7 +74,7 @@ class DocumentList extends Component
                 session()->flash('error', 'Failed to delete document Please try again');
             }
             $this->loadDocuments();
-            $this->dispatch('hideModal', ['Hello from Livewire!']);
+
         } catch (\Exception $e) {
             $this->deleteId = null; // Reset deleteId after deletion
             session()->flash('error', 'Error: ' . $e->getMessage());
