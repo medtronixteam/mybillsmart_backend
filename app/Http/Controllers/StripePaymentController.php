@@ -52,16 +52,23 @@ class StripePaymentController extends Controller
         }
 
         try {
+
+
         Stripe::setApiKey(env('STRIPE_SECRET'));
         $plan = Plan::where('name', strtolower($request->plan_id))->first();
         if (!$plan) {
             return response()->json(['message' => 'Plan not found', 'status' => "error"], 500);
         }
         $packages = array("starter", "pro", "enterprise");
-
+         //if plan is expension or volume then annual not allowed
         if (!in_array(strtolower($request->plan_id), $packages) && strtolower($request->duration)!="monthly") {
             return response()->json(['message' => 'Invalid plan', 'status' => "error"], 500);
         }
+        //check either plan subscribed or not
+        if (auth('sanctum')->user()->activeSubscriptions()->count() == 0 && !in_array(strtolower($request->plan_id), $packages)) {
+            return response()->json(['message' => 'You have not subscribed any Plan (Starter,Pro,Enterprise) yet', 'status' => "error"], 500);
+        }
+
         if ($request->duration == "annual") {
             $amount = $plan->annual_price*100;
         } else {
