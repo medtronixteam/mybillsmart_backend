@@ -13,10 +13,10 @@ class InvoiceController extends Controller
      {
 
          $validator = Validator::make($request->all(), [
-             'bill type' => 'required',
-             'address' => 'required|string',
-             'cups' => 'required|string',
-             'billing period' => 'required',
+             'bill type' => 'nullable',
+             'address' => 'nullable|string',
+             'cups' => 'nullable|string',
+             'billing period' => 'nullable',
              'group_id' => 'required|exists:users,id',
          ]);
 
@@ -48,10 +48,10 @@ class InvoiceController extends Controller
      {
 
          $validator = Validator::make($request->all(), [
-             'bill type' => 'required',
-             'address' => 'required|string',
-             'cups' => 'required|string',
-             'billing period' => 'required',
+             'bill type' => 'nullable',
+             'address' => 'nullable|string',
+             'cups' => 'nullable|string',
+             'billing period' => 'nullable',
              'group_id' => 'required|exists:users,id',
          ]);
 
