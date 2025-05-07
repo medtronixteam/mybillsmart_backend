@@ -45,7 +45,7 @@ class StripePaymentController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'plan_id' => 'required',
-            'duration' => 'required',
+            'duration' => 'required:in:monthly,annual',
         ]);
         if ($validator->fails()) {
             return response()->json(['message' => $validator->messages()->first(), 'status' => "error"], 500);
@@ -61,9 +61,13 @@ class StripePaymentController extends Controller
 
         if (!in_array(strtolower($request->plan_id), $packages) && strtolower($request->duration)!="monthly") {
             return response()->json(['message' => 'Invalid plan', 'status' => "error"], 500);
-
         }
-        $amount = $plan->price * 100; // Convert to cents 000
+        if ($request->duration == "annual") {
+            $amount = $plan->annual_price*100;
+        } else {
+            $amount = $plan->monthly_price*100;
+        }
+
         $paymentIntent = PaymentIntent::create([
             'amount' => $amount,
             'currency' => 'eur',
