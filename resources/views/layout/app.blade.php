@@ -56,6 +56,7 @@
     <!-- ============================================================== -->
    @include('components.scripts')
    @livewireScripts
+   @stack('scripts')
 </body>
 
 </html>
