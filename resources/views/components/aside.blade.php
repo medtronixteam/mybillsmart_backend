@@ -83,11 +83,6 @@
                         </li>
                     </ul>
                 </li>
-
-
-
-
-
                 <!-- Plans -->
                 <li class="sidebar-item">
                     <a class="sidebar-link {{ request()->routeis('plans') ? 'active' : '' }}"
@@ -100,6 +95,12 @@
                     <a class="sidebar-link {{ request()->routeis('agrrements') ? 'active' : '' }}"
                         href="{{ route('agreements') }}" aria-expanded="false"><i data-feather="tag"
                             class="feather-icon"></i><span class="hide-menu">Agreements
+                        </span></a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link {{ request()->routeis('documents') ? 'active' : '' }}"
+                        href="{{ route('documents') }}" aria-expanded="false"><i data-feather="tag"
+                            class="feather-icon"></i><span class="hide-menu">Train AI
                         </span></a>
                 </li>
             </ul>
