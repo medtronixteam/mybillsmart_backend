@@ -26,7 +26,7 @@ class UserService
     protected function getPlanLimit($user)
     {
         $activePlan = $user()->activeSubscriptions()
-            ->where('type', 'plan')->latest()
+            ->latest()
             ->first();
         if (!$activePlan) {
             return 0; // Default or fallback
@@ -37,8 +37,7 @@ class UserService
 
     protected function getExpansionPackLimits($user)
     {
-        return $user->activeSubscriptions()
-                    ->where('type', 'expansion_pack')
+        return $user->activeOrtherSubscriptions()
                     ->sum(function ($sub) {
                         $plans = Plan::where('name', $sub->name)->first();
                         return $plans->agents ?? 0;
