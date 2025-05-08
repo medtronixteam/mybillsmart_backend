@@ -99,7 +99,7 @@ class InvoiceService
         $startDate = $this->getBillingPeriodStartDate($subscription);
         return $startDate->copy()->addMonth();
         // if ($subscription->plan_duration === 'monthly') {
-
+        //     return $startDate->copy()->addMonth();
         // } else {
         //     return $startDate->copy()->addYear();
         // }
