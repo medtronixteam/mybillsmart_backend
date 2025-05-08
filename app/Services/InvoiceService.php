@@ -15,7 +15,7 @@ class InvoiceService
         // Get all active subscriptions for the user
         $subscriptions = Subscription::where('user_id', $userId)
             ->where('status', 'active')
-            ->orderBy('created_at', 'asc') // Process oldest first
+           ->latest() // Process oldest first
             ->get();
 
         // Get base plan (Starter/Pro/Enterprise)
@@ -40,7 +40,7 @@ class InvoiceService
     {
         $subscriptions = Subscription::where('user_id', $userId)
             ->where('status', 'active')
-            ->orderBy('created_at', 'asc')
+            ->latest()
             ->get();
 
         $basePlan = $subscriptions->where('type', 'plan')->first();
@@ -97,12 +97,12 @@ class InvoiceService
     protected function getBillingPeriodEndDate($subscription)
     {
         $startDate = $this->getBillingPeriodStartDate($subscription);
+        return $startDate->copy()->addMonth();
+        // if ($subscription->plan_duration === 'monthly') {
 
-        if ($subscription->plan_duration === 'monthly') {
-            return $startDate->copy()->addMonth();
-        } else {
-            return $startDate->copy()->addYear();
-        }
+        // } else {
+        //     return $startDate->copy()->addYear();
+        // }
     }
 
     protected function getPlanInvoiceLimit($planName)

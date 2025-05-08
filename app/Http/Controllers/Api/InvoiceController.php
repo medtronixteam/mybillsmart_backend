@@ -24,7 +24,7 @@ class InvoiceController extends Controller
          if ($validator->fails()) {
              return response()->json(['message' => $validator->errors()->first()], 500);
          }
-         $billType = $request->input('bill type');
+         $billType = $request->input('bill type')? $request->input('bill type') : 'Gas';
          $bill_period = $request->input('billing period')? $request->input('billing period') : 'n/a';
          $CUPS = $request->input('cups')? $request->input('cups') : 'n/a';
          $address = $request->input('address')? $request->input('address') : 'n/a';
@@ -59,7 +59,7 @@ class InvoiceController extends Controller
          if ($validator->fails()) {
              return response()->json(['message' => $validator->errors()->first()], 500);
          }
-         $billType = $request->input('bill type');
+         $billType = $request->input('bill type')? $request->input('bill type') : 'Gas';
          $bill_period = $request->input('billing period')? $request->input('billing period') : 'n/a';
          $CUPS = $request->input('cups')? $request->input('cups') : 'n/a';
          $address = $request->input('address')? $request->input('address') : 'n/a';
@@ -94,10 +94,10 @@ class InvoiceController extends Controller
          if ($validator->fails()) {
              return response()->json(['message' => $validator->errors()->first()], 500);
          }
-         $billType = $request->input('bill type');
-         $bill_period = $request->input('billing period');
-         $CUPS = $request->input('cups');
-         $address = $request->input('address');
+         $billType = $request->input('bill type')? $request->input('bill type') : 'Gas';
+         $bill_period = $request->input('billing period')? $request->input('billing period') : 'n/a';
+         $CUPS = $request->input('cups')? $request->input('cups') : 'n/a';
+         $address = $request->input('address')? $request->input('address') : 'n/a';
          $billInfo = $request->except(['bill type', 'address','cups','billing period']);
          $invoice = Invoice::create(
             [
