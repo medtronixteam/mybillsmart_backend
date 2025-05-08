@@ -147,4 +147,18 @@ class OffersController extends Controller
             return response()->json(['message' => $th->getMessage(), 'status' => 'error'], 500);
         }
     }
+
+    public function selectedOffer(Request $request){
+        $validator = Validator::make($request->all(), [
+            'offer_id' => 'required|integer|exists:offers,id'
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['message' => $validator->messages()->first(),'status'=>"error"], 500);
+        }
+        Offer::find($request->offer_id)->update([
+            'is_offer_selected' => 1,
+        ]);
+        return response()->json(['message' => "Offer has been selected",'status'=>"success"], 200);
+
+    }
 }

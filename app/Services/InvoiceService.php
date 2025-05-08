@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Subscription;
 use App\Models\Invoice;
+use App\Models\Plan;
 use App\Models\User;
 use Carbon\Carbon;
 
@@ -59,7 +60,7 @@ class InvoiceService
         $startDate = $this->getBillingPeriodStartDate($basePlan);
         $endDate = $this->getBillingPeriodEndDate($basePlan);
 
-        return Invoice::where('user_id', $userId)
+        return Invoice::where('agent_id', $userId)
             ->whereBetween('created_at', [$startDate, $endDate])
             ->count();
     }
@@ -107,9 +108,9 @@ class InvoiceService
     protected function getPlanInvoiceLimit($planName)
     {
         $limits = [
-            'Starter' => 200,
-            'Pro' => 1000,
-            'Enterprise' => 5000
+            'starter' => Plan::where('name', 'starter')->first()->invoices_per_month,
+            'pro' => Plan::where('name', 'pro')->first()->invoices_per_month,
+            'enterprise' => Plan::where('name', 'enterprise')->first()->invoices_per_month
         ];
 
         return $limits[$planName] ?? 0;
