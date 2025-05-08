@@ -106,9 +106,9 @@ class StripePaymentController extends Controller
 
     public function planInfo()
     {
-        if(!auth('sanctum')->user()->plan_name){
-            return response()->json([ 'status' => "error",'message' => 'You have not purchased any plan.'], 403);
-        }
+        // if(!auth('sanctum')->user()->plan_name){
+        //     return response()->json([ 'status' => "error",'message' => 'You have not purchased any plan.'], 403);
+        // }
         $tracker = new InvoiceService();
             // if ($tracker->checkInvoiceLimitExceeded(auth()->id())) {
             //     abort(403, 'You have exceeded your invoice limit for this billing period');
