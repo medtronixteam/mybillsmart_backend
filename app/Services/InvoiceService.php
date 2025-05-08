@@ -119,10 +119,9 @@ class InvoiceService
     protected function getAddOnInvoiceLimit($addOnName)
     {
         $limits = [
-            'Volume Mini' => 500,
-            'Volume Medium' => 1500,
-            'Volume Max' => 4000,
-            'Unlimited' => PHP_INT_MAX // Unlimited
+            'volume_mini' => Plan::where('name', 'volume_mini')->first()->invoices_per_month,
+            'volume_medium' => Plan::where('name', 'volume_medium')->first()->invoices_per_month,
+            'volume_max' => Plan::where('name', 'volume_max')->first()->invoices_per_month
         ];
 
         return $limits[$addOnName] ?? 0;
