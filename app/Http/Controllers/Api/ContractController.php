@@ -80,13 +80,8 @@ class ContractController extends Controller
 
         $validator = Validator::make($request->all(), [
             'client_id' => 'required',
-            'contracted_provider' => 'required',
-
-            'contracted_rate' => 'required',
             'closure_date' => 'required|date_format:Y-m-d',
-
             'offer_id' => 'required',
-            'agreement_id' => 'required',
             'note' => 'nullable',
         ]);
 
@@ -99,20 +94,18 @@ class ContractController extends Controller
 
         Contract::create([
             'client_id' => $request->client_id,
-            'contracted_provider' => $request->contracted_provider,
-            'contracted_rate' => $request->contracted_rate,
+            'contracted_provider' => $request->contracted_provider? $request->contracted_provider : 'n/a',
+            'contracted_rate' => $request->contracted_rate? $request->contracted_rate :0,
             'closure_date' => date('Y-m-d', strtotime($request->closure_date)),
-            'status' => 'pending',
+            'status' => $request->status? $request->status : 'pending',
             'offer_id' => $request->offer_id,
             'note' => $request->note,
-            'agreement_id' => $request->agreement_id,
             'agent_id' => auth('sanctum')->id(),
             'group_id' => $adminOrGroupUserId,
         ]);
 
 
         NotificationController::pushNotification($request->client_id, 'New Agreement Request', 'You have received a new Agreement.Please upload the required documents.');
-
         return response(['message' => 'Agreement has been added, Waiting for client approval', 'status' => 'success', 'code' => 200], 200);
 
      }

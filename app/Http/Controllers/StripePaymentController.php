@@ -215,6 +215,13 @@ class StripePaymentController extends Controller
                 }else{
                     $end_date= Carbon::now()->addMonth();
                 }
+                if(in_array($PaymentIntentData->plan_name, ['starter', 'pro', 'enterprise'])){
+                    $type = "plan";
+                }elseif(in_array($PaymentIntentData->plan_name, ['growth_pack', 'scale_pack','max_pack'])){
+                    $type = "expansion";
+                }else{
+                    $type = "volume";
+                }
                 $subsc = Subscription::create([
                     'user_id' => $PaymentIntentData->user_id,
                     'amount' => $PaymentIntentData->amount,
@@ -222,6 +229,7 @@ class StripePaymentController extends Controller
                     'start_date' => Carbon::now(),
                     'end_date' =>$end_date,
                     'status' => 'active',
+                    'type' => $type,
                     'plan_name' =>  $PaymentIntentData->plan_name,
                     'plan_duration' =>  $PaymentIntentData->plan_duration,
                 ]);
