@@ -13,7 +13,7 @@ class PlansTableSeeder extends Seeder
     public function run(): void
     {
         $plans = [
-            ['name' => 'free_trail','monthly_price' => 0,'annual_price' => 0, 'duration' => 'monthly'],
+            ['name' => 'free_trial','monthly_price' => 0,'annual_price' => 0, 'duration' => 'monthly'],
             ['name' => 'starter','monthly_price' => 1700,'annual_price' => 1700, 'duration' => 'monthly'],
             ['name' => 'pro', 'monthly_price' => 1700,'annual_price' => 1700, 'duration' => 'monthly'],
             ['name' => 'enterprise', 'monthly_price' => 1700,'annual_price' => 1700, 'duration' => 'monthly'],
