@@ -98,6 +98,7 @@ class OffersController extends Controller
             '*.product_name' => 'required|string',
             '*.saving%' => 'required|numeric',
             '*.invoice_id' => 'required',
+            '*.id' => 'required',
         ]);
         if ($validator->fails()) {
             return response()->json(['message' => $validator->messages()->first(),'status'=>"error"], 500);
@@ -110,6 +111,7 @@ class OffersController extends Controller
                 'saving' => $item['saving%'],
                 'user_id' => auth('sanctum')->id(),
                 'invoice_id' => $item['invoice_id'],
+                'product_id' => $item['id'],
             ];
         }, $cleanData);
         Offer::insert($transformedData);
