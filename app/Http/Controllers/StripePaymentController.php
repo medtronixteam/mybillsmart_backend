@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 
 use App\Services\InvoiceService;
-use App\Services\UserService;
+use App\Services\LimitService;
 
 class StripePaymentController extends Controller
 {
@@ -111,14 +111,14 @@ class StripePaymentController extends Controller
         if($groupAdmin->activeSubscriptions()->count()<1){
             return response()->json([ 'status' => "error",'message' => 'You have not purchased any plan.'], 403);
         }
-        $tracker = new InvoiceService();
+       // $tracker = new InvoiceService();
             // if ($tracker->checkInvoiceLimitExceeded(auth()->id())) {
             //     abort(403, 'You have exceeded your invoice limit for this billing period');
             // }
-            $remaining = $tracker->getRemainingInvoices(auth('sanctum')->id());
+      //      $remaining = $tracker->getRemainingInvoices(auth('sanctum')->id());
         return response()->json([
             'status' => "success",
-            'remaining' => $remaining,
+            'remaining' => 0,
             'current_plan' => auth('sanctum')->user()->plan_name,
         ]);
 
@@ -235,6 +235,7 @@ class StripePaymentController extends Controller
                     'plan_name' =>  $PaymentIntentData->plan_name,
                     'plan_duration' =>  $PaymentIntentData->plan_duration,
                 ]);
+
                 if ($PaymentIntentData->plan_name == "starter" or $PaymentIntentData->plan_name == "pro" or $PaymentIntentData->plan_name == "enterprise") {
                     User::find($PaymentIntentData->user_id)->update([
                         'plan_name' => $PaymentIntentData->plan_name,
