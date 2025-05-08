@@ -26,7 +26,7 @@ return new class extends Migration
             $table->foreignId('group_id')->constrained('users')->onDelete('cascade');
             $table->integer('agent_id')->default(0);
             $table->foreignId('agreement_id')->constrained('agreements')->onDelete('cascade');
-
+            $table->date('start_date')->nullable();
             $table->timestamps();
         });
     }
