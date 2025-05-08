@@ -15,6 +15,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 
+use App\Services\InvoiceService;
 use App\Services\UserService;
 
 class StripePaymentController extends Controller
@@ -108,9 +109,14 @@ class StripePaymentController extends Controller
         if(!auth('sanctum')->user()->plan_name){
             return response()->json([ 'status' => "error",'message' => 'You have not purchased any plan.'], 403);
         }
+        $tracker = new InvoiceService();
+            // if ($tracker->checkInvoiceLimitExceeded(auth()->id())) {
+            //     abort(403, 'You have exceeded your invoice limit for this billing period');
+            // }
+            $remaining = $tracker->getRemainingInvoices(auth('sanctum')->id());
         return response()->json([
             'status' => "success",
-            'code' => 200,
+            'remaining' => $remaining,
             'current_plan' => auth('sanctum')->user()->plan_name,
         ]);
 
