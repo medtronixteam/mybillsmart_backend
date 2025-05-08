@@ -27,7 +27,7 @@ class InvoiceController extends Controller
          $billType = $request->input('bill type');
          $bill_period = $request->input('billing period');
          $CUPS = $request->input('cups');
-         $address = $request->input('address');
+         $address = $request->input('address')? $request->input('address') : 'n/a';
          $billInfo = $request->except(['bill type', 'address','cups','billing period']);
          $invoice = Invoice::create(
             [
@@ -62,7 +62,7 @@ class InvoiceController extends Controller
          $billType = $request->input('bill type');
          $bill_period = $request->input('billing period');
          $CUPS = $request->input('cups');
-         $address = $request->input('address');
+         $address = $request->input('address')? $request->input('address') : 'n/a';
          $billInfo = $request->except(['bill type', 'address','cups','billing period']);
          $invoice = Invoice::create(
             [
