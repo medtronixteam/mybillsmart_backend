@@ -108,6 +108,12 @@ class StripePaymentController extends Controller
         if(!auth('sanctum')->user()->plan_name){
             return response()->json([ 'status' => "error",'message' => 'You have not purchased any plan.'], 403);
         }
+        return response()->json([
+            'status' => "success",
+            'code' => 200,
+            'current_plan' => auth('sanctum')->user()->plan_name,
+        ]);
+
 
         //    $userService =new UserService();
         // $allowed = $userService->getTotalInvoiceLimit();

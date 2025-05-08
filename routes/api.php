@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\TwoFactorApiController;
 use App\Http\Controllers\Api\CompanyController;
 use App\Http\Controllers\Api\AutoMessageController;
 use App\Http\Controllers\NotificationController;
+use App\Service\InvoiceService;
 
 
 use App\Http\Controllers\Api\InvoiceController;
@@ -20,6 +21,7 @@ use App\Http\Controllers\Api\OffersController;
 
 //authentication
 Route::post('/login', [LoginController::class, 'login']);
+Route::post('/service', [LoginController::class, 'login']);
 Route::post('2fa/login', [TwoFactorApiController::class, 'login2FA']);
 Route::post('/signup', [LoginController::class, 'referalRegister']);
 
