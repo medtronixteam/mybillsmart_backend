@@ -108,7 +108,7 @@ class StripePaymentController extends Controller
     {
         $adminOrGroupUserId = User::getGroupAdminOrFindByGroup(auth('sanctum')->id());
         $groupAdmin=User::find($adminOrGroupUserId);
-        if($groupAdmin->activeSubscriptions()<1){
+        if($groupAdmin->activeSubscriptions()->count()<1){
             return response()->json([ 'status' => "error",'message' => 'You have not purchased any plan.'], 403);
         }
         $tracker = new InvoiceService();
