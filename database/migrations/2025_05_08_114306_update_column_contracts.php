@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('contracts', function (Blueprint $table) {
          //  $table->dropForeign(['agreement_id']);
-            $table->dropColumn('agreement_id');
+          //  $table->dropColumn('agreement_id');
             $table->date('start_date')->nullable();
         });
     }
