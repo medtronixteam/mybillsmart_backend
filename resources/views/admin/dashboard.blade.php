@@ -99,17 +99,17 @@
                                 <li>
                                     <i class="fas fa-circle text-primary font-10 mr-2"></i>
                                     <span class="text-muted">Starter</span>
-                                    <span class="text-dark float-right font-weight-medium">€2346</span>
+                                    <span class="text-dark float-right font-weight-medium">€{{$salesNumbers[0]['Starter']}}</span>
                                 </li>
                                 <li class="mt-3">
                                     <i class="fas fa-circle text-danger font-10 mr-2"></i>
                                     <span class="text-muted">Pro</span>
-                                    <span class="text-dark float-right font-weight-medium">€2108</span>
+                                    <span class="text-dark float-right font-weight-medium">€{{$salesNumbers[0]['Pro']}}</span>
                                 </li>
                                 <li class="mt-3">
                                     <i class="fas fa-circle text-cyan font-10 mr-2"></i>
                                     <span class="text-muted">Enterprise</span>
-                                    <span class="text-dark float-right font-weight-medium">€1204</span>
+                                    <span class="text-dark float-right font-weight-medium">€{{$salesNumbers[0]['Enterprise']}}</span>
                                 </li>
                             </ul>
                         </div>
@@ -172,9 +172,9 @@ var chart1 = c3.generate({
     bindto: '#campaign-v2',
     data: {
         columns: [
-    ['Starter', salesData[0].Starter],
+    ['Starter', salesData[1].Starter],
     ['Pro', salesData[1].Pro],
-    ['Enterprise', salesData[2].Enterprise]
+    ['Enterprise', salesData[1].Enterprise]
 ],
 
         type: 'donut',
