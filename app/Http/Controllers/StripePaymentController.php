@@ -15,7 +15,8 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 
-use App\Services\UserService;
+use App\Services\InvoiceService;
+use App\Services\LimitService;
 
 class StripePaymentController extends Controller
 {
@@ -45,17 +46,37 @@ class StripePaymentController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'plan_id' => 'required',
+            'duration' => 'required:in:monthly,annual',
         ]);
         if ($validator->fails()) {
             return response()->json(['message' => $validator->messages()->first(), 'status' => "error"], 500);
         }
-        Stripe::setApiKey(env('STRIPE_SECRET'));
 
+        try {
+
+
+        Stripe::setApiKey(env('STRIPE_SECRET'));
         $plan = Plan::where('name', strtolower($request->plan_id))->first();
         if (!$plan) {
             return response()->json(['message' => 'Plan not found', 'status' => "error"], 500);
         }
-        $amount = $plan->price * 100; // Convert to cents 000
+        $packages = array("starter", "pro", "enterprise");
+         //if plan is expension or volume then annual not allowed
+        if (!in_array(strtolower($request->plan_id), $packages) && strtolower($request->duration)!="monthly") {
+            return response()->json(['message' => 'Invalid plan', 'status' => "error"], 500);
+        }
+        //check either plan subscribed or not
+        if (auth('sanctum')->user()->activeSubscriptions()->count() == 0 && !in_array(strtolower($request->plan_id), $packages)) {
+            return response()->json(['message' => 'You have not subscribed any Plan (Starter,Pro,Enterprise) yet', 'status' => "error"], 500);
+        }
+
+        if ($request->duration == "annual") {
+            $amount = $plan->annual_price*100;
+        } else {
+            $amount = $plan->monthly_price*100;
+        }
+        Log::info('Payment Intent Amount----->: ' . $amount);
+
         $paymentIntent = PaymentIntent::create([
             'amount' => $amount,
             'currency' => 'eur',
@@ -63,26 +84,44 @@ class StripePaymentController extends Controller
                 'enabled' => true,
             ],
         ]);
-        PaymentIntentModel::create([
-            'user_id' => auth('sanctum')->id(),
-            'amount' => $request->amount,
-            'plan_name' => strtolower($request->plan_id),
-            'currency' => 'eur',
-            'stripe_payment_intent_id' => $paymentIntent->id,
-            'status' => 'pending',
-        ]);
+            PaymentIntentModel::create([
+                'user_id' => auth('sanctum')->id(),
+                'amount' => $amount,
+                'plan_name' => strtolower($request->plan_id),
+                'plan_duration' => strtolower($request->duration),
+                'currency' => 'eur',
+                'stripe_payment_intent_id' => $paymentIntent->id,
+                'status' => 'pending',
+            ]);
         return response()->json([
             'clientSecret' => $paymentIntent->client_secret,
             'status' => "success",
             'paymentIntentId' => $paymentIntent->id,
         ], 200);
+        } catch (\Exception $e) {
+            Log::info('Payment Intent Creation----->: ' . $e->getMessage());
+            return response()->json(['message' => 'Unable to process Request of Payment Please try later', 'status' => "error"], 500);
+        }
     }
 
     public function planInfo()
     {
-        if(!auth('sanctum')->user()->plan_name){
+        $adminOrGroupUserId = User::getGroupAdminOrFindByGroup(auth('sanctum')->id());
+        $groupAdmin=User::find($adminOrGroupUserId);
+        if($groupAdmin->activeSubscriptions()->count()<1){
             return response()->json([ 'status' => "error",'message' => 'You have not purchased any plan.'], 403);
         }
+       // $tracker = new InvoiceService();
+            // if ($tracker->checkInvoiceLimitExceeded(auth()->id())) {
+            //     abort(403, 'You have exceeded your invoice limit for this billing period');
+            // }
+      //      $remaining = $tracker->getRemainingInvoices(auth('sanctum')->id());
+        return response()->json([
+            'status' => "success",
+            'remaining' => 0,
+            'current_plan' => auth('sanctum')->user()->plan_name,
+        ]);
+
 
         //    $userService =new UserService();
         // $allowed = $userService->getTotalInvoiceLimit();
@@ -173,16 +212,30 @@ class StripePaymentController extends Controller
                 ]);
 
                 $PaymentIntentData = $PaymentIntent->first();
+                if($PaymentIntentData->plan_duration == "annual"){
+                    $end_date= Carbon::now()->addYear();
+                }else{
+                    $end_date= Carbon::now()->addMonth();
+                }
+                if(in_array($PaymentIntentData->plan_name, ['starter', 'pro', 'enterprise'])){
+                    $type = "plan";
+                }elseif(in_array($PaymentIntentData->plan_name, ['growth_pack', 'scale_pack','max_pack'])){
+                    $type = "expansion";
+                }else{
+                    $type = "volume";
+                }
                 $subsc = Subscription::create([
                     'user_id' => $PaymentIntentData->user_id,
                     'amount' => $PaymentIntentData->amount,
                     'payment_intent_id' => $paymentIntentId,
                     'start_date' => Carbon::now(),
-                    'end_date' =>Carbon::now()->addMonth(),
+                    'end_date' =>$end_date,
                     'status' => 'active',
-
+                    'type' => $type,
                     'plan_name' =>  $PaymentIntentData->plan_name,
+                    'plan_duration' =>  $PaymentIntentData->plan_duration,
                 ]);
+
                 if ($PaymentIntentData->plan_name == "starter" or $PaymentIntentData->plan_name == "pro" or $PaymentIntentData->plan_name == "enterprise") {
                     User::find($PaymentIntentData->user_id)->update([
                         'plan_name' => $PaymentIntentData->plan_name,
@@ -191,16 +244,8 @@ class StripePaymentController extends Controller
                     $subsc->update([
                         'type' => "plan",
                     ]);
-                } else {
-                    User::find($PaymentIntentData->user_id)->update([
-                        'plan_growth_name' => $PaymentIntentData->plan_name,
-                        'growth_subscription_id' => $subsc->id,
-                    ]);
-                    $subsc->update([
-                        'type' => "expansion_pack",
-                    ]);
                 }
-            }
+            }//end of intent exists
             // Example: update order/payment status in DB
 
 

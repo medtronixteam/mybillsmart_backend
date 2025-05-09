@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\TwoFactorApiController;
 use App\Http\Controllers\Api\CompanyController;
 use App\Http\Controllers\Api\AutoMessageController;
 use App\Http\Controllers\NotificationController;
+use App\Service\InvoiceService;
 
 
 use App\Http\Controllers\Api\InvoiceController;
@@ -20,14 +21,12 @@ use App\Http\Controllers\Api\OffersController;
 
 //authentication
 Route::post('/login', [LoginController::class, 'login']);
+Route::post('/service', [LoginController::class, 'login']);
 Route::post('2fa/login', [TwoFactorApiController::class, 'login2FA']);
 Route::post('/signup', [LoginController::class, 'referalRegister']);
 
 
 Route::get('/list/products/{groupId}', [ProductController::class, 'providerProducts']);
-Route::post('/electricity/products', [ProductController::class, 'electricityProducts']);
-Route::post('/gas/products', [ProductController::class, 'gassProducts']);
-Route::post('/both/products', [ProductController::class, 'bothProducts']);
 
 
 Route::post('/forgot-password', [ProfileController::class, 'forgotPassword']);
@@ -76,6 +75,11 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
 Route::post('whatsapp/link', [WhatsAppController::class, 'linkWhats']);
 Route::get('whatsapp/unlink', [WhatsAppController::class, 'unlinkWhats']);
+
+Route::post('/electricity/products', [ProductController::class, 'electricityProducts']);
+Route::post('/gas/products', [ProductController::class, 'gassProducts']);
+Route::post('/both/products', [ProductController::class, 'bothProducts']);
+
 });
 Route::post('auth/verify-2fa', [TwoFactorApiController::class, 'validateToken']);
 

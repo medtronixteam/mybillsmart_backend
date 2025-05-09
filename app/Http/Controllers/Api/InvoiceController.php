@@ -5,7 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Invoice;
-use Validator;
+use Illuminate\Support\Facades\Validator;
+
 class InvoiceController extends Controller
 {
      // Create a new invoice
@@ -13,20 +14,20 @@ class InvoiceController extends Controller
      {
 
          $validator = Validator::make($request->all(), [
-             'bill type' => 'required',
-             'address' => 'required|string',
-             'cups' => 'required|string',
-             'billing period' => 'required',
+             'bill type' => 'nullable',
+             'address' => 'nullable|string',
+             'cups' => 'nullable|string',
+             'billing period' => 'nullable',
              'group_id' => 'required|exists:users,id',
          ]);
 
          if ($validator->fails()) {
              return response()->json(['message' => $validator->errors()->first()], 500);
          }
-         $billType = $request->input('bill type');
-         $bill_period = $request->input('billing period');
-         $CUPS = $request->input('cups');
-         $address = $request->input('address');
+         $billType = $request->input('bill type')? $request->input('bill type') : 'Gas';
+         $bill_period = $request->input('billing period')? $request->input('billing period') : 'n/a';
+         $CUPS = $request->input('cups')? $request->input('cups') : 'n/a';
+         $address = $request->input('address')? $request->input('address') : 'n/a';
          $billInfo = $request->except(['bill type', 'address','cups','billing period']);
          $invoice = Invoice::create(
             [
@@ -48,20 +49,20 @@ class InvoiceController extends Controller
      {
 
          $validator = Validator::make($request->all(), [
-             'bill type' => 'required',
-             'address' => 'required|string',
-             'cups' => 'required|string',
-             'billing period' => 'required',
+             'bill type' => 'nullable',
+             'address' => 'nullable|string',
+             'cups' => 'nullable|string',
+             'billing period' => 'nullable',
              'group_id' => 'required|exists:users,id',
          ]);
 
          if ($validator->fails()) {
              return response()->json(['message' => $validator->errors()->first()], 500);
          }
-         $billType = $request->input('bill type');
-         $bill_period = $request->input('billing period');
-         $CUPS = $request->input('cups');
-         $address = $request->input('address');
+         $billType = $request->input('bill type')? $request->input('bill type') : 'Gas';
+         $bill_period = $request->input('billing period')? $request->input('billing period') : 'n/a';
+         $CUPS = $request->input('cups')? $request->input('cups') : 'n/a';
+         $address = $request->input('address')? $request->input('address') : 'n/a';
          $billInfo = $request->except(['bill type', 'address','cups','billing period']);
          $invoice = Invoice::create(
             [
@@ -93,10 +94,10 @@ class InvoiceController extends Controller
          if ($validator->fails()) {
              return response()->json(['message' => $validator->errors()->first()], 500);
          }
-         $billType = $request->input('bill type');
-         $bill_period = $request->input('billing period');
-         $CUPS = $request->input('cups');
-         $address = $request->input('address');
+         $billType = $request->input('bill type')? $request->input('bill type') : 'Gas';
+         $bill_period = $request->input('billing period')? $request->input('billing period') : 'n/a';
+         $CUPS = $request->input('cups')? $request->input('cups') : 'n/a';
+         $address = $request->input('address')? $request->input('address') : 'n/a';
          $billInfo = $request->except(['bill type', 'address','cups','billing period']);
          $invoice = Invoice::create(
             [
