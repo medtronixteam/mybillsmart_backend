@@ -20,7 +20,7 @@
                     <div class="card shadow">
                         <div class="card-header d-flex justify-content-between">
                             <h2 class="">Agreements</h2>
-                            <a class="btn btn-primary" href="{{ route('electricity.create') }}" class="">Add Here</a>
+                            <a class="btn btn-primary" href="{{ route('electricity.create') }}" class="">Add Electricity Agreement</a>
                         </div>
                         <div class="card-content">
                             <div class="card-body">
