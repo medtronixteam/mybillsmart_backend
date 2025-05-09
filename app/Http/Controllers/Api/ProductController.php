@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 use App\Models\Product;
 use App\Models\User;
 use App\Http\Controllers\Controller;
+use App\Models\Whatsapp;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 class ProductController extends Controller
@@ -13,6 +14,18 @@ class ProductController extends Controller
         {
             $products = Product::latest()->get();
             return response()->json($products,200);
+        }
+        public function identifier($sessionName)
+        {
+           $whatsapp= Whatsapp::where('session_name',$sessionName)->first();
+           if (!$whatsapp) {
+            return response()->json(['message' => "Invalid Session name"], 404);
+            }
+           $adminOrGroupUserId = User::getGroupAdminOrFindByGroup($whatsapp->user_id);
+           if (!$adminOrGroupUserId) {
+               return response()->json(['message' => "Invalid Id"], 404);
+           }
+            return response()->json(['id' =>$adminOrGroupUserId],200);
         }
 
         public function providerProducts($groupId)
