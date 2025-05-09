@@ -14,7 +14,7 @@ class LimitService
             $now =Carbon::now();
            $planed= Subscription::where(function ($query) use ($now) {
                 $query->whereDate('start_date', '<=', $now)
-                      ->whereDate('end_date', '>=', $now)->whereNot('type', 'plan');
+                      ->whereDate('end_date', '>=', $now)->where('type', 'plan');
             });
 
         }
