@@ -12,6 +12,7 @@ use App\Models\ReferralPoints;
 use App\Models\Invoice;
 use App\Models\Offer;
 use App\Models\Plan;
+use App\Models\Subscription;
 
 class MainController extends Controller
 {
@@ -37,9 +38,17 @@ class MainController extends Controller
         $totalgroup = User::where('role','group_admin')->count();
 
         $salesNumbers=[
-            ['Starter' => Plan::where('name','starter')->count()],
-            ['Pro' => Plan::where('name','pro')->count()],
-            ['Enterprise' => Plan::where('name','enterprise')->count()],
+            [
+                'Starter' => Subscription::where('plan_name','starter')->sum('amount'),
+                'Pro' => Subscription::where('plan_name','pro')->sum('amount'),
+                'Enterprise' => Subscription::where('plan_name','enterprise')->sum('amount')
+            ],
+
+            [
+                'Starter' => Subscription::where('plan_name','starter')->count(),
+                'Pro' => Subscription::where('plan_name','pro')->count(),
+                'Enterprise' => Subscription::where('plan_name','enterprise')->count()
+            ],
         ];
         // $topGroups = DB::table('invoices')
         //     ->select('group_id', DB::raw('COUNT(*) as invoice_count'))
