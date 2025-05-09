@@ -46,7 +46,7 @@
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="light_category">Light Category</label>
                                             <input type="text" class="form-control" id="light_category" name="light_category" value="{{ old('light_category') }}" required>
@@ -55,7 +55,7 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="fixed_rate">Fixed Rate (€/kWh)</label>
                                             <input type="number"  class="form-control" id="fixed_rate" name="fixed_rate" value="{{ old('fixed_rate') }}" required>
@@ -64,37 +64,20 @@
                                             @enderror
                                         </div>
                                     </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="customer_type">Customer Type</label>
+                                           <select class="form-control" name="customer_type" id="">
+                                               <option value="residential">Residential</option>
+                                               <option value="business">business</option>
+                                           </select>
+                                            @error('customer_type')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
                                 </div>
 
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="rl1">RL1</label>
-                                            <input type="number"  class="form-control" id="rl1" name="rl1" value="{{ old('rl1') }}">
-                                            @error('rl1')
-                                                <span class="text-danger">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="rl2">RL2</label>
-                                            <input type="number"  class="form-control" id="rl2" name="rl2" value="{{ old('rl2') }}">
-                                            @error('rl2')
-                                                <span class="text-danger">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="rl3">RL3</label>
-                                            <input type="number"  class="form-control" id="rl3" name="rl3" value="{{ old('rl3') }}">
-                                            @error('rl3')
-                                                <span class="text-danger">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
 
                                 <div class="row">
                                     <div class="col-md-2">
