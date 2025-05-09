@@ -57,7 +57,7 @@ class ProductController extends Controller
             'discount_period_end' => 'nullable|date',
             'meter_rental' => 'required|numeric',
             'sales_commission' => 'required|numeric',
-            'points_per_deal' => 'required|numeric',
+            'points_per_deal' => 'numeric',
         ]);
 
         if ($validator->fails()) {
@@ -111,7 +111,7 @@ class ProductController extends Controller
             'discount_period_end' => 'nullable|date',
             'meter_rental' => 'required|numeric',
             'sales_commission' => 'required|numeric',
-            'points_per_deal' => 'required|numeric',
+            'points_per_deal' => 'numeric',
             ]);
 
             if ($validator->fails()) {
@@ -162,7 +162,8 @@ class ProductController extends Controller
             'discount_period_end' => 'nullable|date',
             'meter_rental' => 'required|numeric',
             'sales_commission' => 'required|numeric',
-            'points_per_deal' => 'required|numeric',
+            'commision_type' => 'required|in:percentage,fixed',
+            'points_per_deal' => 'numeric',
             'validity_period_from'=>'required|date',
             'validity_period_to'=>'required|date',
             'contact_terms'=>'required|string',
@@ -210,7 +211,8 @@ class ProductController extends Controller
             'discount_period_end' => 'nullable|date',
             'meter_rental' => 'required|numeric',
             'sales_commission' => 'required|numeric',
-            'points_per_deal' => 'required|numeric',
+            'commision_type' => 'required|in:percentage,fixed',
+            'points_per_deal' => 'numeric',
             'validity_period_from'=>'required|date',
             'validity_period_to'=>'required|date',
             'contact_terms'=>'required|string',
@@ -258,7 +260,8 @@ class ProductController extends Controller
             'discount_period_end' => 'nullable|date',
             'meter_rental' => 'required|numeric',
             'sales_commission' => 'required|numeric',
-            'points_per_deal' => 'required|numeric',
+            'commision_type' => 'required|in:percentage,fixed',
+            'points_per_deal' => 'numeric',
             'validity_period_from'=>'required|date',
             'validity_period_to'=>'required|date',
             'contact_terms'=>'required|string',
