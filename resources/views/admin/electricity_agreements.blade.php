@@ -18,8 +18,9 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card shadow">
-                        <div class="card-header">
+                        <div class="card-header d-flex justify-content-between">
                             <h2 class="">Agreements</h2>
+                            <a class="btn btn-primary" href="{{ route('electricity.create') }}" class="">Add Here</a>
                         </div>
                         <div class="card-content">
                             <div class="card-body">
@@ -42,7 +43,7 @@
                                                     <td>{{ $item->product_name }}</td>
                                                     <td>{{ $item->provider_name }}</td>
                                                     <td>
-                                                     {{ $item->sales_commision }}
+                                                     {{ $item->sales_commission }}
                                                     </td>
                                                     <td>
                                                    {{ $item->agreement_type }}
