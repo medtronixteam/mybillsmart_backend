@@ -58,6 +58,7 @@ class PlanForm extends Component
 
     public function render()
     {
+
         return view('livewire.plan-form')->layout('layout.app');
     }
 }
