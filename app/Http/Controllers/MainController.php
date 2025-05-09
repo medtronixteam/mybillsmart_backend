@@ -153,7 +153,7 @@ class MainController extends Controller
             "status" => 'required',
             "role" => 'required',
             "dob" => 'nullable',
-            "euro_per_points" => $request->role === 'group_admin' ? 'required' : null,
+            "euro_per_points" => $request->role === 'group_admin' ? 'required' : 'nullable',
         ]);
 
         $user = User::create([

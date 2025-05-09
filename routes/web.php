@@ -58,13 +58,10 @@ Route::get('plans', PlanForm::class)->name('plans');
 Route::get('payments', PaymentIntentsTable::class)->name('payments');
 Route::get('subscriptions', SubscriptionTable::class)->name('subscriptions');
 
-Route::post('agreements', [AgreementController::class, 'store'])->name('agreements.store');
-Route::get('agreements/list', [AgreementController::class, 'agreements'])->name('agreements');
-Route::get('agreements', [AgreementController::class, 'index'])->name('agreements.create');
-Route::get('agreements/view/{id}', [AgreementController::class, 'view'])->name('agreements.view');
-Route::get('agreements/edit/{id}', [AgreementController::class, 'edit'])->name('agreements.edit');
-Route::post('agreements/update', [AgreementController::class, 'update'])->name('agreements.update');
-Route::post('/agreements/delete/{deleteId}', [AgreementController::class, 'delete'])->name('agreements.delete');
+
+Route::get('electricity/agreements', [AgreementController::class, 'agreements'])->name('agreements');
+Route::get('gas/agreements', [AgreementController::class, 'gasAgreements'])->name('gas.list');
+Route::get('combined/agreements', [AgreementController::class, 'combinedAgreements'])->name('combined.list');
 
 Route::get('/documents', DocumentList::class)->name('documents');
 
