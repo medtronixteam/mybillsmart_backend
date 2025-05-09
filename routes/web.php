@@ -5,6 +5,7 @@ use App\Http\Controllers\MainController;
 use App\Livewire\PlanForm;
 use App\Livewire\PaymentIntentsTable;
 use App\Livewire\SubscriptionTable;
+use App\Livewire\DocumentList;
 use App\Http\Controllers\AgreementController;
 
 
@@ -18,8 +19,17 @@ Route::get('logout', function () {
     auth()->logout();
     return redirect()->route('login');
 })->name('logout');
+
+// Add this route
+
+
 Route::get('login', [MainController::class, 'login'])->name('login');
 Route::post('login', [MainController::class, 'auth'])->name('login.auth');
+
+
+Route::group(['middleware' => 'auth'], function () {
+
+
 Route::get('dashboard', [MainController::class, 'dashboard'])->name('dashboard')->middleware('auth');
 Route::get('list/admins', [MainController::class, 'userList'])->name('user.list');
 Route::get('list/group/admin', [MainController::class, 'groupAdmin'])->name('group.admin');
@@ -56,6 +66,7 @@ Route::get('agreements/edit/{id}', [AgreementController::class, 'edit'])->name('
 Route::post('agreements/update', [AgreementController::class, 'update'])->name('agreements.update');
 Route::post('/agreements/delete/{deleteId}', [AgreementController::class, 'delete'])->name('agreements.delete');
 
+Route::get('/documents', DocumentList::class)->name('documents');
 
 
-
+});

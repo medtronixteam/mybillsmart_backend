@@ -8,7 +8,7 @@ use Livewire\Component;
 class PlanForm extends Component
 {
     public $name;
-    public $price;
+    public $monthly_price;
     public $duration;
     public $invoices;
     public $agents;
@@ -22,27 +22,37 @@ class PlanForm extends Component
         // Fetch all plans from the database
         $this->plans = Plan::all()->toArray();
     }
-    public function updatePrice($index, $newPrice)
+    public function updatePrice($index, $monthly_price)
     {
+      //  dd($this->plans[$index]['name']);
 
-        Plan::updateOrCreate(
-            ['name' => strtolower($this->plans[$index]['name'])],
-            ['price' => $newPrice],
-            ['invoices' => $this->invoices],
-            ['agents' => $this->agents],
-        );
-        $this->plans[$index]['price'] = $newPrice;
+        Plan::where('name', strtolower($this->plans[$index]['name']))
+            ->update([
+                'monthly_price' => $monthly_price,
+            ]);
+
+        $this->plans[$index]['monthly_price'] = $monthly_price;
+    }
+    public function updateAnnualPrice($index, $annual_price)
+    {
+        Plan::where('name', strtolower($this->plans[$index]['name']))
+        ->update([
+            'annual_price' => $annual_price,
+        ]);
+
+
+        $this->plans[$index]['annual_price'] = $annual_price;
     }
     public function updateInvoice($index, $invoices)
     {
         Plan::where('name', strtolower($this->plans[$index]['name']))->update([
-            'invoices' => $invoices,
+            'invoices_per_month' => $invoices,
         ]);
     }
     public function updateAgents($index, $agents)
     {
         Plan::where('name', strtolower($this->plans[$index]['name']))->update([
-            'agents' => $agents,
+            'agents_per_month' => $agents,
         ]);
     }
 

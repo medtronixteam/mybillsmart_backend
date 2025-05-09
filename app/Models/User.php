@@ -114,8 +114,16 @@ public function activeSubscriptions()
 
     return $this->hasMany(Subscription::class)->where(function ($query) use ($now) {
         $query->whereDate('start_date', '<=', $now)
-              ->whereDate('end_date', '>=', $now)
-              ->where('status', 'active');
+              ->whereDate('end_date', '>=', $now)->where('type', 'plan');
+    });
+}
+public function activeOrtherSubscriptions()
+{
+    $now =Carbon::now();
+
+    return $this->hasMany(Subscription::class)->where(function ($query) use ($now) {
+        $query->whereDate('start_date', '<=', $now)
+              ->whereDate('end_date', '>=', $now)->whereNot('type', 'plan');
     });
 }
 

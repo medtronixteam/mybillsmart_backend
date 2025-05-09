@@ -18,6 +18,7 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'agent'], function () 
 
     Route::post('/offers', [OffersController::class, 'store']);
     Route::get('offers', [OffersController::class, 'list']);
+    Route::post('/offer/selected', [OffersController::class, 'selectedOffer']);
     Route::post('/send-offers-email', [OffersController::class, 'sendOffersEmail']);
 
     Route::post('/send/client/portal', [OffersController::class, 'sendClientPortal']);

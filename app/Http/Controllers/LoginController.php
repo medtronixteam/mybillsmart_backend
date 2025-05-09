@@ -11,11 +11,27 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Jenssegers\Agent\Agent;
 use App\Models\SessionHistory;
-
+use App\Services\InvoiceService;
 use Illuminate\Support\Facades\Validator;
 
 class LoginController extends Controller
 {
+    public function check()
+    {
+        $tracker = new InvoiceService();
+if ($tracker->checkInvoiceLimitExceeded(2)) {
+    return response([
+        'message' => "User is logged in.",
+        'status' => 'success',
+        'code' => 200
+    ], 200);
+}
+        return response([
+            'message' => "User is logged in.",
+            'status' => 'success',
+            'code' => 200
+        ], 200);
+    }
 
     public function login(Request $request)
     {

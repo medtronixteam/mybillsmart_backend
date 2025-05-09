@@ -153,7 +153,7 @@ class MainController extends Controller
             "status" => 'required',
             "role" => 'required',
             "dob" => 'nullable',
-            "euro_per_points" => $request->role === 'group_admin' ? 'required' : 'nullable',
+            "euro_per_points" => $request->role === 'group_admin' ? 'required' : null,
         ]);
 
         $user = User::create([
@@ -169,6 +169,7 @@ class MainController extends Controller
             'status' => $request->status,
             'euro_per_points' => $request->euro_per_points,
             'dob' => $request->dob,
+            'plan_name' => 'free_trial',
         ]);
         if($request->role == 'group_admin'){
             ReferralPoints::updateOrCreate(
