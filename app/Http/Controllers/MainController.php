@@ -11,6 +11,8 @@ use App\Models\Contract;
 use App\Models\ReferralPoints;
 use App\Models\Invoice;
 use App\Models\Offer;
+use App\Models\Plan;
+
 class MainController extends Controller
 {
     public function login(){
@@ -33,6 +35,12 @@ class MainController extends Controller
         $totalUsers = User::count();
         $totalagent = User::where('role','agent')->count();
         $totalgroup = User::where('role','group_admin')->count();
+
+        $salesNumbers=[
+            ['Starter' => Plan::where('name','starter')->count()],
+            ['Pro' => Plan::where('name','pro')->count()],
+            ['Enterprise' => Plan::where('name','enterprise')->count()],
+        ];
         // $topGroups = DB::table('invoices')
         //     ->select('group_id', DB::raw('COUNT(*) as invoice_count'))
         //     ->groupBy('group_id')
@@ -47,7 +55,7 @@ class MainController extends Controller
             ->get();
         $user = Auth::user();
         if ($user->role == 'admin') {
-            return view('admin.dashboard', compact('totalUsers','totalagent','totalgroup','topGroups'));
+            return view('admin.dashboard', compact('totalUsers','totalagent','totalgroup','topGroups','salesNumbers'));
         } else {
             return redirect()->route('login')->with('error', 'You do not have access to the dashboard.');
         }

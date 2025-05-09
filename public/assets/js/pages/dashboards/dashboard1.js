@@ -4,47 +4,11 @@ $(function () {
     // Campaign
     // ==============================================================
 
-    var chart1 = c3.generate({
-        bindto: '#campaign-v2',
-        data: {
-            columns: [
-                ['Direct Sales', 25],
-                ['Referral Sales', 15],
-                ['Afilliate Sales', 10],
-                ['Indirect Sales', 15]
-            ],
-
-            type: 'donut',
-            tooltip: {
-                show: true
-            }
-        },
-        donut: {
-            label: {
-                show: false
-            },
-            title: 'Sales',
-            width: 18
-        },
-
-        legend: {
-            hide: true
-        },
-        color: {
-            pattern: [
-                '#edf2f6',
-                '#5f76e8',
-                '#ff4f70',
-                '#01caf1'
-            ]
-        }
-    });
-
     d3.select('#campaign-v2 .c3-chart-arcs-title').style('font-family', 'Rubik');
 
-    // ============================================================== 
+    // ==============================================================
     // income
-    // ============================================================== 
+    // ==============================================================
     var data = {
         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
         series: [
@@ -81,7 +45,7 @@ $(function () {
     ];
     new Chartist.Bar('.net-income', data, options, responsiveOptions);
 
-    // ============================================================== 
+    // ==============================================================
     // Visit By Location
     // ==============================================================
     jQuery('#visitbylocate').vectorMap({
