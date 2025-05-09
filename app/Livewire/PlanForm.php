@@ -58,6 +58,8 @@ class PlanForm extends Component
 
     public function render()
     {
+        Plan::where('name', 'free_trail')
+            ->delete();
         return view('livewire.plan-form')->layout('layout.app');
     }
 }
