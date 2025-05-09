@@ -18,10 +18,6 @@ public function agreements()
     $agreements = Agreement::latest()->get();
     return view('admin.agreements_list', compact('agreements'));
 }
-// public function create()
-// {
-//     return view('admin.agreement_create');
-// }
 public function store(Request $request) {
     $validatedData = $request->validate([
         "title" => 'required',
