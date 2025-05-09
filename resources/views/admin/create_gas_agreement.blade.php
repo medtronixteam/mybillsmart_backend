@@ -45,8 +45,8 @@
                                     </div>
                                 </div>
 
-                                <div class="row">
-                                    <div class="col-md-6">
+                               <div class="row">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="light_category">Light Category</label>
                                             <input type="text" class="form-control" id="light_category" name="light_category" value="{{ old('light_category') }}" required>
@@ -55,11 +55,23 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="fixed_rate">Fixed Rate (€/kWh)</label>
                                             <input type="number"  class="form-control" id="fixed_rate" name="fixed_rate" value="{{ old('fixed_rate') }}" required>
                                             @error('fixed_rate')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="customer_type">Customer Type</label>
+                                           <select class="form-control" name="customer_type" id="">
+                                               <option value="residential">Residential</option>
+                                               <option value="business">business</option>
+                                           </select>
+                                            @error('customer_type')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>
@@ -90,63 +102,6 @@
                                             <label for="rl3">RL3</label>
                                             <input type="number"  class="form-control" id="rl3" name="rl3" value="{{ old('rl3') }}">
                                             @error('rl3')
-                                                <span class="text-danger">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-2">
-                                        <div class="form-group">
-                                            <label for="p1">P1</label>
-                                            <input type="number"  class="form-control" id="p1" name="p1" value="{{ old('p1') }}">
-                                            @error('p1')
-                                                <span class="text-danger">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <div class="form-group">
-                                            <label for="p2">P2</label>
-                                            <input type="number"  class="form-control" id="p2" name="p2" value="{{ old('p2') }}">
-                                            @error('p2')
-                                                <span class="text-danger">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <div class="form-group">
-                                            <label for="p3">P3</label>
-                                            <input type="number"  class="form-control" id="p3" name="p3" value="{{ old('p3') }}">
-                                            @error('p3')
-                                                <span class="text-danger">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <div class="form-group">
-                                            <label for="p4">P4</label>
-                                            <input type="number"  class="form-control" id="p4" name="p4" value="{{ old('p4') }}">
-                                            @error('p4')
-                                                <span class="text-danger">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <div class="form-group">
-                                            <label for="p5">P5</label>
-                                            <input type="number"  class="form-control" id="p5" name="p5" value="{{ old('p5') }}">
-                                            @error('p5')
-                                                <span class="text-danger">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <div class="form-group">
-                                            <label for="p6">P6</label>
-                                            <input type="number"  class="form-control" id="p6" name="p6" value="{{ old('p6') }}">
-                                            @error('p6')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>
