@@ -9,30 +9,16 @@ use App\Models\SubscriptionLimit;
 class LimitService
 {
 
-        public function createInvoice(Subscription $subscription)
+        public function createInvoice()
         {
-            $plan = Plan::where('name', $subscription->plan_name)->first();
+            $now =Carbon::now();
+           $planed= Subscription::where(function ($query) use ($now) {
+                $query->whereDate('start_date', '<=', $now)
+                      ->whereDate('end_date', '>=', $now)->whereNot('type', 'plan');
+            });
 
-            SubscriptionLimit::create([
-                'subscription_id' => $subscription->id,
-                'user_id' => $subscription->user_id,
-                'limit_type' => 'invoices',
-                'limit_value' => 0,
-                'plan_limit' => $plan->invoices_per_month,
-            ]);
         }
-        public function createAgents(Subscription $subscription)
-        {
-            $plan = Plan::where('name', $subscription->plan_name)->first();
 
-            SubscriptionLimit::create([
-                'subscription_id' => $subscription->id,
-                'user_id' => $subscription->user_id,
-                'limit_type' => 'agents',
-                'limit_value' => 0,
-                'plan_limit' => $plan->agents_per_month,
-            ]);
-        }
 
 
 
