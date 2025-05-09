@@ -9,41 +9,6 @@ $(function () {
     // ==============================================================
     // income
     // ==============================================================
-    var data = {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-        series: [
-            [5, 4, 3, 7, 5, 10]
-        ]
-    };
-
-    var options = {
-        axisX: {
-            showGrid: false
-        },
-        seriesBarDistance: 1,
-        chartPadding: {
-            top: 15,
-            right: 15,
-            bottom: 5,
-            left: 0
-        },
-        plugins: [
-            Chartist.plugins.tooltip()
-        ],
-        width: '100%'
-    };
-
-    var responsiveOptions = [
-        ['screen and (max-width: 640px)', {
-            seriesBarDistance: 5,
-            axisX: {
-                labelInterpolationFnc: function (value) {
-                    return value[0];
-                }
-            }
-        }]
-    ];
-    new Chartist.Bar('.net-income', data, options, responsiveOptions);
 
     // ==============================================================
     // Visit By Location
