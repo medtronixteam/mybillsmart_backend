@@ -44,9 +44,8 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                <div class="row">
-                                    <div class="col-md-6">
+ <div class="row">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="light_category">Light Category</label>
                                             <input type="text" class="form-control" id="light_category" name="light_category" value="{{ old('light_category') }}" required>
@@ -55,11 +54,23 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="fixed_rate">Fixed Rate (€/kWh)</label>
                                             <input type="number"  class="form-control" id="fixed_rate" name="fixed_rate" value="{{ old('fixed_rate') }}" required>
                                             @error('fixed_rate')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="customer_type">Customer Type</label>
+                                           <select class="form-control" name="customer_type" id="">
+                                               <option value="residential">Residential</option>
+                                               <option value="business">business</option>
+                                           </select>
+                                            @error('customer_type')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>
