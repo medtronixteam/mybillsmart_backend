@@ -136,8 +136,8 @@
                                     </div>
                                 </div>
 
-                                <div class="row">
-                                    <div class="col-md-6">
+                                  <div class="row">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="discount_period_start">Discount Period Start</label>
                                             <input type="date" class="form-control" id="discount_period_start" name="discount_period_start" value="{{ old('discount_period_start') }}">
@@ -146,11 +146,23 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="discount_period_end">Discount Period End</label>
                                             <input type="date" class="form-control" id="discount_period_end" name="discount_period_end" value="{{ old('discount_period_end') }}">
                                             @error('discount_period_end')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                      <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="commision_type">Commission Type</label>
+                                           <select class="form-control" name="commision_type" id="">
+                                               <option value="percentage">Percentage</option>
+                                               <option value="fixed">Fixed</option>
+                                           </select>
+                                            @error('commision_type')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>
