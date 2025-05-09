@@ -98,18 +98,18 @@
                             <ul class="list-style-none mb-0">
                                 <li>
                                     <i class="fas fa-circle text-primary font-10 mr-2"></i>
-                                    <span class="text-muted">Direct Sales</span>
-                                    <span class="text-dark float-right font-weight-medium">$2346</span>
+                                    <span class="text-muted">Starter</span>
+                                    <span class="text-dark float-right font-weight-medium">€2346</span>
                                 </li>
                                 <li class="mt-3">
                                     <i class="fas fa-circle text-danger font-10 mr-2"></i>
-                                    <span class="text-muted">Referral Sales</span>
-                                    <span class="text-dark float-right font-weight-medium">$2108</span>
+                                    <span class="text-muted">Pro</span>
+                                    <span class="text-dark float-right font-weight-medium">€2108</span>
                                 </li>
                                 <li class="mt-3">
                                     <i class="fas fa-circle text-cyan font-10 mr-2"></i>
-                                    <span class="text-muted">Affiliate Sales</span>
-                                    <span class="text-dark float-right font-weight-medium">$1204</span>
+                                    <span class="text-muted">Enterprise</span>
+                                    <span class="text-dark float-right font-weight-medium">€1204</span>
                                 </li>
                             </ul>
                         </div>
@@ -158,3 +158,53 @@
             </div>
     </div>
 @endsection
+@push('scripts')
+   <script>
+    $(function () {
+
+// ==============================================================
+// Campaign
+// ==============================================================
+var salesData = @json($salesNumbers);
+
+//console.log(chartData);
+var chart1 = c3.generate({
+    bindto: '#campaign-v2',
+    data: {
+        columns: [
+    ['Starter', salesData[0].Starter],
+    ['Pro', salesData[1].Pro],
+    ['Enterprise', salesData[2].Enterprise]
+],
+
+        type: 'donut',
+        tooltip: {
+            show: true
+        }
+    },
+    donut: {
+        label: {
+            show: false
+        },
+        title: 'Sales',
+        width: 18
+    },
+
+    legend: {
+        hide: true
+    },
+    color: {
+        pattern: [
+
+            '#5f76e8',
+            '#ff4f70',
+            '#01caf1'
+        ]
+    }
+});
+});
+
+
+   </script>
+
+@endpush

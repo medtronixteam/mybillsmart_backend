@@ -16,7 +16,7 @@
 <script src="{{url('assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js')}}"></script>
 <script src="{{url('assets/extra-libs/jvector/jquery-jvectormap-2.0.2.min.js')}}"></script>
 <script src="{{url('assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js')}}"></script>
-<script src="{{url('assets/js/pages/dashboards/dashboard1.min.js')}}"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
@@ -25,3 +25,5 @@
       theme: 'snow'
     });
   </script>
+  <script src="{{url('assets/js/pages/dashboards/dashboard1.js')}}"></script>
+  @stack('scripts')
