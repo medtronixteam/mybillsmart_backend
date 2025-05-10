@@ -38,7 +38,7 @@ class GoalsController extends Controller
         return response()->json(['message' => 'Goals created successfully','status'=>'success'], 201);
     }
 
-    public function update(Request $request,$goal) {
+    public function update(Request $request,Goal $goal) {
         $validator = Validator::make($request->all(), [
             'task_name' => 'sometimes|string',
             'start_date' => 'sometimes|date',
@@ -50,11 +50,14 @@ class GoalsController extends Controller
         if ($validator->fails()) {
             return response()->json(['message' => $validator->messages()->first(),'status'=>'error'], 500);
         }
-        $goals=Goal::find($goal);
-        if(!$goals){
-              return response()->json(['message' => "Invalid Id",'status'=>'error'], 500);
-        }
-        $goals->update($validator);
+
+        $goal->update([
+            'task_name' =>$request->task_name,
+            'start_date' =>$request->start_date,
+            'points' => $request->points,
+            'end_date' => $request->end_date,
+
+        ]);
         return response()->json(['message' => 'Goal updated','status'=>'success']);
     }
 
