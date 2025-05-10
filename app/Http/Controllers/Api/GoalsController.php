@@ -38,7 +38,7 @@ class GoalsController extends Controller
         return response()->json(['message' => 'Goals created successfully','status'=>'success'], 201);
     }
 
-    public function update(Request $request, Goal $goal) {
+    public function update(Request $request,$goal) {
         $validator = Validator::make($request->all(), [
             'task_name' => 'sometimes|string',
             'start_date' => 'sometimes|date',
@@ -50,17 +50,24 @@ class GoalsController extends Controller
         if ($validator->fails()) {
             return response()->json(['message' => $validator->messages()->first(),'status'=>'error'], 500);
         }
-
-        $goal->update($validator);
+        $goals=Goal::find($goal);
+        if(!$goals){
+              return response()->json(['message' => "Invalid Id",'status'=>'error'], 500);
+        }
+        $goals->update($validator);
         return response()->json(['message' => 'Goal updated','status'=>'success']);
     }
 
-    public function changeStatus(Request $request, Goal $goal) {
+    public function changeStatus(Request $request,$goal) {
         $validator = Validator::make($request->all(), [
              'status' => 'required|in:pending,in_progress,completed'
         ]);
         if ($validator->fails()) {
             return response()->json(['message' => $validator->messages()->first(),'status'=>'error'], 500);
+        }
+         $goal=Goal::find($goal);
+        if(!$goal){
+              return response()->json(['message' => "Invalid Id",'status'=>'error'], 500);
         }
         NotificationController::pushNotification($goal->user_id, 'Goal Status Changed', 'Your goal status has been changed to '.$request->status);
 
