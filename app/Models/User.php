@@ -40,6 +40,7 @@ class User extends Authenticatable
         'referrer_id',
         'last_login_at',
         'dob',
+        'whatsapp_link',
         'plan_name',
         'plan_growth_name',
         'euro_per_points',
