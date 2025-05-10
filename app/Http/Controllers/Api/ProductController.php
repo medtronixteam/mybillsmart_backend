@@ -19,9 +19,9 @@ class ProductController extends Controller
         {
            $whatsapp= Whatsapp::where('session_name',$sessionName)->first();
            if (!$whatsapp) {
-            Whatsapp::updateOrCreate(['session_name'=>'default'],[
-                'user_id'=>3
-            ]);
+            // Whatsapp::updateOrCreate(['session_name'=>'default'],[
+            //     'user_id'=>3
+            // ]);
             return response()->json(['message' => "Invalid Session name"], 404);
             }
            $adminOrGroupUserId = User::getGroupAdminOrFindByGroup($whatsapp->user_id);
@@ -36,7 +36,7 @@ class ProductController extends Controller
 
             $adminOrGroupUserId = User::getGroupAdminOrFindByGroup($groupId);
             if (!$adminOrGroupUserId) {
-                return response()->json(['message' => "Invalid Id"], 404);
+                return response()->json(['message' => "Invalid Id Group id"], 404);
             }
             //
 
