@@ -15,8 +15,10 @@ class ProductController extends Controller
             $products = Product::latest()->get();
             return response()->json($products,200);
         }
-        public function identifier($sessionName)
+        public function identifier(Request $request,$sessionName)
         {
+
+            $baseUrl = $request->getHost();
            $whatsapp= Whatsapp::where('session_name',$sessionName)->first();
            if (!$whatsapp) {
             // Whatsapp::updateOrCreate(['session_name'=>'default'],[
@@ -28,9 +30,12 @@ class ProductController extends Controller
            if (!$adminOrGroupUserId) {
                return response()->json(['message' => "Invalid Id"], 404);
            }
-            return response()->json(['id' =>$adminOrGroupUserId],200);
+           if($baseUrl=="admin.mybillsmart.com"){
+                return response()->json(['id' =>$adminOrGroupUserId,'app_mode'=>1],200);
+            }else{
+                return response()->json(['id' =>$adminOrGroupUserId,'app_mode'=>0],200);
+            }
         }
-
         public function providerProducts($groupId)
         {
 
