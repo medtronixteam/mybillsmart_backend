@@ -57,6 +57,7 @@ Route::get('view/detail/{id}', [MainController::class, 'showDetail'])->name('vie
 Route::get('plans', PlanForm::class)->name('plans');
 Route::get('payments', PaymentIntentsTable::class)->name('payments');
 Route::get('subscriptions', SubscriptionTable::class)->name('subscriptions');
+Route::get('whatsapp', App\Livewire\WhatsappManager::class)->name('whatsapp');
 
 
 Route::get('electricity/agreements', [AgreementController::class, 'agreements'])->name('agreements');

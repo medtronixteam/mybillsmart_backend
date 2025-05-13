@@ -194,6 +194,7 @@ class ProductController extends Controller
             'off_peak'=>'required|string',
             'energy_term_by_time'=>'required|string',
             'variable_term_by_tariff'=>'required|string',
+            'customer_type'=>'required',
         ]);
 
         if ($validator->fails()) {
@@ -243,6 +244,7 @@ class ProductController extends Controller
             'off_peak'=>'required|string',
             'energy_term_by_time'=>'required|string',
             'variable_term_by_tariff'=>'required|string',
+             'customer_type'=>'required',
         ]);
 
         if ($validator->fails()) {
@@ -292,6 +294,7 @@ class ProductController extends Controller
             'off_peak'=>'required|string',
             'energy_term_by_time'=>'required|string',
             'variable_term_by_tariff'=>'required|string',
+             'customer_type'=>'required',
         ]);
 
         if ($validator->fails()) {
@@ -302,7 +305,7 @@ class ProductController extends Controller
 
         $product = Product::create(array_merge(
             $request->all(),
-            ['group_id' =>$adminOrGroupUserId,'addedby_id' => auth('sanctum')->id(),'agreement_type' => 'both']
+            ['group_id' =>$adminOrGroupUserId,'addedby_id' => auth('sanctum')->id(),'agreement_type' => 'both',]
         ));
         return response()->json(['message' => 'Product has been created'], 201);
         }
