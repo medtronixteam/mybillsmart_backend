@@ -34,6 +34,7 @@ class SendAutoMessages extends Command
      */
     public function handle()
     {
+         Log::info('Waha------Campaign--Running ----->  ');
         // Fetch all messages that are scheduled to be sent and have a status of 1
         $messages = AutoMessage::where('status', 0)
             ->whereDate('date_send', Carbon::today())
