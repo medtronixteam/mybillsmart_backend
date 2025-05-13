@@ -95,7 +95,7 @@ class SendAutoMessages extends Command
             if ($response->successful()) {
                return true;
             } else {
-                Log::info('Waha------Campaign- Failded to Check-----Number----> : ' .$response->json());
+                Log::info('Waha------Campaign- Failded to Check-----Number----> : ' .json_encode($response->json()));
                 return false;
             }
 
@@ -130,7 +130,7 @@ class SendAutoMessages extends Command
                 $message->update(['status'=>1]);
             } else {
                  $message->update(['status'=>0]);
-                Log::info('Waha------Campaign- Failded to send-----SMS----> : ' .$response->json());
+                Log::info('Waha------Campaign- Failded to send-----SMS----> : ' .json_encode($response->json()));
             }
         } catch (RequestException $e) {
             Log::info('Waha------Campaign- Send--SMS----> : ' .$e->getMessage());
