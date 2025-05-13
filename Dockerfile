@@ -21,7 +21,16 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Copy existing Laravel project files
 COPY . .
 
-# Set permissions
+# Copy the docker-entrypoint.sh script
+COPY docker-entrypoint.sh /usr/local/bin/
+
+# Set permissions for the entrypoint script
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+# Set the entrypoint to the script
+ENTRYPOINT ["docker-entrypoint.sh"]
+
+# Set permissions for Laravel storage and bootstrap directories
 RUN chown -R www-data:www-data /var/www \
     && chmod -R 775 /var/www/storage /var/www/bootstrap/cache
 
@@ -30,6 +39,3 @@ RUN composer install --no-interaction --optimize-autoloader
 
 # Expose port 8000
 EXPOSE 8000
-
-# Start the application: run migrations, then queue:work, and then serve the Laravel app
-CMD ["sh", "-c", "php artisan migrate --seed && php artisan serve --host=0.0.0.0 --port=8000"]
