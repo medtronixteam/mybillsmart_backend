@@ -65,9 +65,10 @@ return [
     |
     */
 
-    'timezone' => env('APP_TIMEZONE', 'UTC'),
+    'timezone' => 'Asia/Karachi',
 
     /*
+    env('APP_TIMEZONE', 'UTC')
     |--------------------------------------------------------------------------
     | Application Locale Configuration
     |--------------------------------------------------------------------------
