@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\NotificationController;
 use App\Models\Offer;
+use Illuminate\Support\Facades\Log;
 
 class ContractController extends Controller
 {
@@ -90,24 +91,30 @@ class ContractController extends Controller
             return response(['message' => $message, 'status' => 'error', 'code' => 500], 500);
         }
 
+        try {
         $adminOrGroupUserId = User::getGroupAdminOrFindByGroup(auth('sanctum')->id());
-
         Contract::create([
             'client_id' => $request->client_id,
             'contracted_provider' => $request->contracted_provider? $request->contracted_provider : 'n/a',
             'contracted_rate' => $request->contracted_rate? $request->contracted_rate :0,
             'closure_date' => date('Y-m-d', strtotime($request->closure_date)),
+            'start_date' => date('Y-m-d', strtotime($request->start_date)),
             'status' => $request->status? $request->status : 'pending',
             'offer_id' => $request->offer_id,
             'note' => $request->note,
             'agent_id' => auth('sanctum')->id(),
             'group_id' => $adminOrGroupUserId,
         ]);
-
+        Offer::find($request->offer_id)->invoice()->
 
         NotificationController::pushNotification($request->client_id, 'New Agreement Request', 'You have received a new Agreement.Please upload the required documents.');
         return response(['message' => 'Agreement has been added, Waiting for client approval', 'status' => 'success', 'code' => 200], 200);
 
+        } catch (\Throwable $th) {
+            Log::info('group admin /contracts'.$th->getMessage());
+             return response(['message' => 'Something missing Try Again', 'status' => 'error', 'code' => 500], 500);
+
+        }
      }
      public function contractStatus(Request $request)
      {

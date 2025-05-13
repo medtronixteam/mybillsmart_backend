@@ -100,7 +100,13 @@
                 <li class="sidebar-item">
                     <a class="sidebar-link {{ request()->routeis('documents') ? 'active' : '' }}"
                         href="{{ route('documents') }}" aria-expanded="false"><i data-feather="tag"
-                            class="feather-icon"></i><span class="hide-menu">Train AI
+                            class="feather-icon"></i><span class="hide-menu">Train BOT
+                        </span></a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link {{ request()->routeis('whatsapp') ? 'active' : '' }}"
+                        href="{{ route('whatsapp') }}" aria-expanded="false"><i data-feather="tag"
+                            class="feather-icon"></i><span class="hide-menu">WP Manager
                         </span></a>
                 </li>
             </ul>
