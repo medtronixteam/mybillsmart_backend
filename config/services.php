@@ -40,5 +40,6 @@ return [
         ],
     ],
     'frontendUrl' =>  env('FRONTEND_URL', 'http://localhost:3000/'),
+    'wahaUrl' =>  env('WAHA_URL', 'https://waha.ai3dscanning.com/'),
 
 ];
