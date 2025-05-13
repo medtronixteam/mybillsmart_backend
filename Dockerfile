@@ -4,12 +4,13 @@ FROM php:8.2-cli
 # Set working directory
 WORKDIR /var/www
 
-# Install system dependencies
+# Install system dependencies and supervisor
 RUN apt-get update && apt-get install -y \
     curl \
     zip \
     unzip \
     git \
+    supervisor \
     libonig-dev \
     libxml2-dev \
     libpng-dev \
@@ -18,8 +19,11 @@ RUN apt-get update && apt-get install -y \
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Copy existing Laravel project files
+# Copy Laravel project files
 COPY . .
+
+# Copy Supervisor config
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www \
@@ -28,8 +32,11 @@ RUN chown -R www-data:www-data /var/www \
 # Install Laravel dependencies
 RUN composer install --no-interaction --optimize-autoloader
 
-# Expose port 8000
+# 🔑 Generate application key
+RUN php artisan key:generate
+
+# Expose Laravel dev port
 EXPOSE 8000
 
-# Start the application: run migrations, then queue:work, and then serve the Laravel app
-CMD ["sh", "-c", "php artisan migrate --seed && php artisan serve --host=0.0.0.0 --port=8000"]
+# Start all services with supervisord
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
