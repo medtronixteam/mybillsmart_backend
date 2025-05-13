@@ -45,7 +45,7 @@ class SendAutoMessages extends Command
             $WhatsappFirst=Whatsapp::where('user_id',$message->user_id)->first();
              $notifcation =new NotificationController();
             if($WhatsappFirst){
-            Log::info('Waha------Campaign--2----->  ');
+            Log::info('Waha------Campaign--2----->  '.$message->user_id."-".$WhatsappFirst->session_name);
                 // Assuming you have a method to send SMS or any other type of message
                 $contactExists = $this->checkContactExists($message->to_number,$WhatsappFirst->session_name);
                 if ($contactExists) {
@@ -54,7 +54,6 @@ class SendAutoMessages extends Command
                     // Update the status of the message after sending
 
                 } else {
-
 
                     if(!$message->reason){
 
