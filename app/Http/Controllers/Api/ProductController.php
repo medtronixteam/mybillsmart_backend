@@ -194,6 +194,7 @@ class ProductController extends Controller
             'off_peak'=>'required|string',
             'energy_term_by_time'=>'required|string',
             'variable_term_by_tariff'=>'required|string',
+            'customer_type'=>'required',
         ]);
 
         if ($validator->fails()) {
@@ -243,6 +244,7 @@ class ProductController extends Controller
             'off_peak'=>'required|string',
             'energy_term_by_time'=>'required|string',
             'variable_term_by_tariff'=>'required|string',
+             'customer_type'=>'required',
         ]);
 
         if ($validator->fails()) {
@@ -292,6 +294,7 @@ class ProductController extends Controller
             'off_peak'=>'required|string',
             'energy_term_by_time'=>'required|string',
             'variable_term_by_tariff'=>'required|string',
+             'customer_type'=>'required',
         ]);
 
         if ($validator->fails()) {
