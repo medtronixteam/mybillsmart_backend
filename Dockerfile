@@ -1,42 +1,30 @@
-# Use official PHP image with necessary extensions
-FROM php:8.2-cli
+# Use an official PHP image as base
+FROM php:8.1-fpm
+
+# Install necessary dependencies (including cron)
+RUN apt-get update && apt-get install -y cron git unzip libpng-dev libjpeg-dev libfreetype6-dev
+
+# Install Composer (if not already done)
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Set working directory
 WORKDIR /var/www
 
-# Install system dependencies and supervisor
-RUN apt-get update && apt-get install -y \
-    curl \
-    zip \
-    unzip \
-    git \
-    supervisor \
-    libonig-dev \
-    libxml2-dev \
-    libpng-dev \
-    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
-
-# Install Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-
-# Copy Laravel project files
+# Copy your Laravel app
 COPY . .
 
-# Copy Supervisor config
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+# Install dependencies using Composer
+RUN composer install
 
-# Set permissions
-RUN chown -R www-data:www-data /var/www \
-    && chmod -R 775 /var/www/storage /var/www/bootstrap/cache
+# Set correct file permissions
+RUN chown -R www-data:www-data /var/www
 
-# Install Laravel dependencies
-RUN composer install --no-interaction --optimize-autoloader
+# Copy your entry point script
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
-# 🔑 Generate application key
-RUN php artisan key:generate
+# Set entrypoint script as entry point
+ENTRYPOINT ["docker-entrypoint.sh"]
 
-# Expose Laravel dev port
-EXPOSE 8000
-
-# Start all services with supervisord
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+# Default command (if needed, to run php artisan serve)
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
