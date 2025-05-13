@@ -58,7 +58,7 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'group'], function () 
 
 
     Route::apiResource('products', ProductController::class);
-
+  Route::get('list/products', [ProductController::class, 'allProductsData']);
     //session history of agents/clients
     Route::post('session/history', [LoginController::class, 'sessionHistoryOther']);
     //payments
