@@ -40,7 +40,7 @@ class SendAutoMessages extends Command
             ->whereDate('date_send', Carbon::today())
             ->whereTime('time_send', '<=', now()->format('H:i'))
             ->get();
-         Log::info('Waha------Campaign--1----->  ');
+         Log::info('Waha------Campaign--1------------->  ');
         foreach ($messages as $message) {
             $WhatsappFirst=Whatsapp::where('user_id',$message->user_id)->first();
              $notifcation =new NotificationController();
