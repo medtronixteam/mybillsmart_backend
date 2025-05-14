@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Client\RequestException;
 use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Log;
-use GuzzleHttp\Client;
+
 
 class SendAutoMessages extends Command
 {
@@ -111,34 +111,29 @@ class SendAutoMessages extends Command
     private function sendMessage($message,$session_name)
     {
         try {
-            $client = new Client();
+            $payload = [
+                "chatId" => $message->to_number."@c.us",
+                "reply_to" => null,
+                "text" => $message->message,
+                "linkPreview" => true,
+                "linkPreviewHighQuality" => false,
+                "session" => $session_name,
+            ];
+                        Log::info('Waha------Campaign- Send--SMS----> : ' .json_encode($payload));
 
-    $response = $client->post(config('services.wahaUrl').'api/sendText', [
-        'headers' => [
-            'Accept' => 'application/json',
-            'Content-Type' => 'application/json',
-        ],
-        'json' => [
-            'chatId' => $message->to_number.'@c.us',
-            'reply_to' => null,
-            'text' => $message->message,
-            'linkPreview' => true,
-            'linkPreviewHighQuality' => false,
-            'session' => $session_name,
-        ],
-    ]);
-        if ($response->getStatusCode() == 200) {
-          $notifcation =new NotificationController();
-                $notifcation->pushNotification($message->user_id,'Campaign message has been sent',"Campaign message has been sent to {$message->to_number}");
-                $message->update(['status'=>1]);
+            // $response = Http::withHeaders([
+            //     'Accept' => 'application/json',
+            //     'Content-Type' => 'application/json',
+            // ])->post(config('services.wahaUrl')."api/sendText", $payload);
 
-            } else {
-                // Handle errors
-            $message->update(['status'=>0]);
-                        Log::info('Waha------Campaign- Failded to send-----SMS----> : '.$response->getStatusCode());
-
-            }
-
+            // if ($response->successful()) {
+            //     $notifcation =new NotificationController();
+            //     $notifcation->pushNotification($message->user_id,'Campaign message has been sent',"Campaign message has been sent to {$message->to_number}");
+            //     $message->update(['status'=>1]);
+            // } else {
+            //      $message->update(['status'=>0]);
+            //     Log::info('Waha------Campaign- Failded to send-----SMS----> : ' .json_encode($response->json()));
+            // }
         } catch (RequestException $e) {
             Log::info('Waha------Campaign- Send--SMS----> : ' .$e->getMessage());
 
