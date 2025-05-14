@@ -127,9 +127,11 @@ class SendAutoMessages extends Command
             ])->post(config('services.wahaUrl')."api/sendText", $payload);
 
             if ($response->successful()) {
-              //  $notifcation =new NotificationController();
-              //  $notifcation->pushNotification($message->user_id,'Campaign message has been sent',"Campaign message has been sent to {$message->to_number}");
-               // $message->update(['status'=>1]);
+                AutoMessage::find($message->id)->update(['status'=>1]);
+                $notifcation =new NotificationController();
+                $notifcation->pushNotification($message->user_id,'Campaign message has been sent',"Campaign message has been sent to {$message->to_number}");
+
+
             } else {
                  $message->update(['status'=>0]);
                 Log::info('Waha------Campaign- Failded to send-----SMS----> : ' .json_encode($response->json()));
