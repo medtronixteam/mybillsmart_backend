@@ -87,6 +87,7 @@ class SendAutoMessages extends Command
     private function checkContactExists(string $toNumber,$session): bool
     {
         try {
+           $toNumber= str_replace('+','',$toNumber);
             $response = Http::get(config('services.wahaUrl')."api/contacts/check-exists?phone={$toNumber}&session={$session}");
             if ($response->successful()) {
                return true;
