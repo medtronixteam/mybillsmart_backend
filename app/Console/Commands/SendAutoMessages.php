@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Client\RequestException;
 use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Log;
+use GuzzleHttp\Client;
 
 class SendAutoMessages extends Command
 {
@@ -110,25 +111,34 @@ class SendAutoMessages extends Command
     private function sendMessage($message,$session_name)
     {
         try {
-            $payload = [
-                "chatId" => $message->to_number . "@c.us",
-                "reply_to" => null,
-                "text" => $message->message,
-                "linkPreview" => true,
-                "linkPreviewHighQuality" => false,
-                "session" => $session_name,
-            ];
+            $client = new Client();
 
-            $response = Http::post(config('services.wahaUrl')."api/sendText", $payload);
-
-            if ($response->successful()) {
-                $notifcation =new NotificationController();
+    $response = $client->post(config('services.wahaUrl').'api/sendText ', [
+        'headers' => [
+            'Accept' => 'application/json',
+            'Content-Type' => 'application/json',
+        ],
+        'json' => [
+            'chatId' => $message->to_number.'@c.us',
+            'reply_to' => null,
+            'text' => $message->message,
+            'linkPreview' => true,
+            'linkPreviewHighQuality' => false,
+            'session' => $session_name,
+        ],
+    ]);
+        if ($response->getStatusCode() == 200) {
+          $notifcation =new NotificationController();
                 $notifcation->pushNotification($message->user_id,'Campaign message has been sent',"Campaign message has been sent to {$message->to_number}");
                 $message->update(['status'=>1]);
+
             } else {
-                 $message->update(['status'=>0]);
-                Log::info('Waha------Campaign- Failded to send-----SMS----> : ' .json_encode($response->json()));
+                // Handle errors
+            $message->update(['status'=>0]);
+                        Log::info('Waha------Campaign- Failded to send-----SMS----> : '.$response->getStatusCode());
+
             }
+
         } catch (RequestException $e) {
             Log::info('Waha------Campaign- Send--SMS----> : ' .$e->getMessage());
 
