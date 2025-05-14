@@ -105,13 +105,15 @@ class ContractController extends Controller
             'agent_id' => auth('sanctum')->id(),
             'group_id' => $adminOrGroupUserId,
         ]);
-        Offer::find($request->offer_id)->invoice()->
+        Offer::find($request->offer_id)->invoice()->update([
+            'is_offer_selected'=>1,
+        ]);
 
         NotificationController::pushNotification($request->client_id, 'New Agreement Request', 'You have received a new Agreement.Please upload the required documents.');
         return response(['message' => 'Agreement has been added, Waiting for client approval', 'status' => 'success', 'code' => 200], 200);
 
         } catch (\Throwable $th) {
-            Log::info('group admin /contracts'.$th->getMessage());
+            Log::info('group admin /contracts---------> ' .$th->getMessage());
              return response(['message' => 'Something missing Try Again', 'status' => 'error', 'code' => 500], 500);
 
         }
