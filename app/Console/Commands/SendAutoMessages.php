@@ -113,7 +113,7 @@ class SendAutoMessages extends Command
         try {
             $client = new Client();
 
-    $response = $client->post(config('services.wahaUrl').'api/sendText ', [
+    $response = $client->post(config('services.wahaUrl').'api/sendText', [
         'headers' => [
             'Accept' => 'application/json',
             'Content-Type' => 'application/json',
