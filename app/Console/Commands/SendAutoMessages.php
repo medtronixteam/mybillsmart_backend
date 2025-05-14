@@ -128,8 +128,8 @@ class SendAutoMessages extends Command
 
             if ($response->successful()) {
                 AutoMessage::find($message->id)->update(['status'=>1]);
-                $notifcation =new NotificationController();
-                $notifcation->pushNotification($message->user_id,'Campaign message has been sent',"Campaign message has been sent to {$message->to_number}");
+               // $notifcation =new NotificationController();
+               // $notifcation->pushNotification($message->user_id,'Campaign message has been sent',"Campaign message has been sent to {$message->to_number}");
 
 
             } else {
