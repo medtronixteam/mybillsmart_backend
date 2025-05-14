@@ -29,14 +29,15 @@ class SessionChecker extends Command
     {   try {
         info("Waha---------------Session-Checker-----------------------");
             $heade=['content-type'=>'application/json'];
-            $response = Http::withHeaders($heade)->get(config('services.wahaUrl').'/api/sessions?all=true');
+            $response = Http::withHeaders($heade)->get(config('services.wahaUrl').'api/sessions?all=true');
             if($response->failed() AND $response->status()!=200):
                 info($response->status());
             else:
                 $SessionArray=[];
                 foreach(json_decode($response) as $val):
-
-                    $SessionArray[]=$val->name;
+                    if($val->name=="WORKING"):
+                        $SessionArray[]=$val->name;
+                    endif;
                 endforeach;
                  $WhatsappSessions=Whatsapp::where('session_name',$val->name)->get();
                  $c=0;
