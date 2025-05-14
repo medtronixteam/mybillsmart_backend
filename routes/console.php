@@ -10,3 +10,9 @@ Artisan::command('inspire', function () {
 
 Schedule::command('messages:send-auto')
     ->everyFiveSeconds()->runInBackground();
+
+Schedule::command('session:checker')
+    ->everyFiveSeconds();
+
+
+
