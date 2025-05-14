@@ -38,7 +38,7 @@ class AutoMessageController extends Controller
             [
                 'user_id' => auth('sanctum')->id(),
                 'type' => "manual",
-                'to_number' => $request->to_number,
+                'to_number' => str_replace('+','',$request->to_number),
                 'message' => $request->message,
                 'time_send' => $request->time_send,
                 'date_send' => $request->date_send,
@@ -83,7 +83,7 @@ class AutoMessageController extends Controller
             [
                 'user_id' => auth('sanctum')->id(),
                 'type' => "manual",
-                'to_number' => $request->to_number,
+                'to_number' => str_replace('+','',$request->to_number),
                 'message' => $request->message,
                 'time_send' => $request->time_send,
                 'date_send' => $request->date_send,
