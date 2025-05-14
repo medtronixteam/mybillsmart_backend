@@ -57,7 +57,7 @@ class SendAutoMessages extends Command
 
                     if(!$message->reason){
 
-                        $notifcation->pushNotification($message->user_id,'Oops Contact not exists on whatapp.',"Your provided number is invalid to send campaign message.");
+                        $notifcation->pushNotification($message->user_id,'Oops Contact not exists on whatapp.',"Your provided number {$message->to_number} is invalid to send campaign message.");
                     }
                     $message->update(['reason' => "Your provided number is invalid to send campaign message.",'status'=>2]);
 
