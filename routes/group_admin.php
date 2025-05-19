@@ -47,7 +47,7 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'group'], function () 
 
     Route::post('/referral/points', [ReferralController::class, 'updateReferalPoints']);
     Route::get('/referral/points', [ReferralController::class, 'ReferalPoints']);
-
+    
     Route::post('goals', [GoalsController::class, 'store']);
     Route::get('goals', [GoalsController::class, 'groupList']);
     Route::put('goals/{goal}', [GoalsController::class, 'update']);
