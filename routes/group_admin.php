@@ -53,7 +53,7 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'group'], function () 
     Route::put('goals/{goal}', [GoalsController::class, 'update']);
     Route::patch('goals/{goal}/status', [GoalsController::class, 'changeStatus']);
     Route::delete('goals/{goal}', [GoalsController::class, 'delete']);
-
+    Route::get('mark-as-read/goal/{id}', [GoalsController::class, 'markAsRead']);
     Route::get('plans', [PlanContoller::class, 'index']);
 
 
