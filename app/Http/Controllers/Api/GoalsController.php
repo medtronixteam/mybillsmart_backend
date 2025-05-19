@@ -109,6 +109,18 @@ class GoalsController extends Controller
 
     }
 
+  public function markAsRead($id)
+    {
+        $goals = Goal::find($id);
 
+        if (!$goals) {
+            return response()->json(['message' => 'goal not found.'], 500);
+        }
+
+        $goals->status = 'completed';
+        $goals->save();
+
+        return response()->json(['message' => 'Marked as read successfully.','status'=>'success'], 200);
+    }
 
 }
