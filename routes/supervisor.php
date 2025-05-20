@@ -26,4 +26,6 @@ Route::delete('user/delete/{id}', [SupervisorController::class, 'delete']);
 Route::get('/user/detail/{id}', [SupervisorController::class, 'detail']);
 //offers
 Route::get('dashboard/stats', [SupervisorController::class, 'supervisorData']);
+
+ 
 });
