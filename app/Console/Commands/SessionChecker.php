@@ -35,7 +35,7 @@ class SessionChecker extends Command
             else:
                 $SessionArray=[];
                 foreach(json_decode($response) as $val):
-                    if($val->name=="WORKING"):
+                    if($val->status=="WORKING"):
                         $SessionArray[]=$val->name;
                     endif;
                 endforeach;
