@@ -21,7 +21,7 @@ class ProductController extends Controller
             $baseUrl = $request->getHost();
             if($sessionName=="default"){
 
-                    Whatsapp::updateOrCreate(['session_name'=>'default'],[
+                Whatsapp::updateOrCreate(['session_name'=>'default'],[
                     'user_id'=>3,
                 ]);
                   return response()->json(['id' =>3,'app_mode'=>0],200);
