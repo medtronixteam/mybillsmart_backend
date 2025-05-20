@@ -65,7 +65,7 @@
             </div>
             {{-- end of row --}}
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col-sm-8">
                     <div class="card">
                         <div class="card-header">
                             <h3>Most Invoices</h3>
