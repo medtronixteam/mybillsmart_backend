@@ -75,12 +75,14 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Group Admin</th>
+                                    <th>Email Admin</th>
                                     <th>Invoices</th>
                                 </tr>
                                 @foreach ($topGroups as $item)
                                     <tr>
                                         <td>{{$loop->iteration}}</td>
                                         <td>{{ $item->groupAdmin->name }}</td>
+                                        <td>{{ $item->groupAdmin->email }}</td>
                                         <td>{{ $item->invoice_count }}</td>
                                     </tr>
                                 @endforeach
