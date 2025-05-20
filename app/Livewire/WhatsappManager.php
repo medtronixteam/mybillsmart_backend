@@ -20,25 +20,26 @@ class WhatsappManager extends Component
             if ($response->successful()) {
                 $this->pingStatus = true;
             } else {
-                $this->pingStatus = true;
+                $this->pingStatus = false;
             }
         } catch (\Throwable $e) {
-            $this->pingStatus = true;
+            $this->pingStatus = false;
         }
     }
 
     public function callSecondApi(): void
     {
-        dd("first 2");
+
         // Placeholder for the second API call (after 6s)
-        Http::post('https://your-api.com/second-endpoint', []);
+     //   Http::post('https://your-api.com/second-endpoint', []);
     }
     public function render()
     {
 
         $WhatsappSessions = Whatsapp::latest()->paginate(10);
+        $WhatsappCounter = Whatsapp::latest()->count();
 
-        return view('livewire.whatsapp-manager',compact('WhatsappSessions'))->layout('layout.app');
+        return view('livewire.whatsapp-manager',compact('WhatsappSessions','WhatsappCounter'))->layout('layout.app');
     }
 
 }
