@@ -20,9 +20,11 @@ class LimitService
      */
     public function useLimit(int $userId, string $limitType = 'invoices',bool $doDecreament = true)
     {
-        $currentPlanType=User::where('id', $userId)->lockForUpdate()->first();
+
+        $adminOrGroupUserId = User::getGroupAdminOrFindByGroup($userId);
+          $currentPlanType=User::where('id', $adminOrGroupUserId)->lockForUpdate()->first();
         if($currentPlanType->plan_duration=='free_trial'){
-             $adminOrGroupUserId = User::getGroupAdminOrFindByGroup(auth('sanctum')->id());
+
 
              $counterInvoice= Invoice::where('group_id', $adminOrGroupUserId)->count();
              $limitOfInvoice=Plan::where('name', 'free_trial')->first()->invoices_per_month;
