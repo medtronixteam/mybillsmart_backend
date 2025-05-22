@@ -118,14 +118,14 @@ class MainController extends Controller
     $user->status_by_admin = false;
 
 
+    $user->save();
+
     if ($user->role == 'group_admin') {
         User::where('group_id', $user->id)->update([
             'status' => 0,
             'status_by_admin' => false
         ]);
     }
-    $user->save();
-
 
     return redirect()->back();
 }
@@ -136,15 +136,15 @@ class MainController extends Controller
 
     $user->status = 1;
     $user->status_by_admin = true;
-     if ($user->role == 'group_admin') {
+
+    $user->save();
+
+ if ($user->role == 'group_admin') {
         User::where('group_id', $user->id)->update([
             'status' => 1,
             'status_by_admin' => true
         ]);
     }
-    $user->save();
-
-
 
     return redirect()->back();
 }
