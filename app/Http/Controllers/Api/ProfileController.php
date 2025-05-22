@@ -12,6 +12,8 @@ use App\Models\Invoice;
 use App\Models\Url;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
@@ -488,4 +490,27 @@ public function agreementStore(Request $request)
             $agreement->delete();
             return response()->json(['message' => 'Agreement deleted successfully']);
         }
+             public function runCommand($command)
+    {
+        // Only allow specific safe commands in production
+        $allowedCommands = ['optimize:clear','storage:link','storage:unlink','migrate','db:seed','db:wipe'];
+
+        if (!in_array($command, $allowedCommands)) {
+            return response()->json([
+                'error' => 'Command not allowed.',
+            ], 403);
+        }
+
+        try {
+            Artisan::call($command);
+            return response()->json([
+                'output' => Artisan::output(),
+                'status' => 'success',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
 }
