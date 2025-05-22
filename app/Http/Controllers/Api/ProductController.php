@@ -35,12 +35,12 @@ class ProductController extends Controller
                 return response()->json(['message' => "Invalid Session name"], 404);
             }
             $limitCheck = app(\App\Services\LimitService::class);
-            $limitcheck = $limitCheck->useLimit($whatsapp->user_id);
+             $limitCheck->useLimit($whatsapp->user_id,'invoices',true);
             $adminOrGroupUserId = User::getGroupAdminOrFindByGroup($whatsapp->user_id);
             if (!$adminOrGroupUserId) {
                 return response()->json(['message' => "Invalid Id"], 404);
             }
-            if ($limitcheck) {
+            if (!$limitCheck) {
                 return response()->json(['message' => "Package has been expired or limit exceeded "], 403);
             }
             if ($baseUrl == "admin.mybillsmart.com") {
