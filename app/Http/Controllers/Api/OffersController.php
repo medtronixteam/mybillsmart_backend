@@ -118,8 +118,8 @@ class OffersController extends Controller
         $offers=Offer::where('invoice_id', $cleanData[0]['invoice_id'])->get();
         return response()->json(['message' => 'Offer stored successfully','status'=>"success",'offers'=>$offers], 201);
         } catch (\Throwable $th) {
-
-            return response()->json(['message' => $th->getMessage(),'status'=>"error"], 500);
+            info("Agent offer api------->".$th->getMessage());
+            return response()->json(['message' => 'Something missing in your request','status'=>"error"], 500);
         }
     }
 
