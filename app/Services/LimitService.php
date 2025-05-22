@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services;
 
 use App\Models\Invoice;
@@ -18,23 +19,37 @@ class LimitService
      * Attempt to use a plan (main or expansion) and decrement the limit.
      * Returns true if a valid plan was found and limit was decremented.
      */
-    public function useLimit(int $userId, string $limitType = 'invoices',bool $doDecreament = true)
+    public function useLimit(int $userId, string $limitType = 'invoices', bool $doDecreament = true)
     {
 
-        $adminOrGroupUserId = User::getGroupAdminOrFindByGroup($userId);
-          $currentPlanType=User::where('id', $adminOrGroupUserId)->lockForUpdate()->first();
-        if($currentPlanType->plan_duration=='free_trial'){
 
+        $currentPlanType = User::where('id', $userId)->lockForUpdate()->first();
+        if ($currentPlanType->plan_name == 'free_trial') {
 
-             $counterInvoice= Invoice::where('group_id', $adminOrGroupUserId)->count();
-             $limitOfInvoice=Plan::where('name', 'free_trial')->first()->invoices_per_month;
-             if($counterInvoice>=$limitOfInvoice){
+            // 7 days expired
+            if (now()->greaterThan($currentPlanType->created_at->copy()->addDays(7))) {
                 return false;
-             }
-              return true;
+            }
+            if ($limitType == "invoices") {
+                $counterInvoice = Invoice::where('group_id', $userId)->count();
+                $limitOfInvoice = Plan::where('name', 'free_trial')->value('invoices_per_month');
+                if ($counterInvoice >= $limitOfInvoice) {
+                    return false;
+                }
+            }else{
+                 $counterAgents = User::where('group_id', $userId)->count();
+                $limitOfAgents = Plan::where('name', 'free_trial')->value('agents_per_month');
+                if ($counterAgents >= $limitOfAgents) {
+                    return false;
+                }
+            }
+
+
+
+            return true;
         }
 
-        return DB::transaction(function () use ($userId, $limitType,$doDecreament) {
+        return DB::transaction(function () use ($userId, $limitType, $doDecreament) {
             // Step 1: Try the main plan first
             $mainPlan = $this->getActivePlan($userId, $limitType);
 
@@ -47,11 +62,10 @@ class LimitService
                     return $this->decrementLimit($mainPlan, $limitType);
                     //return back
                 }
-
             }
 
             // Step 2: If main plan failed, try expansions in order of purchase
-          $expansionPlans = $this->getExpansionPlans($userId);
+            $expansionPlans = $this->getExpansionPlans($userId);
 
             foreach ($expansionPlans as $expansion) {
                 $limit = $this->getActiveLimit($expansion, $limitType);
@@ -125,10 +139,4 @@ class LimitService
         $limit->limit_value -= 1;
         return $limit->save();
     }
-
-
-
-
-
-
 }
