@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Invoice;
 use Illuminate\Http\Request;
 use Stripe\Stripe;
 use Stripe\Webhook;
@@ -10,6 +11,7 @@ use App\Models\PaymentIntent as PaymentIntentModel;
 use App\Models\Plan;
 use App\Models\Subscription;
 use App\Models\User;
+use App\Models\Product;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
@@ -103,57 +105,31 @@ class StripePaymentController extends Controller
 
     public function planInfo()
     {
-        // $adminOrGroupUserId = User::getGroupAdminOrFindByGroup(auth('sanctum')->id());
-        // $groupAdmin=User::find($adminOrGroupUserId);
-        // if($groupAdmin->activeSubscriptions()->count()<1){
-        //     return response()->json([ 'status' => "error",'message' => 'You have not purchased any plan.'], 403);
-        // }
-       // $tracker = new InvoiceService();
-            // if ($tracker->checkInvoiceLimitExceeded(auth()->id())) {
-            //     abort(403, 'You have exceeded your invoice limit for this billing period');
-            // }
-      //      $remaining = $tracker->getRemainingInvoices(auth('sanctum')->id());
 
+
+      $adminOrGroupUserId = User::getGroupAdminOrFindByGroup(auth('sanctum')->id());
         $limitCheck = app(\App\Services\LimitService::class);
-        $limitcheck = $limitCheck->useLimit(auth('sanctum')->user()->id,'invoices',false);
-        return response()->json([
+
+        $limitcheck = $limitCheck->useLimit($adminOrGroupUserId,'invoices',false);
+
+        $productsCheck= Product::where('group_id', $adminOrGroupUserId)->orWhere('product_type','global')->count();
+       if($productsCheck==0){
+               return response()->json([
+                'status' => "error",
+                "message" => "Please add product agreements first",
+            ],404);
+        }
+        if(!$limitcheck){
+               return response()->json([
+                'status' => "error",
+                "message" => "Plan limit exceeded or Expired",
+            ],403);
+        }
+
+           return response()->json([
                 'status' => "success",
-                'remaining' => 0,
-                'current_plan' => auth('sanctum')->user()->plan_name,
+                "message" => "Everything is fine",
             ]);
-
-
-        //    $userService =new UserService();
-        // $allowed = $userService->getTotalInvoiceLimit();
-        // $used = auth('sanctum')->user()->invoices()
-        //      ->whereBetween('created_at', [
-        //          Carbon::now()->startOfMonth(),
-        //          Carbon::now()->endOfMonth()
-        //      ])->count();
-
-        //      if ($used >= $allowed) {
-        //         return response()->json([ 'status' => "error",'message' => 'Monthly invoice limit reached.'], 403);
-        //     }
-       $starter= Plan::where('name','starter')->first();
-       $pro= Plan::where('name','pro')->first();
-       $enterprise= Plan::where('name','enterprise')->first();
-
-        if(auth('sanctum')->user()->plan_name == 'free' && auth('sanctum')->user()->invoices()->count() > $starter->invoices){
-            return response()->json([ 'status' => "error",'message' => 'You have reached the limit  for the Starter plan.'], 403);
-        }
-        if(auth('sanctum')->user()->plan_name == 'pro' && auth('sanctum')->user()->invoices()->count() > $pro->invoices){
-            return response()->json([ 'status' => "error",'message' => 'You have reached the limit  for the Pro plan.'], 403);
-        }
-        if(auth('sanctum')->user()->plan_name == 'enterprise' && auth('sanctum')->user()->invoices()->count() > $enterprise->invoices){
-            return response()->json([ 'status' => "error",'message' => 'You have reached the limit  for the Enterprise plan.'], 403);
-        }
-
-        return response()->json([
-            'status' => "success",
-            'code' => 200,
-            'current_plan' => auth('sanctum')->user()->plan_name,
-        ]);
-
     }
     public function storeSubscription(Request $request)
     {
