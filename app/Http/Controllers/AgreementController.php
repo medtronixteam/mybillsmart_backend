@@ -75,6 +75,7 @@ class AgreementController extends Controller
         'group_id' => auth()->id(),
         'addedby_id' => auth()->id(),
         'agreement_type' => 'electricity',
+        'product_type' => 'global',
     ]));
 
     return back()->with('success', 'Agreement created successfully.');
@@ -117,6 +118,7 @@ class AgreementController extends Controller
         'group_id' => auth()->id(),
         'addedby_id' => auth()->id(),
         'agreement_type' => 'gas',
+        'product_type' => 'global',
     ]));
 
     return back()->with('success', 'Agreement created successfully.');
@@ -159,6 +161,7 @@ class AgreementController extends Controller
         'group_id' => auth()->id(),
         'addedby_id' => auth()->id(),
         'agreement_type' => 'both',
+        'product_type' => 'global',
     ]));
 
     return back()->with('success', 'Agreement created successfully.');
