@@ -6,7 +6,7 @@
             <div class="row">
                 <div class="col-12 align-self-center">
                     <div class="d-flex justify-content-between">
-                        <div> <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">Group Admin List</h3></div>
+                        <div> <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">Users List</h3></div>
                         <div> <a href="{{ route('user.list') }}" class="btn btn-info">Admin</a>
                             <a href="{{ route('group.admin') }}" class="btn btn-success">Group Admin</a>
                             <a href="{{ route('all.users') }}" class="btn btn-warning">All Users</a></div>
