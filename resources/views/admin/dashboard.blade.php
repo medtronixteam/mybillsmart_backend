@@ -65,7 +65,7 @@
             </div>
             {{-- end of row --}}
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col-sm-8">
                     <div class="card">
                         <div class="card-header">
                             <h3>Most Invoices</h3>
@@ -75,12 +75,14 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Group Admin</th>
+                                    <th>Email Admin</th>
                                     <th>Invoices</th>
                                 </tr>
                                 @foreach ($topGroups as $item)
                                     <tr>
                                         <td>{{$loop->iteration}}</td>
                                         <td>{{ $item->groupAdmin->name }}</td>
+                                        <td>{{ $item->groupAdmin->email }}</td>
                                         <td>{{ $item->invoice_count }}</td>
                                     </tr>
                                 @endforeach
