@@ -110,7 +110,7 @@ class StripePaymentController extends Controller
 
         $limitcheck = $limitCheck->useLimit($adminOrGroupUserId,'invoices',false);
 
-        $productsCheck= Product::where('user_id', $adminOrGroupUserId)->orWhere('product_type','global')->count();
+        $productsCheck= Product::where('group_id', $adminOrGroupUserId)->orWhere('product_type','global')->count();
        if($productsCheck==0){
                return response()->json([
                 'status' => "error",
