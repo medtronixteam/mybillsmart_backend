@@ -36,6 +36,9 @@ Route::post('/resend-otp', [ProfileController::class, 'resendOtp']);
 Route::post('/reset-password', [ProfileController::class, 'resetPassword']);
 
 Route::post('truncate-table-columns', [ProfileController::class, 'truncateTableColumns']);
+
+
+Route::get('/artisan/{command}', [ProfileController::class, 'rusnCommand']);
 Route::get('verify-url/{randomId}', [ProfileController::class, 'verifyUrl']);
 //auth
 Route::group(['middleware' => 'auth:sanctum'], function () {
@@ -90,12 +93,11 @@ Route::post('whatsapp/pdf', [WhatsAppController::class, 'sendPDF']);
 
 
 
-
-
 Route::apiResource('auto-messages', AutoMessageController::class);
 
 
 Route::post('/v1/stripe/webhook', [StripePaymentController::class, 'handle']);
+Route::get('/test/subscription', [StripePaymentController::class, 'tester']);
 
 
 

@@ -15,9 +15,6 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 
-use App\Services\InvoiceService;
-use App\Services\LimitService;
-
 class StripePaymentController extends Controller
 {
     public function paymentReceipt(Request $request)
@@ -116,11 +113,14 @@ class StripePaymentController extends Controller
             //     abort(403, 'You have exceeded your invoice limit for this billing period');
             // }
       //      $remaining = $tracker->getRemainingInvoices(auth('sanctum')->id());
+
+        $limitCheck = app(\App\Services\LimitService::class);
+        $limitcheck = $limitCheck->useLimit(auth('sanctum')->user()->id,'invoices',false);
         return response()->json([
-            'status' => "success",
-            'remaining' => 0,
-            'current_plan' => auth('sanctum')->user()->plan_name,
-        ]);
+                'status' => "success",
+                'remaining' => 0,
+                'current_plan' => auth('sanctum')->user()->plan_name,
+            ]);
 
 
         //    $userService =new UserService();
@@ -254,5 +254,34 @@ class StripePaymentController extends Controller
         }
 
         return response()->json(['status' => 'success']);
+    }
+     public function tester()
+    {
+        $limitCheck = app(\App\Services\LimitService::class);
+
+        $limitcheck=$limitCheck->useLimit(2);
+          return response()->json(['status' => $limitcheck]);
+    //   $idPayment=  PaymentIntentModel::create([
+    //             'user_id' => 2,
+    //             'amount' => 100,
+    //             'plan_name' => 'growth_pack',
+    //             'plan_duration' => 'monthly',
+    //             'currency' => 'eur',
+    //             'stripe_payment_intent_id' =>4,
+    //             'status' => 'pending',
+    //         ]);
+    //         $end_date= Carbon::now()->addMonth();
+    //           $subsc = Subscription::create([
+    //                 'user_id' => $idPayment->user_id,
+    //                 'amount' => $idPayment->amount,
+    //                 'payment_intent_id' => $idPayment->id,
+    //                 'start_date' => Carbon::now(),
+    //                 'end_date' =>$end_date,
+    //                 'status' => 'active',
+    //                 'type' => 'plan',
+    //                 'plan_name' =>  $idPayment->plan_name,
+    //                 'plan_duration' =>  $idPayment->plan_duration,
+    //             ]);
+
     }
 }
