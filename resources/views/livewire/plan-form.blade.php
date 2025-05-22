@@ -31,7 +31,7 @@
                                 wire:model="plans.{{ $index }}.agents_per_month"
                                 wire:change="updateAgents({{ $index }}, $event.target.value)" />
                         @endif
-                        @if ($plan['name'] == 'volume_mini' || $plan['name'] == 'volume_medium' || $plan['name'] == 'volume_max')
+                        @if ($plan['name'] == 'volume_mini' || $plan['name'] == 'volume_medium' || $plan['name'] == 'volume_max' || $plan['name'] == 'free_trial')
                             <label class="mt-2" for="">Allowed Invoices</label>
                             <input type="number" id="price-{{ $index }}" class="form-control "
                                 wire:model="plans.{{ $index }}.invoices_per_month"

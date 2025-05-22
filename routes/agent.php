@@ -15,6 +15,9 @@ use App\Http\Middleware\InvoiceMiddleware;
 
 Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'agent'], function () {
 
+    Route::middleware(InvoiceMiddleware::class)->group(function () {
+
+    });
 
     Route::post('/offers', [OffersController::class, 'store']);
     Route::get('offers', [OffersController::class, 'list']);

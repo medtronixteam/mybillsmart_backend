@@ -10,6 +10,7 @@ use App\Models\PaymentIntent as PaymentIntentModel;
 use App\Models\Plan;
 use App\Models\Subscription;
 use App\Models\User;
+use App\Models\Product;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
@@ -103,25 +104,30 @@ class StripePaymentController extends Controller
 
     public function planInfo()
     {
-        // $adminOrGroupUserId = User::getGroupAdminOrFindByGroup(auth('sanctum')->id());
-        // $groupAdmin=User::find($adminOrGroupUserId);
-        // if($groupAdmin->activeSubscriptions()->count()<1){
-        //     return response()->json([ 'status' => "error",'message' => 'You have not purchased any plan.'], 403);
-        // }
-       // $tracker = new InvoiceService();
-            // if ($tracker->checkInvoiceLimitExceeded(auth()->id())) {
-            //     abort(403, 'You have exceeded your invoice limit for this billing period');
-            // }
-      //      $remaining = $tracker->getRemainingInvoices(auth('sanctum')->id());
 
+      $adminOrGroupUserId = User::getGroupAdminOrFindByGroup(auth('sanctum')->id());
         $limitCheck = app(\App\Services\LimitService::class);
-        $limitcheck = $limitCheck->useLimit(auth('sanctum')->user()->id,'invoices',false);
-        return response()->json([
-                'status' => "success",
-                'remaining' => 0,
-                'current_plan' => auth('sanctum')->user()->plan_name,
-            ]);
 
+        $limitcheck = $limitCheck->useLimit($adminOrGroupUserId,'invoices',false);
+
+        $productsCheck= Product::where('user_id', $adminOrGroupUserId)->orWhere('product_type','global')->count();
+       if($productsCheck==0){
+               return response()->json([
+                'status' => "error",
+                "message" => "Please add product agreements first",
+            ],404);
+        }
+        if(!$limitcheck){
+               return response()->json([
+                'status' => "error",
+                "message" => "Plan limit exceeded or Expired",
+            ],403);
+        }
+
+           return response()->json([
+                'status' => "success",
+                "message" => "Everything is fine",
+            ]);
 
         //    $userService =new UserService();
         // $allowed = $userService->getTotalInvoiceLimit();
