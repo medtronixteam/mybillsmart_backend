@@ -27,5 +27,4 @@ Route::get('/user/detail/{id}', [SupervisorController::class, 'detail']);
 //offers
 Route::get('dashboard/stats', [SupervisorController::class, 'supervisorData']);
 
- 
 });
