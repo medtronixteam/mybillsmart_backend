@@ -110,44 +110,44 @@ class MainController extends Controller
         return view('admin.users', compact('users'));
     }
 
-//    public function disable($userId)
-// {
-//     $user = User::findOrFail($userId);
+   public function disable($userId)
+{
+    $user = User::findOrFail($userId);
 
-//    $user->status = 0;
-//     $user->status_by_admin = false;
-
-
-//     if ($user->role == 'group_admin') {
-//         User::where('group_id', $user->id)->update([
-//             'status' => 0,
-//             'status_by_admin' => false
-//         ]);
-//     }
-//     $user->save();
+   $user->status = 0;
+    $user->status_by_admin = false;
 
 
-//     return redirect()->back();
-// }
-
-//    public function enable($userId)
-// {
-//     $user = User::findOrFail($userId);
-
-//     $user->status = 1;
-//     $user->status_by_admin = true;
-//      if ($user->role == 'group_admin') {
-//         User::where('group_id', $user->id)->update([
-//             'status' => 1,
-//             'status_by_admin' => true
-//         ]);
-//     }
-//     $user->save();
+    if ($user->role == 'group_admin') {
+        User::where('group_id', $user->id)->update([
+            'status' => 0,
+            'status_by_admin' => false
+        ]);
+    }
+    $user->save();
 
 
+    return redirect()->back();
+}
 
-//     return redirect()->back();
-// }
+   public function enable($userId)
+{
+    $user = User::findOrFail($userId);
+
+    $user->status = 1;
+    $user->status_by_admin = true;
+     if ($user->role == 'group_admin') {
+        User::where('group_id', $user->id)->update([
+            'status' => 1,
+            'status_by_admin' => true
+        ]);
+    }
+    $user->save();
+
+
+
+    return redirect()->back();
+}
 
 
     public function delete($deleteId)
