@@ -12,6 +12,7 @@ use App\Models\ReferralPoints;
 use App\Models\Invoice;
 use App\Models\Offer;
 use App\Models\Plan;
+use App\Models\Product;
 use App\Models\Subscription;
 
 class MainController extends Controller
@@ -156,6 +157,7 @@ class MainController extends Controller
     $user->delete();
     return redirect()->back();
     }
+   
     public function userView($viewId){
         $user = User::findOrFail($viewId);
         if ($user->role == 'group_admin') {

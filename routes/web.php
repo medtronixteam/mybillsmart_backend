@@ -7,6 +7,7 @@ use App\Livewire\PaymentIntentsTable;
 use App\Livewire\SubscriptionTable;
 use App\Livewire\DocumentList;
 use App\Http\Controllers\AgreementController;
+use App\Http\Controllers\ProductController;
 
 
 
@@ -60,17 +61,27 @@ Route::get('subscriptions', SubscriptionTable::class)->name('subscriptions');
 Route::get('whatsapp', App\Livewire\WhatsappManager::class)->name('whatsapp');
 
 
-Route::get('electricity/agreements', [AgreementController::class, 'agreements'])->name('agreements');
 Route::get('gas/agreements', [AgreementController::class, 'gasAgreements'])->name('gas.list');
 Route::get('combined/agreements', [AgreementController::class, 'combinedAgreements'])->name('combined.list');
-Route::get('electricity/agreements/create', [AgreementController::class, 'electricityCreate'])->name('electricity.create');
 Route::get('gas/agreements/create', [AgreementController::class, 'gasCreate'])->name('gas.create');
 Route::get('combined/agreements/create', [AgreementController::class, 'bothCreate'])->name('both.create');
-Route::post('electricity/agreements/store', [AgreementController::class, 'electricityStore'])->name('electricity.store');
 Route::post('gas/agreements/store', [AgreementController::class, 'gasStore'])->name('gas.store');
 Route::post('both/agreements/store', [AgreementController::class, 'bothStore'])->name('both.store');
+//electricity agreements
+Route::get('electricity/agreements', [AgreementController::class, 'agreements'])->name('agreements');
+Route::get('electricity/agreements/create', [AgreementController::class, 'electricityCreate'])->name('electricity.create');
+Route::post('electricity/agreements/store', [AgreementController::class, 'electricityStore'])->name('electricity.store');
+Route::post('/electricity/agreement/delete/{deleteId}', [AgreementController::class, 'electricityDelete'])->name('electricity.delete');
+Route::get('/electricity/agreement/edit/{editId}', [AgreementController::class, 'electricityEdit'])->name('electricity.edit');
+Route::post('electricity/agreement/update', [AgreementController::class, 'electricityUpdate'])->name('electricity.update');
+
+
 
 Route::get('/documents', DocumentList::class)->name('documents');
-
-
 });
+    // Route::get('classes', [RoomController::class, 'index'])->name('classes.index');
+    // Route::post('classes', [RoomController::class, 'class_create'])->name('class.create');
+    // Route::get('class/{classId}', [RoomController::class, 'class_edit'])->name('class.edit');
+    // Route::post('class/delete/{deleteId}', [RoomController::class, 'class_delete'])->name('class.delete');
+    // Route::post('class/update', [RoomController::class, 'class_update'])->name('class.update');
+    // Route::get('list/classes', [RoomController::class, 'list_classes'])->name('list.classes');
