@@ -127,6 +127,10 @@ public function activeOrtherSubscriptions()
               ->whereDate('end_date', '>=', $now)->whereNot('type', 'plan');
     });
 }
+ public static function getAdminIds()
+    {
+        return self::where('role', 'admin')->pluck('id')->toArray();
+    }
 
 }
 

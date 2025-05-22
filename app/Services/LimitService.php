@@ -1,5 +1,7 @@
 <?php
 namespace App\Services;
+
+use App\Models\Invoice;
 use App\Models\Subscription;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
@@ -11,17 +13,6 @@ use Illuminate\Support\Facades\DB;
 class LimitService
 {
 
-        public function createInvoice()
-        {
-            $now =Carbon::now();
-           $planed= Subscription::where(function ($query) use ($now) {
-                $query->whereDate('start_date', '<=', $now)
-                      ->whereDate('end_date', '>=', $now)->where('type', 'plan');
-            });
-
-        }
-
-
 
     /**
      * Attempt to use a plan (main or expansion) and decrement the limit.
@@ -29,6 +20,18 @@ class LimitService
      */
     public function useLimit(int $userId, string $limitType = 'invoices',bool $doDecreament = true)
     {
+        $currentPlanType=User::where('id', $userId)->lockForUpdate()->first();
+        if($currentPlanType->plan_duration=='free_trial'){
+             $adminOrGroupUserId = User::getGroupAdminOrFindByGroup(auth('sanctum')->id());
+
+             $counterInvoice= Invoice::where('group_id', $adminOrGroupUserId)->count();
+             $limitOfInvoice=Plan::where('name', 'free_trial')->first()->invoices_per_month;
+             if($counterInvoice>=$limitOfInvoice){
+                return false;
+             }
+              return true;
+        }
+
         return DB::transaction(function () use ($userId, $limitType,$doDecreament) {
             // Step 1: Try the main plan first
             $mainPlan = $this->getActivePlan($userId, $limitType);
