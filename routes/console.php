@@ -13,6 +13,8 @@ Schedule::command('messages:send-auto')
 
 Schedule::command('session:checker')
     ->everyFiveSeconds();
-
+//every 5 minutes destory the non stoped sessions except working
+Schedule::command('waha:session-destoryer')
+    ->everyFiveMinutes();
 
 
