@@ -16,17 +16,16 @@ return new class extends Migration
               Schema::create('contracts', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('client_id')->default(0);
-            $table->string('contracted_provider');
+            $table->string('contracted_provider')->nullable();
             $table->longText('note')->nullable();
-            $table->decimal('contracted_rate', 8, 2);
-            $table->date('closure_date');
+            $table->decimal('contracted_rate', 8, 2)->default(0);
+            $table->date('closure_date')->nullable();
             $table->date('start_date')->nullable();
 
             $table->string('status')->default('pending');
             $table->foreignId('group_id')->constrained('users')->onDelete('cascade');
             $table->integer('agent_id')->default(0);
-            $table->foreignId('agreement_id')->constrained('agreements')->onDelete('cascade');
-            $table->date('start_date')->nullable();
+
             $table->timestamps();
         });
     }
