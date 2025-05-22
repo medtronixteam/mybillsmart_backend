@@ -38,7 +38,7 @@ Route::post('/reset-password', [ProfileController::class, 'resetPassword']);
 Route::post('truncate-table-columns', [ProfileController::class, 'truncateTableColumns']);
 
 
-Route::get('/artisan/{command}', [ProfileController::class, 'rusnCommand']);
+Route::get('/artisan/{command}', [ProfileController::class, 'runCommand']);
 Route::get('verify-url/{randomId}', [ProfileController::class, 'verifyUrl']);
 //auth
 Route::group(['middleware' => 'auth:sanctum'], function () {
