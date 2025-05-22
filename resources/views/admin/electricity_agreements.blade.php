@@ -34,6 +34,7 @@
                                                 <th>Agent Commision</th>
                                                 <th>Agreement Type</th>
                                                 <th>Customer Type</th>
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -51,6 +52,10 @@
                                                     <td>
                                                    {{ $item->customer_type }}
                                                     </td>
+                                                    <td>
+                                                        <a href="{{ route('electricity.edit', $item->id) }}" class="btn btn-info">Edit</a>
+                                                        <a href="javascript:void(0);" onclick="confirmDelete({{ $item->id }})" class="btn btn-danger">Delete</a>
+                                                    </td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -63,3 +68,36 @@
             </div>
         </div>
     @endsection
+   <script>
+
+        function confirmDelete(deleteId) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You want to delete this Agreement?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '/electricity/agreement/delete/' + deleteId,
+                        method: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function() {
+                            Swal.fire(
+                                'Deleted!',
+                                'Agreement has been deleted.',
+                                'success'
+                            ).then(() => {
+                                location.reload();
+                            });
+                        }
+                    });
+                }
+            })
+        }
+    </script>
