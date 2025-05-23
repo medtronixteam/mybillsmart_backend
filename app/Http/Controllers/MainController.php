@@ -117,8 +117,6 @@ class MainController extends Controller
 
    $user->status = 0;
     $user->status_by_admin = false;
-
-
     $user->save();
 
     if ($user->role == 'group_admin') {
@@ -127,7 +125,6 @@ class MainController extends Controller
             'status_by_admin' => false
         ]);
     }
-
     return redirect()->back();
 }
 
