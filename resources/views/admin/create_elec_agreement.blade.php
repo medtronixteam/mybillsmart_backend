@@ -21,7 +21,7 @@
                                     {{ session('success') }}
                                 </div>
                             @endif
-                            <form action="{{ $data ? route('electricity.update') :  route('electricity.create') }}" method="POST">
+                            <form action="{{ $data ? route('electricity.update') :  route('electricity.store') }}" method="POST">
                                 @csrf
                                 <input type="text" name="electricity_id" value="{{$data?$data->id:"" }}" hidden>
                                 <div class="row">
@@ -173,7 +173,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="meter_rental">Meter Rental (€)</label>
-                                            <input type="number" step="0.01" class="form-control" id="meter_rental" name="meter_rental" value={{"$data? $data->meter_rental:'"}} required>
+                                            <input type="number" step="0.01" class="form-control" id="meter_rental" name="meter_rental" value="{{ $data ? $data->meter_rental : '' }}" required>
                                             @error('meter_rental')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
@@ -191,7 +191,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="points_per_deal">Points Per Deal</label>
-                                            <input type="number" class="form-control" id="points_per_deal" name="points_per_deal" value={{"$data? $data->points_per_deal:''"}} required>
+                                            <input value="{{$data? $data->points_per_deal:''}}" type="number" class="form-control" id="points_per_deal" name="points_per_deal"  required>
                                             @error('points_per_deal')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
@@ -222,7 +222,7 @@
 
                                 <div class="form-group">
                                     <label for="contact_terms">Contract Terms</label>
-                                    <textarea class="form-control" id="contact_terms" name="contact_terms" rows="3" required></textarea>
+                                    <textarea class="form-control" id="contact_terms" name="contact_terms" rows="3" required>{{ $data ? $data->contact_terms : '' }}</textarea>
                                     @error('contact_terms')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
