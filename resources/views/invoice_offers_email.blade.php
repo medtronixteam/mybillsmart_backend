@@ -185,17 +185,20 @@
 
 <body>
     <div class="container-fluid">
-        <div class="logo-heading d-flex" style="justify-content: space-between">
-            <img src="{{ public_path('assets/images/mylogo.png') }}" alt="Company Logo">
+    <div class="logo-heading d-flex" style="justify-content: space-between">
+    @if($company && $company->logo)
+        <img src="{{ asset('storage/' . $company->company_logo) }}" alt="Company Logo">
+    @else
+        <img src="{{ asset('assets/images/mylogo.png') }}" alt="Default Logo">
+    @endif
 
-            <div class="contact-info">
-                <p><strong>Email:</strong> contact@mybillsmart.com</p>
-                <p><strong>Phone:</strong> +1 800-123-4567</p>
-            </div>
-        </div>
+    <div class="contact-info">
+        <p><strong>Email:</strong> {{ $company->company_email ?? 'contact@mybillsmart.com' }}</p>
+        <p><strong>Phone:</strong> {{ $company->company_phone ?? '+1 800-123-4567' }}</p>
+    </div>
+</div>
 
         <div class="invoice-heading">OFFERS</div>
-        {{-- <p class="text-center"><strong>Invoice ID:</strong> {{ $invoice_id }} | <strong>Client ID:</strong> {{ $client_id }}</p> --}}
 
         <div class="row">
             @foreach($offers as $offer)
@@ -206,7 +209,7 @@
                         </h5>
                         <p><strong>Provider Name:</strong> {{ $offer['provider_name'] }}</p>
                         <p><strong>Product Name:</strong> {{ $offer['product_name'] }}</p>
-                        <p><strong>Sales Commission:</strong> {{ $offer['sales_commission'] }}</p>/span></p>
+                        <p><strong>Savings:</strong> {{ $offer['saving'] }}</p>
                     </div>
                 </div>
             </div>
