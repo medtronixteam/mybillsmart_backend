@@ -10,6 +10,8 @@ use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use App\Mail\OffersEmail;
+use App\Mail\InvoiceOffersMail;
+use PDF;
 class OffersController extends Controller
 {
 
@@ -149,6 +151,52 @@ class OffersController extends Controller
             return response()->json(['message' => $th->getMessage(), 'status' => 'error'], 500);
         }
     }
+public function sendInvoiceOffers(Request $request)
+{
+    try {
+        $validator = Validator::make($request->all(), [
+            'invoice_id' => 'required|exists:offers,invoice_id',
+            'client_id' => 'required|numeric|',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $offers = Offer::where('invoice_id', $request->invoice_id)->get();
+
+        if ($offers->isEmpty()) {
+            return response()->json(['message' => 'No offers found for this invoice', 'status' => 'error'], 404);
+        }
+
+        $user = User::where('id', $offers->first()->user_id)->first();
+        if (!$user) {
+            return response()->json(['message' => 'User not found for this offer', 'status' => 'error'], 404);
+        }
+
+
+        $pdf = PDF::loadView('invoice_offers_email', ['offers' => $offers]);
+
+
+        Mail::to($user->email)->send(new InvoiceOffersMail($offers, $pdf));
+
+        return response()->json([
+            'message' => 'Offers sent successfully via email',
+            'status' => 'success'
+        ], 200);
+
+    } catch (\Throwable $th) {
+        return response()->json([
+            'message' => $th->getMessage(),
+            'status' => 'error'
+        ], 500);
+    }
+}
+
 
     public function selectedOffer(Request $request){
         $validator = Validator::make($request->all(), [
