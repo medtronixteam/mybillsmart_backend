@@ -15,13 +15,15 @@ class InvoiceOffersMail extends Mailable
     use Queueable, SerializesModels;
     public $offers;
     public $pdf;
+    public $company;
     /**
      * Create a new message instance.
      */
-    public function __construct($offers, $pdf)
+    public function __construct($offers, $pdf, $company)
     {
          $this->offers = $offers;
         $this->pdf = $pdf;
+        $this->company = $company;
     }
 
     /**

@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Offer;
 use App\Models\User;
 use App\Models\Invoice;
+use App\Models\CompanyDetail;
 use Illuminate\Http\Request;
 use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Mail;
@@ -178,11 +179,11 @@ public function sendInvoiceOffers(Request $request)
             return response()->json(['message' => 'User not found for this offer', 'status' => 'error'], 404);
         }
 
+        $company = CompanyDetail::first();
+        $pdf = PDF::loadView('invoice_offers_email', ['offers' => $offers, 'company' => $company,]);
 
-        $pdf = PDF::loadView('invoice_offers_email', ['offers' => $offers]);
 
-
-        Mail::to($user->email)->send(new InvoiceOffersMail($offers, $pdf));
+        Mail::to($user->email)->send(new InvoiceOffersMail($offers, $pdf, $company));
 
         return response()->json([
             'message' => 'Offers sent successfully via email',
