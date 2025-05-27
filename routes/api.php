@@ -83,8 +83,8 @@ Route::get('whatsapp/unlink', [WhatsAppController::class, 'unlinkWhats']);
 Route::post('/electricity/products', [ProductController::class, 'electricityProducts']);
 Route::post('/gas/products', [ProductController::class, 'gassProducts']);
 Route::post('/both/products', [ProductController::class, 'bothProducts']);
-
 });
+Route::post('/send-invoice-offers', [OffersController::class, 'sendInvoiceOffers']);
 Route::post('auth/verify-2fa', [TwoFactorApiController::class, 'validateToken']);
 
 //2fa by email

@@ -61,12 +61,6 @@ Route::get('subscriptions', SubscriptionTable::class)->name('subscriptions');
 Route::get('whatsapp', App\Livewire\WhatsappManager::class)->name('whatsapp');
 
 
-Route::get('gas/agreements', [AgreementController::class, 'gasAgreements'])->name('gas.list');
-Route::get('combined/agreements', [AgreementController::class, 'combinedAgreements'])->name('combined.list');
-Route::get('gas/agreements/create', [AgreementController::class, 'gasCreate'])->name('gas.create');
-Route::get('combined/agreements/create', [AgreementController::class, 'bothCreate'])->name('both.create');
-Route::post('gas/agreements/store', [AgreementController::class, 'gasStore'])->name('gas.store');
-Route::post('both/agreements/store', [AgreementController::class, 'bothStore'])->name('both.store');
 //electricity agreements
 Route::get('electricity/agreements', [AgreementController::class, 'agreements'])->name('agreements');
 Route::get('electricity/agreements/create', [AgreementController::class, 'electricityCreate'])->name('electricity.create');
@@ -74,14 +68,26 @@ Route::post('electricity/agreements/store', [AgreementController::class, 'electr
 Route::post('/electricity/agreement/delete/{deleteId}', [AgreementController::class, 'electricityDelete'])->name('electricity.delete');
 Route::get('/electricity/agreement/edit/{editId}', [AgreementController::class, 'electricityEdit'])->name('electricity.edit');
 Route::post('electricity/agreement/update', [AgreementController::class, 'electricityUpdate'])->name('electricity.update');
+Route::get('/electricity/agreement/view/{viewId}', [AgreementController::class, 'electricityView'])->name('electricity.view');
+//gas agreements
+Route::get('gas/agreements', [AgreementController::class, 'gasAgreements'])->name('gas.list');
+Route::get('gas/agreements/create', [AgreementController::class, 'gasCreate'])->name('gas.create');
+Route::post('gas/agreements/store', [AgreementController::class, 'gasStore'])->name('gas.store');
+Route::post('/gas/agreement/delete/{deleteId}', [AgreementController::class, 'gasDelete'])->name('gas.delete');
+Route::get('/gas/agreement/edit/{editId}', [AgreementController::class, 'gasEdit'])->name('gas.edit');
+Route::post('gas/agreement/update', [AgreementController::class, 'gasUpdate'])->name('gas.update');
+Route::get('/gas/agreement/view/{viewId}', [AgreementController::class, 'gasView'])->name('gas.view');
+//both agreements
+Route::get('combined/agreements', [AgreementController::class, 'combinedAgreements'])->name('combined.list');
+Route::get('combined/agreements/create', [AgreementController::class, 'combinedCreate'])->name('combined.create');
+Route::post('combined/agreements/store', [AgreementController::class, 'combinedStore'])->name('combined.store');
+Route::post('/combined/agreement/delete/{deleteId}', [AgreementController::class, 'combinedDelete'])->name('combined.delete');
+Route::get('/combined/agreement/edit/{editId}', [AgreementController::class, 'combinedEdit'])->name('combined.edit');
+Route::post('combined/agreement/update', [AgreementController::class, 'combinedUpdate'])->name('combined.update');
+Route::get('/combined/agreement/view/{viewId}', [AgreementController::class, 'combinedView'])->name('combined.view');
 
 
 
 Route::get('/documents', DocumentList::class)->name('documents');
 });
-    // Route::get('classes', [RoomController::class, 'index'])->name('classes.index');
-    // Route::post('classes', [RoomController::class, 'class_create'])->name('class.create');
-    // Route::get('class/{classId}', [RoomController::class, 'class_edit'])->name('class.edit');
-    // Route::post('class/delete/{deleteId}', [RoomController::class, 'class_delete'])->name('class.delete');
-    // Route::post('class/update', [RoomController::class, 'class_update'])->name('class.update');
-    // Route::get('list/classes', [RoomController::class, 'list_classes'])->name('list.classes');
+
