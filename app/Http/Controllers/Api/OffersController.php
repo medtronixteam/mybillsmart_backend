@@ -123,7 +123,7 @@ class OffersController extends Controller
             ];
         }, $cleanData);
         Offer::insert($transformedData);
-        $offers=Offer::where('invoice_id', $cleanData[0]['invoice_id'])->get();
+        $offers=Offer::where('invoice_id', $cleanData[0]['invoiceid'])->get();
         return response()->json(['message' => 'Offer stored successfully','status'=>"success",'offers'=>$offers], 201);
         } catch (\Throwable $th) {
             info("Agent offer api------->".$th->getMessage());
