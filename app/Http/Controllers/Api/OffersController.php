@@ -90,7 +90,7 @@ class OffersController extends Controller
 
         try {
 
-        $cleanData = array_map(function($item) {
+      return  $cleanData = array_map(function($item) {
             return collect($item)->mapWithKeys(function($value, $key) {
                 return [strtolower(str_replace(' ', '', $key)) => $value];
             })->all();
@@ -99,7 +99,7 @@ class OffersController extends Controller
             '*.provider_name' => 'required|string',
             '*.sales_commission' => 'required|numeric',
             '*.product_name' => 'required|string',
-            '*.saving%' => 'required|numeric',
+            '*.monthly saving (%)' => 'required|numeric',
             '*.invoice_id' => 'required',
             '*.id' => 'required',
         ]);
