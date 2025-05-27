@@ -102,6 +102,7 @@ class OffersController extends Controller
             '*.productname' => 'required|string',
             '*.monthlysaving' => 'required|numeric',
             '*.yearlysaving' => 'required|numeric',
+            '*.yearlysaving%' => 'required|numeric',
             '*.invoiceid' => 'required',
             '*.id' => 'required',
         ]);
@@ -117,7 +118,7 @@ class OffersController extends Controller
                 'sales_commission' => $item['salescommission'],
                 'product_name' => $item['productname'],
                 'user_id' => auth('sanctum')->id(),
-                'invoice_id' => $item['invoice_id'],
+                'invoice_id' => $item['invoiceid'],
                 'product_id' => $item['id'],
             ];
         }, $cleanData);
