@@ -91,7 +91,7 @@ class OffersController extends Controller
         try {
 
 
-      return  $cleanData = array_map(function($item) {
+        $cleanData = array_map(function($item) {
             return collect($item)->mapWithKeys(function($value, $key) {
                 return [strtolower(preg_replace('/[^a-zA-Z%]/', '', $key)) => $value];
             })->all();
