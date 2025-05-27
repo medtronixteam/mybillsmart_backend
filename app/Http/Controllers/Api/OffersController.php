@@ -90,10 +90,13 @@ class OffersController extends Controller
 
         try {
 
-      return  $cleanData = array_map(function($item) {
-            return collect($item)->mapWithKeys(function($value, $key) {
-                return [strtolower(str_replace(' ', '', $key)) => $value];
-            })->all();
+return $cleanData = array_map(function($item) {
+    return collect($item)->mapWithKeys(function($value, $key) {
+        // Keep only alphabetic characters (A-Z, a-z)
+        $cleanKey = strtolower(preg_replace('/[^a-zA-Z]/', '', $key));
+        return [$cleanKey => $value];
+    })->all();
+});
         }, $request->all());
         $validator = Validator::make($cleanData, [
             '*.provider_name' => 'required|string',
