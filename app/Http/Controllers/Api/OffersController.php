@@ -93,15 +93,16 @@ class OffersController extends Controller
 
       return  $cleanData = array_map(function($item) {
             return collect($item)->mapWithKeys(function($value, $key) {
-                return [strtolower(preg_replace('/[^a-zA-Z]/', '', $key)) => $value];
+                return [strtolower(preg_replace('/[^a-zA-Z%]/', '', $key)) => $value];
             })->all();
         }, $request->all());
         $validator = Validator::make($cleanData, [
-            '*.provider_name' => 'required|string',
-            '*.sales_commission' => 'required|numeric',
-            '*.product_name' => 'required|string',
-            '*.monthly saving (%)' => 'required|numeric',
-            '*.invoice_id' => 'required',
+            '*.providername' => 'required|string',
+            '*.salescommission' => 'required|numeric',
+            '*.productname' => 'required|string',
+            '*.monthlysaving' => 'required|numeric',
+            '*.yearlysaving' => 'required|numeric',
+            '*.invoiceid' => 'required',
             '*.id' => 'required',
         ]);
         if ($validator->fails()) {
@@ -109,10 +110,12 @@ class OffersController extends Controller
         }
         $transformedData = array_map(function ($item) {
             return [
-                'provider_name' => $item['provider_name'],
-                'sales_commission' => $item['sales_commission'],
-                'product_name' => $item['product_name'],
-                'saving' => $item['saving%'],
+                'provider_name' => $item['providername'],
+                'monthly_saving_amount' => $item['monthlysaving'],
+                'yearly_saving_amount' => $item['yearlysaving'],
+                'yearly_saving_percentage' => $item['yearlysaving%'],
+                'sales_commission' => $item['salescommission'],
+                'product_name' => $item['productname'],
                 'user_id' => auth('sanctum')->id(),
                 'invoice_id' => $item['invoice_id'],
                 'product_id' => $item['id'],
