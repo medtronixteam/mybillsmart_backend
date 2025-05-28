@@ -52,6 +52,23 @@ class OffersController extends Controller
         $response=['status'=>"success",'code'=>200,'data'=>$offers];
         return response($response,$response['code']);
      }
+    public function clientSearch(Request $request){
+
+        $validator = Validator::make($request->all(), [
+            'number' => 'required|min:3',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['message' => $validator->messages()->first(),'status'=>"error"], 500);
+        }
+        $adminOrGroupUserId = User::getGroupAdminOrFindByGroup(auth('sanctum')->user()->id);
+        if (!$adminOrGroupUserId) {
+            return response()->json(['message' => 'No group admin found for this user', 'status' => 'error'], 404);
+        }
+
+        return response(['numbers'=>User::where('email', 'like', '%'.$request->number.'%')->where('id',$adminOrGroupUserId)
+            ->get()],200);  
+
+    }
      public function view(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -89,7 +106,6 @@ class OffersController extends Controller
     {
 
         try {
-
 
         $cleanData = array_map(function($item) {
             return collect($item)->mapWithKeys(function($value, $key) {

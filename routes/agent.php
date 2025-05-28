@@ -23,7 +23,7 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'agent'], function () 
     Route::get('offers', [OffersController::class, 'list']);
     Route::post('/offer/selected', [OffersController::class, 'selectedOffer']);
     Route::post('/send-offers-email', [OffersController::class, 'sendOffersEmail']);
-
+    Route::post('client/search', [OffersController::class, 'clientSearch']);
     Route::post('/send/client/portal', [OffersController::class, 'sendClientPortal']);
 
     Route::post('invoice/offers', [OffersController::class, 'view']);
