@@ -80,6 +80,8 @@ class User extends Authenticatable
             $user = self::find($userId);
         if ($user && $user->role === 'group_admin') {
             return $userId;
+        }else{
+            return $user->group_id;
         }
         $groupUser = self::where('group_id', $user->group_id)->first();
         return $groupUser ? $groupUser->id : null;
