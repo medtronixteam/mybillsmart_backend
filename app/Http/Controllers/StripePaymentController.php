@@ -118,7 +118,7 @@ class StripePaymentController extends Controller
 
                 "message" => "Please add product agreements first",
             ],404);
-        }j
+        }
         if(!$limitcheck){
                return response()->json([
                 'status' => "error",
