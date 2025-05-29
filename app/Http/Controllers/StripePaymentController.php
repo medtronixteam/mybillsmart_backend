@@ -107,7 +107,7 @@ class StripePaymentController extends Controller
     {
 
 
-      $adminOrGroupUserId = User::getGroupAdminOrFindByGroup(auth('sanctum')->id());
+  return    $adminOrGroupUserId = User::getGroupAdminOrFindByGroup(auth('sanctum')->id());
         $limitCheck = app(\App\Services\LimitService::class);
 
         $limitcheck = $limitCheck->useLimit($adminOrGroupUserId,'invoices',false);
