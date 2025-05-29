@@ -82,7 +82,7 @@ if ($tracker->checkInvoiceLimitExceeded(2)) {
                 'logged_in_at'=> now(),
             ]);
             $token = $user->createToken('auth-token')->plainTextToken;
-            unset($user->id);
+            // unset($user->id);
             auth('sanctum')->user()->update([
                 'last_login_at' => now(),
             ]);
