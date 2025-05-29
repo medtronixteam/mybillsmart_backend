@@ -52,6 +52,23 @@ class OffersController extends Controller
         $response=['status'=>"success",'code'=>200,'data'=>$offers];
         return response($response,$response['code']);
      }
+    public function clientSearch(Request $request){
+
+        $validator = Validator::make($request->all(), [
+            'number' => 'required|min:3',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['message' => $validator->messages()->first(),'status'=>"error"], 500);
+        }
+        $adminOrGroupUserId = User::getGroupAdminOrFindByGroup(auth('sanctum')->user()->id);
+        if (!$adminOrGroupUserId) {
+            return response()->json(['message' => 'No group admin found for this user', 'status' => 'error'], 404);
+        }
+
+        return response(['numbers'=>User::where('email', 'like', '%'.$request->number.'%')->where('id',$adminOrGroupUserId)
+            ->get()],200);  
+
+    }
      public function view(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -92,15 +109,17 @@ class OffersController extends Controller
 
         $cleanData = array_map(function($item) {
             return collect($item)->mapWithKeys(function($value, $key) {
-                return [strtolower(str_replace(' ', '', $key)) => $value];
+                return [strtolower(preg_replace('/[^a-zA-Z%]/', '', $key)) => $value];
             })->all();
         }, $request->all());
         $validator = Validator::make($cleanData, [
-            '*.provider_name' => 'required|string',
-            '*.sales_commission' => 'required|numeric',
-            '*.product_name' => 'required|string',
-            '*.saving%' => 'required|numeric',
-            '*.invoice_id' => 'required',
+            '*.providername' => 'required|string',
+            '*.salescommission' => 'required|numeric',
+            '*.productname' => 'required|string',
+            '*.monthlysaving' => 'required|numeric',
+            '*.yearlysaving' => 'required|numeric',
+            '*.yearlysaving%' => 'required|numeric',
+            '*.invoiceid' => 'required',
             '*.id' => 'required',
         ]);
         if ($validator->fails()) {
@@ -108,17 +127,19 @@ class OffersController extends Controller
         }
         $transformedData = array_map(function ($item) {
             return [
-                'provider_name' => $item['provider_name'],
-                'sales_commission' => $item['sales_commission'],
-                'product_name' => $item['product_name'],
-                'saving' => $item['saving%'],
+                'provider_name' => $item['providername'],
+                'monthly_saving_amount' => $item['monthlysaving'],
+                'yearly_saving_amount' => $item['yearlysaving'],
+                'yearly_saving_percentage' => $item['yearlysaving%'],
+                'sales_commission' => $item['salescommission'],
+                'product_name' => $item['productname'],
                 'user_id' => auth('sanctum')->id(),
-                'invoice_id' => $item['invoice_id'],
+                'invoice_id' => $item['invoiceid'],
                 'product_id' => $item['id'],
             ];
         }, $cleanData);
         Offer::insert($transformedData);
-        $offers=Offer::where('invoice_id', $cleanData[0]['invoice_id'])->get();
+        $offers=Offer::where('invoice_id', $cleanData[0]['invoiceid'])->get();
         return response()->json(['message' => 'Offer stored successfully','status'=>"success",'offers'=>$offers], 201);
         } catch (\Throwable $th) {
             info("Agent offer api------->".$th->getMessage());

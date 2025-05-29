@@ -14,7 +14,7 @@ class ProductController extends Controller
 
     public function allProductsData()
     {
-        $products = Product::latest()->get();
+        $products = Product::where('group_id',auth('sanctum')->id())->latest()->get();
         return response()->json($products, 200);
     }
     public function identifier(Request $request, $sessionName)
