@@ -9,7 +9,11 @@ use App\Models\Product;
 use Illuminate\Support\Facades\Validator;
 class ProductController extends Controller
 {
-
+//  public function allProductsData()
+//     {
+//         $products = Product::where('group_id',auth('sanctum')->id())->latest()->get();
+//         return response()->json($products, 200);
+//     }
      public function store(Request $request){
 
         $validator= Validator::make($request->all(), [

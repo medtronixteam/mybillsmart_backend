@@ -14,7 +14,8 @@ class ProductController extends Controller
 
     public function allProductsData()
     {
-        $products = Product::where('group_id',auth('sanctum')->id())->latest()->get();
+       $datasupervisor = User::getGroupAdminOrFindByGroup(auth('sanctum')->id());
+        $products = Product::where('group_id',$datasupervisor)->latest()->get();
         return response()->json($products, 200);
     }
     public function identifier(Request $request, $sessionName)
