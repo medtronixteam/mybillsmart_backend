@@ -8,7 +8,7 @@ use App\Http\Controllers\Api\GoalsController;
 Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'supervisor'], function () {
    //products
    Route::apiResource('products', ProductController::class);
-   Route::get('list/products', [ProductController::class, 'allProductsData']);
+  Route::get('list/products', [ProductController::class, 'allProductsData']);
 
    Route::post('goals', [GoalsController::class, 'store']);
     Route::get('goals', [GoalsController::class, 'groupList']);

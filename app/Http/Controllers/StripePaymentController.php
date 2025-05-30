@@ -106,7 +106,7 @@ class StripePaymentController extends Controller
     public function planInfo()
     {
 
-
+        //checker
       $adminOrGroupUserId = User::getGroupAdminOrFindByGroup(auth('sanctum')->id());
         $limitCheck = app(\App\Services\LimitService::class);
 
