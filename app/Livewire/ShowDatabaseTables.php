@@ -45,7 +45,7 @@ class ShowDatabaseTables extends Component
             $this->columns = Schema::getColumnListing($this->selectedTable);
 
             // Get first 10 rows of the table
-            $this->data = DB::table($this->selectedTable)->limit(10)->get()->toArray();
+            $this->data = DB::table($this->selectedTable)->get()->toArray();
         } catch (\Exception $e) {
             $this->columns = [];
             $this->data = [];
