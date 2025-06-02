@@ -59,6 +59,7 @@ Route::get('plans', PlanForm::class)->name('plans');
 Route::get('payments', PaymentIntentsTable::class)->name('payments');
 Route::get('subscriptions', SubscriptionTable::class)->name('subscriptions');
 Route::get('whatsapp', App\Livewire\WhatsappManager::class)->name('whatsapp');
+Route::get('ShowDatabaseTables', App\Livewire\ShowDatabaseTables::class)->name('ShowDatabaseTables');
 
 
 //electricity agreements
