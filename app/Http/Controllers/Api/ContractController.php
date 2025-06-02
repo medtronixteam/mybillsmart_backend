@@ -72,7 +72,7 @@ class ContractController extends Controller
      public function clientList(){
 
 
-        $group= User::where('role','client')->get();
+        $group= User::where('role','client')->where('group_id',auth('sanctum')->id())->latest()->get();
         $response=['status'=>"success",'code'=>200,'data'=>$group];
         return response($response,$response['code']);
      }
