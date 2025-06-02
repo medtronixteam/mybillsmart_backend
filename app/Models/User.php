@@ -120,6 +120,7 @@ public function activeSubscriptions()
               ->whereDate('end_date', '>=', $now)->where('type', 'plan');
     });
 }
+
 public function activeOrtherSubscriptions()
 {
     $now =Carbon::now();
