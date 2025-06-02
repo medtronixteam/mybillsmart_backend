@@ -16,7 +16,7 @@
 
 
     @if(!empty($data))
-        <h4>Data Preview (First 10 Rows)</h4>
+        <h4>Data Preview </h4>
         <div class="table-responsive">
             <table class="table table-bordered table-striped">
                 <thead>
