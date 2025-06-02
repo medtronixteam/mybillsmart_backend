@@ -74,7 +74,7 @@ class StripePaymentController extends Controller
         } else {
             $amount = $plan->monthly_price*100;
         }
-        Log::info('Payment Intent Amount----->: ' . $amount);
+        Log::info('Payment Intent Amount---.-->: ' . $amount);
 
         $paymentIntent = PaymentIntent::create([
             'amount' => $amount,
