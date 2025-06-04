@@ -74,7 +74,7 @@ class StripePaymentController extends Controller
         } else {
             $amount = $plan->monthly_price*100;
         }
-        Log::info('Payment Intent Amount----->: ' . $amount);
+        Log::info('Payment Intent Amount---.-->: ' . $amount);
 
         $paymentIntent = PaymentIntent::create([
             'amount' => $amount,
@@ -110,7 +110,7 @@ class StripePaymentController extends Controller
       $adminOrGroupUserId = User::getGroupAdminOrFindByGroup(auth('sanctum')->id());
         $limitCheck = app(\App\Services\LimitService::class);
 
-        $limitcheck = $limitCheck->useLimit($adminOrGroupUserId,'invoices',false);
+        $limitChecked = $limitCheck->useLimit($adminOrGroupUserId,'invoices',false);
 
         $productsCheck= Product::where('group_id', $adminOrGroupUserId)->orWhere('product_type','global')->count();
        if($productsCheck==0){
@@ -119,7 +119,7 @@ class StripePaymentController extends Controller
                 "message" => "Please add product agreements first",
             ],404);
         }
-        if(!$limitcheck){
+        if(!$limitChecked){
                return response()->json([
                 'status' => "error",
                 "message" => "Plan limit exceeded or Expired",
