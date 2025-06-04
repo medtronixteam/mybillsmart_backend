@@ -280,13 +280,13 @@ public function store(Request $request)
         'phone' => 'required|string',
         'address' => 'required|string',
         'date_of_birth' => 'required|date',
-        'id_card_front' => 'nullable|file|mimes:jpg,jpeg,png',
-        'id_card_back' => 'nullable|file|mimes:jpg,jpeg,png',
+        // 'id_card_front' => 'nullable|file|mimes:jpg,jpeg,png',
+        // 'id_card_back' => 'nullable|file|mimes:jpg,jpeg,png',
         'individual_or_company' => 'nullable|in:individual,company',
-        'bank_receipt' => 'nullable|file|mimes:jpg,jpeg,png',
-        'last_service_invoice' => 'nullable|file|mimes:jpg,jpeg,png,pdf',
-        'lease_agreement' => 'nullable|file|mimes:jpg,jpeg,png,pdf',
-        'bank_account_certificate' => 'nullable|file|mimes:jpg,jpeg,png,pdf',
+        // 'bank_receipt' => 'nullable|file|mimes:jpg,jpeg,png',
+        // 'last_service_invoice' => 'nullable|file|mimes:jpg,jpeg,png,pdf',
+        // 'lease_agreement' => 'nullable|file|mimes:jpg,jpeg,png,pdf',
+        // 'bank_account_certificate' => 'nullable|file|mimes:jpg,jpeg,png,pdf',
         'expiration_date' => 'required|date',
         'contract_id' => 'required|integer',
     ]);
@@ -300,11 +300,11 @@ public function store(Request $request)
     $validatedData['client_id'] = auth('sanctum')->id();
    // $validatedData['contract_id'] = $request->contract_id;
 
-    foreach (['id_card_front', 'id_card_back', 'bank_receipt', 'last_service_invoice', 'lease_agreement', 'bank_account_certificate'] as $field) {
-        if ($request->hasFile($field)) {
-            $validatedData[$field] = $request->file($field)->store('uploads', 'public');
-        }
-    }
+    // foreach (['id_card_front', 'id_card_back', 'bank_receipt', 'last_service_invoice', 'lease_agreement', 'bank_account_certificate'] as $field) {
+    //     if ($request->hasFile($field)) {
+    //         $validatedData[$field] = $request->file($field)->store('uploads', 'public');
+    //     }
+    // }
     $contracts=Contract::find('id',$request->contract_id);
     if (!$contracts) {
         return response(['message' => "Contract not exists", 'status' => 'error', 'code' => 500]);

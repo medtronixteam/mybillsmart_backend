@@ -84,6 +84,8 @@ class ContractController extends Controller
             'closure_date' => 'required|date_format:Y-m-d',
             'offer_id' => 'required',
             'note' => 'nullable',
+            'required_documents' => 'nullable',
+
         ]);
 
         if ($validator->fails()) {
@@ -93,6 +95,9 @@ class ContractController extends Controller
 
         try {
         $adminOrGroupUserId = User::getGroupAdminOrFindByGroup(auth('sanctum')->id());
+         $requiredDocuments = $request->has('required_documents')
+        ? json_encode($request->required_documents)
+        : json_encode([]);
         Contract::create([
             'client_id' => $request->client_id,
             'contracted_provider' => $request->contracted_provider? $request->contracted_provider : 'n/a',
@@ -104,6 +109,7 @@ class ContractController extends Controller
             'note' => $request->note,
             'agent_id' => auth('sanctum')->id(),
             'group_id' => $adminOrGroupUserId,
+            'required_documents' => $requiredDocuments,
         ]);
         Offer::find($request->offer_id)->invoice()->update([
             'is_offer_selected'=>1,
