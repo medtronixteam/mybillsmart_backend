@@ -5,8 +5,8 @@
 sleep 10
 
 # Run database migrations and seed
-echo "Running migrations and seeding..."
-php artisan migrate --seed
+#echo "Running migrations and seeding..."
+#php artisan migrate --seed
 
 # Run the Laravel queue worker in background
 echo "Starting queue worker..."
