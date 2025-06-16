@@ -154,7 +154,7 @@ class MainController extends Controller
     $user->delete();
     return redirect()->back();
     }
-   
+
     public function userView($viewId){
         $user = User::findOrFail($viewId);
         if ($user->role == 'group_admin') {
@@ -252,7 +252,7 @@ class MainController extends Controller
             );
         }
 
-        return back()->with('success', 'User has been created successfully!');
+         return response()->json(['success' => 'User has been created successfully']);
     }
 
 
