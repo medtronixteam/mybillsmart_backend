@@ -127,6 +127,7 @@
                             </div>
                         </div>
                     </div>
+                  <a href="{{ route('user.list') }}" class="btn btn-primary">Back</a>
                     {{-- end of card --}}
 
                 </div>
