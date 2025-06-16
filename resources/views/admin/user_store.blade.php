@@ -125,7 +125,6 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            // Toggle password visibility
             const togglePassword = document.querySelector(".toggle-password");
             const passwordField = document.querySelector("#password");
 
@@ -139,11 +138,9 @@
                 });
             }
 
-            // AJAX form submission
             $('#user-form').submit(function(e) {
                 e.preventDefault();
 
-                // Clear previous errors
                 $('.text-danger').text('');
                 $('#success-message, #error-message').addClass('d-none');
 
@@ -154,19 +151,16 @@
                     success: function(response) {
                         if(response.success) {
                             $('#success-message').removeClass('d-none').text(response.success);
-                            // Optionally reset the form
                             $('#user-form')[0].reset();
                         }
                     },
                     error: function(xhr) {
                         if (xhr.status === 422) {
-                            // Validation errors
                             const errors = xhr.responseJSON.errors;
                             for (const field in errors) {
                                 $(`#${field}-error`).text(errors[field][0]);
                             }
                         } else {
-                            // Other errors
                             $('#error-message').removeClass('d-none').text('An error occurred. Please try again.');
                         }
                     }
