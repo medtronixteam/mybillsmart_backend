@@ -25,7 +25,7 @@ class PlansTableSeeder extends Seeder
             ['name' => 'volume_max', 'monthly_price' =>239,'annual_price' => 2390, 'duration' => 'monthly','invoices_per_month'=>4000],
         ];
 
-        // Loop through each plan and use updateOrCreate
+
         foreach ($plans as $planData) {
             Plan::updateOrCreate(
                 ['name' => $planData['name']], // Search by name
