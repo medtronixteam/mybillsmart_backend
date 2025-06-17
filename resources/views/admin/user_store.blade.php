@@ -17,30 +17,22 @@
                             <h2> Create User</h2>
                         </div>
                         <div class="card-body">
-                            @if (session('success'))
-                                <div class="alert alert-success">
-                                    {{ session('success') }}
-                                </div>
+                            <div id="success-message" class="alert alert-success d-none"></div>
+                            <div id="error-message" class="alert alert-danger d-none"></div>
 
-                            @endif
-                            <form action="{{ route('user.store') }}" method="POST">
+                            <form id="user-form" action="{{ route('user.store') }}" method="POST">
                                 @csrf
                                 <div class="form-group">
                                     <label for="name">Name</label>
                                     <input type="text" class="form-control" id="name" name="name" value="">
-                                    @error('name')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
+                                    <span id="name-error" class="text-danger"></span>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="email">Email</label>
-                                            <input type="email" class="form-control" id="email" name="email"
-                                                value="">
-                                            @error('email')
-                                                <span class="text-danger">{{ $message }}</span>
-                                            @enderror
+                                            <input type="email" class="form-control" id="email" name="email" value="">
+                                            <span id="email-error" class="text-danger"></span>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -49,19 +41,14 @@
                                             <input type="password" class="form-control" id="password" name="password">
                                             <span toggle="#password" class="fa fa-fw fa-eye field-icon toggle-password"
                                                   style="position: absolute; top: 43px; right: 15px; cursor: pointer;"></span>
-                                            @error('password')
-                                                <span class="text-danger">{{ $message }}</span>
-                                            @enderror
+                                            <span id="password-error" class="text-danger"></span>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="dob">dob</label>
-                                            <input type="date" class="form-control" id="dob" name="dob"
-                                                value="">
-                                            @error('dob')
-                                                <span class="text-danger">{{ $message }}</span>
-                                            @enderror
+                                            <input type="date" class="form-control" id="dob" name="dob" value="">
+                                            <span id="dob-error" class="text-danger"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -69,109 +56,116 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="city">City</label>
-                                            <input type="text" class="form-control" id="city" name="city"
-                                                value="">
-                                            @error('city')
-                                                <span class="text-danger">{{ $message }}</span>
-                                            @enderror
+                                            <input type="text" class="form-control" id="city" name="city" value="">
+                                            <span id="city-error" class="text-danger"></span>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="country">Country</label>
-                                            <input type="text" class="form-control" id="country" name="country"
-                                                value="">
-                                            @error('country')
-                                                <span class="text-danger">{{ $message }}</span>
-                                            @enderror
+                                            <input type="text" class="form-control" id="country" name="country" value="">
+                                            <span id="country-error" class="text-danger"></span>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="postal_code">Post Code</label>
-                                            <input type="number" class="form-control" id="postal_code" name="postal_code"
-                                                value="">
-                                            @error('postal_code')
-                                                <span class="text-danger">{{ $message }}</span>
-                                            @enderror
+                                            <input type="number" class="form-control" id="postal_code" name="postal_code" value="">
+                                            <span id="postal_code-error" class="text-danger"></span>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4">
                                         <label for="phone">Phone</label>
-                                        <input type="number" class="form-control" id="phone" name="phone"
-                                            value="">
-                                        @error('phone')
-                                            <span class="text-danger">{{ $message }}</span>
-                                        @enderror
+                                        <input type="number" class="form-control" id="phone" name="phone" value="">
+                                        <span id="phone-error" class="text-danger"></span>
                                     </div>
 
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="status">Status</label>
-
-                                            <select class="form-control" name="status" id="">
+                                            <select class="form-control" name="status" id="status">
                                                 <option value="1">enable</option>
                                                 <option value="0">disable</option>
                                             </select>
-                                            @error('status')
-                                                <span class="text-danger">{{ $message }}</span>
-                                            @enderror
+                                            <span id="status-error" class="text-danger"></span>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
-                                            <label for="role">Role</label>
-
-                                            <select class="form-control"  name="role" id="">
-                                                <option value="group_admin">Group Admin</option>
-                                                <option value="admin">Admin</option>
-                                            </select>
-                                            @error('role')
-                                                <span class="text-danger">{{ $message }}</span>
-                                            @enderror
+                                        <label for="role">Role</label>
+                                        <select class="form-control" name="role" id="role">
+                                            <option value="group_admin">Group Admin</option>
+                                            <option value="admin">Admin</option>
+                                        </select>
+                                        <span id="role-error" class="text-danger"></span>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="dob">Euro Per Point</label>
-                                            <input type="number" min="0" value="1" class="form-control" id="euro_per_points" name="euro_per_points"
-                                                value="">
-                                            @error('euro_per_points')
-                                                <span class="text-danger">{{ $message }}</span>
-                                            @enderror
+                                            <input type="number" min="0" value="1" class="form-control" id="euro_per_points" name="euro_per_points" value="">
+                                            <span id="euro_per_points-error" class="text-danger"></span>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="address">Address</label>
-                                    <textarea name="address" id="" rows="2" class="form-control"></textarea> @error('address')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
+                                    <textarea name="address" id="address" rows="2" class="form-control"></textarea>
+                                    <span id="address-error" class="text-danger"></span>
                                 </div>
 
                                 <button type="submit" class="btn btn-primary">Save</button>
-                        </form>
+                            </form>
                         </div>
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    </div>
+
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const togglePassword = document.querySelector(".toggle-password");
             const passwordField = document.querySelector("#password");
 
-            togglePassword.addEventListener("click", function () {
-                const type = passwordField.getAttribute("type") === "password" ? "text" : "password";
-                passwordField.setAttribute("type", type);
+            if (togglePassword) {
+                togglePassword.addEventListener("click", function () {
+                    const type = passwordField.getAttribute("type") === "password" ? "text" : "password";
+                    passwordField.setAttribute("type", type);
 
-                this.classList.toggle("fa-eye");
-                this.classList.toggle("fa-eye-slash");
+                    this.classList.toggle("fa-eye");
+                    this.classList.toggle("fa-eye-slash");
+                });
+            }
+
+            $('#user-form').submit(function(e) {
+                e.preventDefault();
+
+                $('.text-danger').text('');
+                $('#success-message, #error-message').addClass('d-none');
+
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: 'POST',
+                    data: $(this).serialize(),
+                    success: function(response) {
+                        if(response.success) {
+                            $('#success-message').removeClass('d-none').text(response.success);
+                            $('#user-form')[0].reset();
+                        }
+                    },
+                    error: function(xhr) {
+                        if (xhr.status === 422) {
+                            const errors = xhr.responseJSON.errors;
+                            for (const field in errors) {
+                                $(`#${field}-error`).text(errors[field][0]);
+                            }
+                        } else {
+                            $('#error-message').removeClass('d-none').text('An error occurred. Please try again.');
+                        }
+                    }
+                });
             });
         });
     </script>
 @endsection
-

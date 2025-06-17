@@ -432,6 +432,7 @@ public function agreementStore(Request $request)
          'code' => 200
     ]);
 }
+
      public function agreementList()
         {
             $agreement= Agreement::latest()->get();
