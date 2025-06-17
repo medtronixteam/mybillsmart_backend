@@ -81,7 +81,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="rl1">RL1</label>
-                                            <input type="number"  class="form-control" id="rl1" name="rl1" value="{{ $data? $data->rl1:'' }}">
+                                            <input type="number" step="0.001"   class="form-control" id="rl1" name="rl1" value="{{ $data? $data->rl1:'' }}">
                                             @error('rl1')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
@@ -90,7 +90,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="rl2">RL2</label>
-                                            <input type="number"  class="form-control" id="rl2" name="rl2" value="{{ $data? $data->rl2:'' }}">
+                                            <input type="number" step="0.001"   class="form-control" id="rl2" name="rl2" value="{{ $data? $data->rl2:'' }}">
                                             @error('rl2')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
@@ -99,7 +99,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="rl3">RL3</label>
-                                            <input type="number"  class="form-control" id="rl3" name="rl3" value="{{ $data? $data->rl3:'' }}">
+                                            <input type="number" step="0.001"   class="form-control" id="rl3" name="rl3" value="{{ $data? $data->rl3:'' }}">
                                             @error('rl3')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
@@ -111,7 +111,7 @@
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <label for="p1">P1</label>
-                                            <input type="number"  class="form-control" id="p1" name="p1" value="{{$data? $data->p1:'' }}">
+                                            <input type="number" step="0.001"   class="form-control" id="p1" name="p1" value="{{$data? $data->p1:'' }}">
                                             @error('p1')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
@@ -120,7 +120,7 @@
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <label for="p2">P2</label>
-                                            <input type="number"  class="form-control" id="p2" name="p2" value="{{$data? $data->p2:'' }}">
+                                            <input type="number" step="0.001"   class="form-control" id="p2" name="p2" value="{{$data? $data->p2:'' }}">
                                             @error('p2')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
@@ -129,7 +129,7 @@
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <label for="p3">P3</label>
-                                            <input type="number"  class="form-control" id="p3" name="p3" value="{{ $data? $data->p3:'' }}">
+                                            <input type="number" step="0.001"   class="form-control" id="p3" name="p3" value="{{ $data? $data->p3:'' }}">
                                             @error('p3')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
@@ -138,7 +138,7 @@
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <label for="p4">P4</label>
-                                            <input type="number"  class="form-control" id="p4" name="p4" value="{{ $data? $data->p4:'' }}">
+                                            <input type="number" step="0.001"   class="form-control" id="p4" name="p4" value="{{ $data? $data->p4:'' }}">
                                             @error('p4')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
@@ -147,7 +147,7 @@
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <label for="p5">P5</label>
-                                            <input type="number"  class="form-control" id="p5" name="p5" value="{{ $data? $data->p5:'' }}">
+                                            <input type="number" step="0.001"   class="form-control" id="p5" name="p5" value="{{ $data? $data->p5:'' }}">
                                             @error('p5')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
@@ -156,7 +156,7 @@
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <label for="p6">P6</label>
-                                            <input type="number"  class="form-control" id="p6" name="p6" value="{{ $data? $data->p6:'' }}">
+                                            <input type="number" step="0.001"   class="form-control" id="p6" name="p6" value="{{ $data? $data->p6:'' }}">
                                             @error('p6')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
