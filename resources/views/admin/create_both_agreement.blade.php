@@ -57,7 +57,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="fixed_rate">Fixed Rate (€/kWh)</label>
-                                            <input type="number"  class="form-control" id="fixed_rate" name="fixed_rate" value="{{ $data ? $data->fixed_rate : '' }}" required>
+                                            <input type="number" step="0.001" min="0"  class="form-control" id="fixed_rate" name="fixed_rate" value="{{ $data ? $data->fixed_rate : '' }}" required>
                                             @error('fixed_rate')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
