@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="100x100" href="{{url('assets/images/bill.png')}}">
+    <link rel="icon" type="image/png" sizes="100x100" href="{{url('assets/images/favicon.png')}}">
     <title>My Smart Bill</title>
     <!-- Custom CSS -->
     <link href="{{url('assets/extra-libs/c3/c3.min.css')}}" rel="stylesheet">

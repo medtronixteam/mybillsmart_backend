@@ -39,13 +39,14 @@
                                                 <th>Agent Commision</th>
                                                 <th>Agreement Type</th>
                                                 <th>Customer Type</th>
+                                                <th>Agreement Type</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach ($agreements as $item)
                                                 <tr>
-                                                    <td>{{ $item->id }}</td>
+                                                    <td>{{ $loop->iteration }}</td>
                                                     <td>{{ $item->product_name }}</td>
                                                     <td>{{ $item->provider_name }}</td>
                                                     <td>
@@ -56,6 +57,9 @@
                                                     </td>
                                                     <td>
                                                         {{ $item->customer_type }}
+                                                    </td>
+                                                    <td>
+                                                        {{ $item->product_type }}
                                                     </td>
 
                                                     <td>
