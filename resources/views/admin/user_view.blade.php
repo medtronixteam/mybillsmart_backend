@@ -26,7 +26,6 @@
                                             @endif
                                         </p>
                                         <p><strong>Role:</strong> {{str_replace('_',' ' , ucfirst($user->role)) }}</p>
-                                        <p><strong>Role:</strong> {{str_replace('_',' ' , ucfirst($user->role)) }}</p>
                                     </div>
                                 </div>
                             </div>

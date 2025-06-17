@@ -15,14 +15,6 @@ use App\Models\Plan;
 use App\Models\Product;
 use App\Models\Subscription;
 
-use App\Models\Contract;
-use App\Models\ReferralPoints;
-use App\Models\Invoice;
-use App\Models\Offer;
-use App\Models\Plan;
-use App\Models\Product;
-use App\Models\Subscription;
-
 class MainController extends Controller
 {
     public function login(){
@@ -39,35 +31,6 @@ class MainController extends Controller
             return redirect()->route('dashboard');
         }
         return back()->with('error', 'Invalid email or Password');
-    }
-    public function chartData()
-    {
-        // Get your data (example: monthly sales)
-        $monthlyData = DB::table('subscriptions')
-            ->select(
-                DB::raw('MONTH(created_at) as month'),
-                DB::raw('COUNT(*) as count')
-            )
-            ->whereYear('created_at', date('Y')) // Current year
-            ->groupBy('month')
-            ->orderBy('month')
-            ->get()
-            ->pluck('count', 'month')
-            ->toArray();
-
-        // Fill in missing months with 0
-        $completeData = [];
-        for ($i = 1; $i <= 12; $i++) {
-            $completeData[$i] = $monthlyData[$i] ?? 0;
-        }
-
-        // Prepare the response
-        $data = [
-            'labels' => ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-            'series' => [array_values($completeData)] // Just first 6 months if needed
-        ];
-
-        return $data;
     }
     public function chartData()
     {
@@ -128,44 +91,14 @@ class MainController extends Controller
             ->orderByDesc('invoice_count')
             ->limit(10)
             ->get();
-        $totalagent = User::where('role','agent')->count();
-        $totalgroup = User::where('role','group_admin')->count();
-      $yearlyChartData=  $this->chartData();
-        $salesNumbers=[
-            [
-                'Starter' => Subscription::where('plan_name','starter')->sum('amount'),
-                'Pro' => Subscription::where('plan_name','pro')->sum('amount'),
-                'Enterprise' => Subscription::where('plan_name','enterprise')->sum('amount')
-            ],
-
-            [
-                'Starter' => Subscription::where('plan_name','starter')->count(),
-                'Pro' => Subscription::where('plan_name','pro')->count(),
-                'Enterprise' => Subscription::where('plan_name','enterprise')->count()
-            ],
-        ];
-        // $topGroups = DB::table('invoices')
-        //     ->select('group_id', DB::raw('COUNT(*) as invoice_count'))
-        //     ->groupBy('group_id')
-        //     ->orderByDesc('invoice_count')
-        //     ->limit(10)
-        //     ->get();
-            $topGroups = Invoice::select('group_id')
-            ->selectRaw('COUNT(*) as invoice_count')
-            ->groupBy('group_id')
-            ->orderByDesc('invoice_count')
-            ->limit(10)
-            ->get();
         $user = Auth::user();
         if ($user->role == 'admin') {
-            return view('admin.dashboard', compact('totalUsers','totalagent','totalgroup','topGroups','salesNumbers','yearlyChartData'));
             return view('admin.dashboard', compact('totalUsers','totalagent','totalgroup','topGroups','salesNumbers','yearlyChartData'));
         } else {
             return redirect()->route('login')->with('error', 'You do not have access to the dashboard.');
         }
     }
     public function userList(){
-        $users = User::where('role','admin')->latest()->get();
         $users = User::where('role','admin')->latest()->get();
         return view('admin.user_list', compact('users'));
     }
@@ -180,32 +113,11 @@ class MainController extends Controller
 
    public function disable($userId)
 {
-    public function groupAdmin(){
-        $users = User::where('role','group_admin')->latest()->get();
-        return view('admin.group_admin', compact('users'));
-    }
-    public function allUsers(){
-        $users = User::whereNot('role','group_admin')->whereNot('role','admin')->latest()->get();
-        return view('admin.users', compact('users'));
-    }
-
-   public function disable($userId)
-{
     $user = User::findOrFail($userId);
 
    $user->status = 0;
     $user->status_by_admin = false;
-
-   $user->status = 0;
-    $user->status_by_admin = false;
     $user->save();
-
-    if ($user->role == 'group_admin') {
-        User::where('group_id', $user->id)->update([
-            'status' => 0,
-            'status_by_admin' => false
-        ]);
-    }
 
     if ($user->role == 'group_admin') {
         User::where('group_id', $user->id)->update([
@@ -218,18 +130,11 @@ class MainController extends Controller
 
    public function enable($userId)
 {
-}
-
-   public function enable($userId)
-{
     $user = User::findOrFail($userId);
-
 
     $user->status = 1;
     $user->status_by_admin = true;
 
-    $user->status_by_admin = true;
-
     $user->save();
 
  if ($user->role == 'group_admin') {
@@ -239,18 +144,7 @@ class MainController extends Controller
         ]);
     }
 
-
- if ($user->role == 'group_admin') {
-        User::where('group_id', $user->id)->update([
-            'status' => 1,
-            'status_by_admin' => true
-        ]);
-    }
-
     return redirect()->back();
-}
-
-
 }
 
 

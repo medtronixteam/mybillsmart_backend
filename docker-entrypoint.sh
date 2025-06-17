@@ -1,23 +1,21 @@
 #!/bin/bash
 
-# Optional sleep to wait for other services (like DB)
+# Wait for the database to be ready (optional but useful if DB is in another container)
+# Sleep for 10 seconds to allow database connections to establish
 sleep 10
 
 # Run database migrations and seed
 echo "Running migrations and seeding..."
 php artisan migrate --seed
 
-# Start the queue worker
+# Run the Laravel queue worker in background
 echo "Starting queue worker..."
 php artisan queue:work --daemon &
 
-# Start the Laravel scheduler in loop
+# Run the Laravel scheduler in background
 echo "Starting Laravel scheduler..."
-while true; do
-  php artisan schedule:run >> /dev/null 2>&1
-  sleep 60
-done &
+php artisan schedule:run &
 
-# Start the Laravel development server (or PHP-FPM if in production)
+# Finally, start the Laravel development server
 echo "Starting Laravel server..."
 exec php artisan serve --host=0.0.0.0 --port=8000

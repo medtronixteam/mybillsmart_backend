@@ -115,7 +115,7 @@ class StripePaymentController extends Controller
         $productsCheck= Product::where('group_id', $adminOrGroupUserId)->orWhere('product_type','global')->count();
        if($productsCheck==0){
                return response()->json([
-                  'status' => "error",
+
                 "message" => "Please add product agreements first",
             ],404);
         }
@@ -129,7 +129,7 @@ class StripePaymentController extends Controller
            return response()->json([
                 'status' => "success",
                 "message" => "Everything is fine",
-            ],200);
+            ]);
     }
     public function storeSubscription(Request $request)
     {
