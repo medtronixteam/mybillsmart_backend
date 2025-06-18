@@ -51,10 +51,10 @@
                                                     <td>
 
                                                         @if ($item->activeSubscriptions()->first())
-                                                            <span class="badge badge-warning">No Plan</span>
+                                                        <span class="badge badge-info">{{ $item->activeSubscriptions()->first()->name }}</span>
                                                         @else
 
-                                                            <span class="badge badge-info">{{ $item->activeSubscriptions()->first()->name }}</span>
+                                                        <span class="badge badge-warning">No Plan</span>
                                                         @endif
                                                     </td>
                                                     <td>
