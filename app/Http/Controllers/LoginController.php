@@ -111,7 +111,7 @@ if ($tracker->checkInvoiceLimitExceeded(2)) {
             ], 401);
         }
     }
- function register(Request $request) {
+        function register(Request $request) {
             $validator = Validator::make($request->all(), [
                 'name' => 'required|max:20',
                 'email' => 'required|email|unique:users',

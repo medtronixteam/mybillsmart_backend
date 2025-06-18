@@ -51,8 +51,8 @@
                                                     </td>
                                                     <td>
 
-                                                        @if ($item->activeSubscriptions()->count()>0)
-                                                        <span class="badge badge-info">{{ $item->activeSubscriptions()->value('plan_name')}}</span>
+                                                        @if ($item->activeSubscriptions()->where('status','active')->count()>0)
+                                                        <span class="badge badge-info">{{ $item->activeSubscriptions()->where('status','active')->latest()->value('plan_name')}}</span>
                                                         @else
 
                                                         <span class="badge badge-danger">No Plan</span>
