@@ -152,16 +152,18 @@ class MainController extends Controller
 }
 
     public function userView($viewId){
+
+
         $user = User::findOrFail($viewId);
-        if ($user->role == 'group_admin') {
+        if ($user->role == 'group_admin') {  $subscription = Subscription::with('user')->where('user_id', $viewId)->latest()->get();
             $groupUsers= User::where('group_id', $user->id)->limit(20)->latest()->get();
             $groupInvoices= Invoice::where('group_id', $user->id)->limit(20)->latest()->get();
         }else{
-            $groupUsers= [];
+            $groupUsers=$subscription= [];
             $groupInvoices= Invoice::where('agent_id', $user->id)->limit(20)->latest()->get();
         }
 
-        return view('admin.user_view', compact('user','groupUsers','groupInvoices'));
+        return view('admin.user_view', compact('user','groupUsers','groupInvoices','subscription'));
     }
     public function profile(){
         return view('admin.profile');

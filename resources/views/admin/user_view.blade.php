@@ -58,14 +58,43 @@
                     </div>
                     {{-- end of card --}}
                 @if ($user->role=="group_admin")
+                      <div class="card">
+                        <div class="card-header bg-dark text-white">
+                            <h2 class="mb-0">Recent Subscriptions</h2>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-body">
+                                <table class="table dataTable">
+                                    <tr>
+                                        <th>ID</th>
+                <th>Plan</th>
+                {{-- <th>User</th> --}}
+                <th>Status</th>
+                <th>Amount</th>
+                <th>Start Date</th>
+                                    </tr>
+                                    @foreach ($subscription as $item)
+                                        <tr>
+                                            <td>{{ $item->id }}</td>
+                    <td>{{ $item->plan_name }}</td>
+                    {{-- <td>{{ $item->user?->name ?? '-' }}</td> --}}
+                    <td>{{ ucfirst($item->status) }}</td>
+                    <td>${{ $item->amount }}</td>
+                    <td>{{ $item->start_date ? \Carbon\Carbon::parse($sub->start_date)->format('Y-m-d') : '-' }}</td>
 
+                                        </tr>
+                                        @endforeach
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                     <div class="card">
                         <div class="card-header bg-dark text-white">
                             <h2 class="mb-0">User Lists</h2>
                         </div>
                         <div class="card-content">
                             <div class="card-body">
-                                <table class="table">
+                                <table class="table dataTable">
                                     <tr>
                                         <th>ID</th>
                                         <th>Name</th>
@@ -104,7 +133,7 @@
                         </div>
                         <div class="card-content">
                             <div class="card-body">
-                                <table class="table">
+                                <table class="table dataTable">
                                     <tr>
                                         <th>ID</th>
                                         <th>Bill Type</th>
