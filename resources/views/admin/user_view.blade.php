@@ -80,7 +80,7 @@
                     {{-- <td>{{ $item->user?->name ?? '-' }}</td> --}}
                     <td>{{ ucfirst($item->status) }}</td>
                     <td>${{ $item->amount }}</td>
-                    <td>{{ $item->start_date ? \Carbon\Carbon::parse($sub->start_date)->format('Y-m-d') : '-' }}</td>
+                    <td>{{ $item->start_date ? \Carbon\Carbon::parse($item->start_date)->format('Y-m-d') : '-' }}</td>
 
                                         </tr>
                                         @endforeach
