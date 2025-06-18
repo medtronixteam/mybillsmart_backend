@@ -72,12 +72,17 @@
                                                                     </li>
                                                                     <li><a class="dropdown-item" href="{{ route('user.password', $item->id) }}">Reset Password</a>
                                                                     </li>
+                                                                    <li><a class="dropdown-item" href="{{ route('subscriptions.view', $item->id) }}">Subscriptions</a>
                                                                     <li><a class="dropdown-item" href="javascript:void(0)"
                                                                             onclick="confirmDelete({{ $item->id }})">Delete</a>
+                                                                    </li>
+
                                                                     </li>
                                                                     <li><a class="dropdown-item" href="javascript:void(0)"
                                                                             onclick="confirmDisable({{ $item->id }})">Disable</a>
                                                                     </li>
+
+
                                                                 @else
                                                                     <li><a class="dropdown-item" href="javascript:void(0)"
                                                                             onclick="confirmEnable({{ $item->id }})">Enable</a>

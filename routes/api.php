@@ -73,7 +73,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('session/history', [LoginController::class, 'sessionHistory']);
 
     Route::get('plan/info', [StripePaymentController::class, 'planInfo']);
-    Route::get('agents/info', [StripePaymentController::class, 'planInfo']);
+    Route::get('agents/info', [StripePaymentController::class, 'agentInfo']);
     Route::get('company/info/{id}', [CompanyController::class, 'specificCompanyInfo']);
 //whtsapp
 
