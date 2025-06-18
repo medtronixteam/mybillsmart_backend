@@ -28,7 +28,7 @@ class PlansTableSeeder extends Seeder
 
         foreach ($plans as $planData) {
             Plan::updateOrCreate(
-                ['name' => $planData['name']], // Search by name
+                ['name' => $planData['name']], 
                 $planData // Update or create with these attributes
             );
         }
