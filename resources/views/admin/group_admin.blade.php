@@ -31,7 +31,7 @@
                                                 <th>Name</th>
                                                 <th>Email</th>
                                                 <th>Status</th>
-                                                <th>Role</th>
+                                                <th>Plan</th>
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>
@@ -49,12 +49,12 @@
                                                         @endif
                                                     </td>
                                                     <td>
-                                                        @if ($item->role == 'group_admin')
-                                                            <span class="badge badge-success">Group Admin</span>
-                                                        @elseif ($item->role == 'admin')
-                                                            <span class="badge badge-info">Admin</span>
-                                                            @else
-                                                            <span class="badge badge-warning">User</span>
+
+                                                        @if ($item->activeSubscriptions()->first())
+                                                            <span class="badge badge-warning">No Plan</span>
+                                                        @else
+
+                                                            <span class="badge badge-info">{{ $item->activeSubscriptions()->first()->name?"N/A" }}</span>
                                                         @endif
                                                     </td>
                                                     <td>
