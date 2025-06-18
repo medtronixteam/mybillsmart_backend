@@ -116,13 +116,11 @@ class MainController extends Controller
     $user = User::findOrFail($userId);
 
    $user->status = 0;
-    $user->status_by_admin = false;
     $user->save();
 
     if ($user->role == 'group_admin') {
         User::where('group_id', $user->id)->update([
             'status' => 0,
-            'status_by_admin' => false
         ]);
     }
     return redirect()->back();
@@ -133,17 +131,8 @@ class MainController extends Controller
     $user = User::findOrFail($userId);
 
     $user->status = 1;
-    $user->status_by_admin = true;
 
     $user->save();
-
- if ($user->role == 'group_admin') {
-        User::where('group_id', $user->id)->update([
-            'status' => 1,
-            'status_by_admin' => true
-        ]);
-    }
-
     return redirect()->back();
 }
 
