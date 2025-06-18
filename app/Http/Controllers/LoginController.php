@@ -50,6 +50,15 @@ if ($tracker->checkInvoiceLimitExceeded(2)) {
         }
         if (Auth::attempt($request->only('email', 'password'))) {
             $user = Auth::user();
+            //check login status of user 0 for super-admin ,2 for group admin , 3 for main plan expired
+            if($user->status!=1){
+                Auth::logout();
+                return response()->json([
+                    'message' => "Your account has been disabled.",
+                    'status' => 'error',
+                    'code' => 500
+                ], 500);
+            }
             // Generate 2FA code
             if($user->twoFA_enable):
 
