@@ -111,26 +111,18 @@ class MainController extends Controller
         return view('admin.users', compact('users'));
     }
 
-  public function disable($userId)
+   public function disable($userId)
 {
     $user = User::findOrFail($userId);
 
-
-    if ($user->role == 'admin') {
-        $user->status = 0;
-    } elseif ($user->role == 'group_admin') {
-        $user->status = 2;
-    }
-
-
+   $user->status = 0;
     $user->save();
 
     if ($user->role == 'group_admin') {
         User::where('group_id', $user->id)->update([
-            'status' => 2, 
+            'status' => 0,
         ]);
     }
-
     return redirect()->back();
 }
 
@@ -139,17 +131,8 @@ class MainController extends Controller
     $user = User::findOrFail($userId);
 
     $user->status = 1;
-    $user->status_by_admin = true;
 
     $user->save();
-
- if ($user->role == 'group_admin') {
-        User::where('group_id', $user->id)->update([
-            'status' => 1,
-            'status_by_admin' => true
-        ]);
-    }
-
     return redirect()->back();
 }
 

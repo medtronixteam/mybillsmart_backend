@@ -132,7 +132,7 @@ class ProfileController extends Controller
             if (!$userDisable) {
                 return response()->json(['message' => 'User not found'], 500);
             }
-            $userDisable->status = 0;
+            $userDisable->status = 2;
             $userDisable->save();
             return response()->json(['message' => 'User disabled successfully']);
         }
