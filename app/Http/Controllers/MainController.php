@@ -14,7 +14,7 @@ use App\Models\Offer;
 use App\Models\Plan;
 use App\Models\Product;
 use App\Models\Subscription;
-
+use Carbon\Carbon;
 class MainController extends Controller
 {
     public function login(){
@@ -248,6 +248,17 @@ class MainController extends Controller
                     'level_3_points' => 3,
                 ]
             );
+             Subscription::create([
+                    'user_id' => $user->id,
+                    'amount' => 0,
+                    'payment_intent_id' => 1,
+                    'start_date' => Carbon::now(),
+                    'end_date' =>Carbon::now()->copy()->addDays(7),
+                    'status' => 'active',
+                    'type' => "plan",
+                    'plan_name' => "free_trial",
+                    'plan_duration' => "monthly",
+                ]);
         }
 
          return response()->json(['success' => 'User has been created successfully']);

@@ -110,14 +110,21 @@ class StripePaymentController extends Controller
       $adminOrGroupUserId = User::getGroupAdminOrFindByGroup(auth('sanctum')->id());
         $limitCheck = app(\App\Services\LimitService::class);
 
-        $limitChecked = $limitCheck->useLimit($adminOrGroupUserId,'invoices',false);
+    $limitChecked = $limitCheck->useLimit($adminOrGroupUserId,'agents',false,false);
 
         $productsCheck= Product::where('group_id', $adminOrGroupUserId)->orWhere('product_type','global')->count();
        if($productsCheck==0){
-               return response()->json([
+            if(auth('sanctum')->user()->role=='group_admin'){
+                 return response()->json([
 
                 "message" => "Please add product agreements first",
             ],404);
+            }
+                 return response()->json([
+
+                "message" => "There is no product agreements ",
+            ],404);
+
         }
         if(!$limitChecked){
                return response()->json([

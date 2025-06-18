@@ -6,6 +6,7 @@ use App\Livewire\PlanForm;
 use App\Livewire\PaymentIntentsTable;
 use App\Livewire\SubscriptionTable;
 use App\Livewire\DocumentList;
+use App\Livewire\ManageSubscriptions;
 use App\Http\Controllers\AgreementController;
 use App\Http\Controllers\ProductController;
 
@@ -58,6 +59,7 @@ Route::get('view/detail/{id}', [MainController::class, 'showDetail'])->name('vie
 Route::get('plans', PlanForm::class)->name('plans');
 Route::get('payments', PaymentIntentsTable::class)->name('payments');
 Route::get('subscriptions', SubscriptionTable::class)->name('subscriptions');
+Route::get('subscription/manage/{userId}', ManageSubscriptions::class)->name('subscriptions.view');
 Route::get('whatsapp', App\Livewire\WhatsappManager::class)->name('whatsapp');
 Route::get('ShowDatabaseTables', App\Livewire\ShowDatabaseTables::class)->name('ShowDatabaseTables');
 
