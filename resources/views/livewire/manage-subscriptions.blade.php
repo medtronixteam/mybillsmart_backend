@@ -24,6 +24,7 @@
                         <th>Status</th>
                         <th>Start Date</th>
                         <th>End Date</th>
+                        <th>Invoices/Agents</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -35,6 +36,8 @@
                             <td>{{ $subscription->status }}</td>
                             <td>{{ $subscription->start_date }}</td>
                             <td>{{ $subscription->end_date }}</td>
+                            <td>{{$subscription->limits()->where('limit_type','invoices')->value('limit_value')}}/{{$subscription->limits()->where('limit_type','agents')->value('limit_value')}}</td>
+
                         </tr>
                     @empty
                         <tr>
