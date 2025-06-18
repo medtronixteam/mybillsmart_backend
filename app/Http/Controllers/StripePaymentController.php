@@ -110,9 +110,8 @@ class StripePaymentController extends Controller
       $adminOrGroupUserId = User::getGroupAdminOrFindByGroup(auth('sanctum')->id());
         $limitCheck = app(\App\Services\LimitService::class);
 
-    $limitChecked = $limitCheck->useLimit($adminOrGroupUserId,'agents',false,false);
-
-        $productsCheck= Product::where('group_id', $adminOrGroupUserId)->orWhere('product_type','global')->count();
+    $limitChecked = $limitCheck->useLimit($adminOrGroupUserId,'invoices',false,false);
+ $productsCheck= Product::where('group_id', $adminOrGroupUserId)->orWhere('product_type','global')->count();
        if($productsCheck==0){
             if(auth('sanctum')->user()->role=='group_admin'){
                  return response()->json([
@@ -126,6 +125,29 @@ class StripePaymentController extends Controller
             ],404);
 
         }
+
+        if(!$limitChecked){
+               return response()->json([
+                'status' => "error",
+                "message" => "Plan limit exceeded or Expired",
+            ],403);
+        }
+
+           return response()->json([
+                'status' => "success",
+                "message" => "Everything is fine",
+            ]);
+    }
+     public function agentInfo()
+    {
+
+        //checker
+      $adminOrGroupUserId = User::getGroupAdminOrFindByGroup(auth('sanctum')->id());
+        $limitCheck = app(\App\Services\LimitService::class);
+
+    $limitChecked = $limitCheck->useLimit($adminOrGroupUserId,'agents',false,false);
+
+
         if(!$limitChecked){
                return response()->json([
                 'status' => "error",
