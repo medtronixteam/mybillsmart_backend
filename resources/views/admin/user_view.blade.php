@@ -6,8 +6,9 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card shadow">
-                        <div class="card-header bg-dark text-white">
+                        <div class="card-header bg-dark d-flex text-white justify-content-between">
                             <h2 class="mb-0">Personal Information</h2>
+                            <a href="{{ route('user.list') }}" class="btn btn-primary">Back</a>
                         </div>
                         <div class="card-content">
                             <div class="card-body">
@@ -127,7 +128,7 @@
                             </div>
                         </div>
                     </div>
-                  <a href="{{ route('user.list') }}" class="btn btn-primary">Back</a>
+
                     {{-- end of card --}}
 
                 </div>

@@ -1,6 +1,7 @@
 @extends('layout.admin')
 
 @section('content')
+
     <div class="page-wrapper">
         <div class="page-breadcrumb">
             <div class="row">
@@ -24,14 +25,14 @@
                         <div class="card-content">
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table table-bordered">
+                                    <table class="table table-bordered ">
                                         <thead class="bg-dark text-white">
                                             <tr>
                                                 <th>#</th>
                                                 <th>Name</th>
                                                 <th>Email</th>
                                                 <th>Status</th>
-                                                <th>Role</th>
+                                                <th>Plan</th>
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>
@@ -49,12 +50,12 @@
                                                         @endif
                                                     </td>
                                                     <td>
-                                                        @if ($item->role == 'group_admin')
-                                                            <span class="badge badge-success">Group Admin</span>
-                                                        @elseif ($item->role == 'admin')
-                                                            <span class="badge badge-info">Admin</span>
-                                                            @else
-                                                            <span class="badge badge-warning">User</span>
+
+                                                        @if ($item->activeSubscriptions()->count()>0)
+                                                        <span class="badge badge-info">{{ $item->activeSubscriptions()->value('plan_name')}}</span>
+                                                        @else
+
+                                                        <span class="badge badge-danger">No Plan</span>
                                                         @endif
                                                     </td>
                                                     <td>
@@ -189,4 +190,5 @@
                 }
             })
         }
+
     </script>
