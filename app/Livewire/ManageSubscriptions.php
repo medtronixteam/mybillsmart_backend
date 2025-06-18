@@ -118,6 +118,7 @@ class ManageSubscriptions extends Component
             Subscription::create([
             'payment_intent_id' => 2,
             'plan_name' => 'free_trial',
+            'amount' => 0,
             'user_id' => $this->userId,
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
