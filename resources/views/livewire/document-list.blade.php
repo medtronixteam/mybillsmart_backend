@@ -73,7 +73,7 @@
 
         @if (count($documents) > 0)
             <div class="table-responsive">
-                <table class="table table-striped table-bordered">
+                <table class="table table-striped table-bordered dataTable">
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col">Document Name</th>
