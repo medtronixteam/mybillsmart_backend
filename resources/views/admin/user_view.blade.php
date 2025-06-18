@@ -94,7 +94,7 @@
                         </div>
                         <div class="card-content">
                             <div class="card-body">
-                                <table class="table">
+                                <table class="table dataTable">
                                     <tr>
                                         <th>ID</th>
                                         <th>Name</th>
