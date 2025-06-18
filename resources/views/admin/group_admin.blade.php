@@ -54,7 +54,7 @@
                                                             <span class="badge badge-warning">No Plan</span>
                                                         @else
 
-                                                            <span class="badge badge-info">{{ $item->activeSubscriptions()->first()->name?"N/A" }}</span>
+                                                            <span class="badge badge-info">{{ $item->activeSubscriptions()->first()->name }}</span>
                                                         @endif
                                                     </td>
                                                     <td>
