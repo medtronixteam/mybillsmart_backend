@@ -8,7 +8,7 @@
     <meta name="author" content="">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="100x100" href="{{url('assets/images/favicon.png')}}">
-    <title>My Smart Bill</title>
+    <title>MyBillSmart</title>
     <!-- Custom CSS -->
     <link href="{{url('assets/extra-libs/c3/c3.min.css')}}" rel="stylesheet">
     <link href="{{url('assets/libs/chartist/dist/chartist.min.css')}}" rel="stylesheet">
@@ -18,4 +18,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
+          <link rel="stylesheet" href="{{ url('assets/extra-libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}">
+
 </head>

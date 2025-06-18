@@ -24,7 +24,7 @@
                         <div class="card-content">
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table table-bordered">
+                                    <table class="table table-bordered dataTable" id="zero_config">
                                         <thead class="bg-dark text-white">
                                             <tr>
                                                 <th>#</th>
@@ -87,7 +87,9 @@
             </div>
         </div>
     @endsection
+
     <script>
+
         function confirmDisable(userId) {
             Swal.fire({
                 title: 'Are you sure?',

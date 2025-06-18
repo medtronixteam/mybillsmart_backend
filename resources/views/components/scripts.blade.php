@@ -24,6 +24,13 @@
     const quill = new Quill('#editor', {
       theme: 'snow'
     });
+
   </script>
   <script src="{{url('assets/js/pages/dashboards/dashboard1.js')}}"></script>
+<script src="{{ url('assets/extra-libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ url('assets/extra-libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script>
+      $('.dataTable').DataTable();
+   </script>
+
   @stack('scripts')

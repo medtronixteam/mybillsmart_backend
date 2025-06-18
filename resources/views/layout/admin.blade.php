@@ -40,6 +40,7 @@
     <!-- All Jquery -->
     <!-- ============================================================== -->
    @include('components.scripts')
+
    @livewireScripts
 </body>
 
