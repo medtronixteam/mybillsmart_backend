@@ -114,6 +114,17 @@ class ManageSubscriptions extends Component
 
             }
             NotificationController::pushNotification($this->userId, 'Free Trial', 'myBillSmart granted you a free trial.');
+        }else{
+            Subscription::create([
+            'payment_intent_id' => 2,
+            'plan_name' => 'free_trial',
+            'user_id' => $this->userId,
+            'start_date' => $this->start_date,
+            'end_date' => $this->end_date,
+            'status' => 'active',
+            'type' => "plan",
+            'plan_duration' => "monthly",
+        ]);
         }
 
         session()->flash('message', 'User free trial has been extended.');
