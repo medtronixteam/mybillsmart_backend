@@ -148,12 +148,19 @@ class MainController extends Controller
 }
 
 
-    public function delete($deleteId)
-    {
+   public function delete($deleteId)
+{
     $user = User::findOrFail($deleteId);
-    $user->delete();
-    return redirect()->back();
+
+
+    if ($user->role === 'group_admin') {
+        User::where('group_id', $user->id)->delete();
     }
+
+    $user->delete();
+
+    return redirect()->back();
+}
 
     public function userView($viewId){
         $user = User::findOrFail($viewId);
