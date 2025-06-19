@@ -173,29 +173,40 @@ class ProfileController extends Controller
         }
 
 
-    public function forgotPassword(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email|exists:users,email',
-        ]);
+  public function forgotPassword(Request $request)
+{
+    $validator = Validator::make($request->all(), [
+        'email' => 'required|email|exists:users,email',
+    ]);
 
-        if ($validator->fails()) {
-            return response()->json(['message' => $validator->messages()->first(), 'status' => 'error'], 500);
-        }
-
-        $email = $request->email;
-        $otp = rand(100000, 999999);
-
-
-        Cache::put('otp_', $otp, now()->addMinutes(2));
-
-
-        Mail::raw("Your OTP code is: $otp", function ($message) use ($email) {
-            $message->to($email)->subject('Password Reset OTP');
-        });
-
-        return response()->json(['message' => 'OTP sent to your email. It will expire in 2 minute.']);
+    if ($validator->fails()) {
+        return response()->json(['message' => $validator->messages()->first(), 'status' => 'error'], 500);
     }
+
+    $email = $request->email;
+    $otp = rand(100000, 999999);
+
+
+    Cache::put('otp_' . $email, $otp, now()->addMinutes(2));
+
+
+    config([
+        'mail.mailers.smtp.host' => 'smtp.mailfrom.dev',
+        'mail.mailers.smtp.port' => 587,
+        'mail.mailers.smtp.username' => '2R89vOOwimyu5HpT',
+        'mail.mailers.smtp.password' => 'ZtBZe3Ivqs11FrKa',
+        'mail.mailers.smtp.encryption' => 'tls',
+    ]);
+
+
+    Mail::raw("Your OTP code is: $otp", function ($message) use ($email) {
+        $message->to($email)->subject('Password Reset OTP');
+    });
+
+    return response()->json([
+        'message' => 'OTP sent to your email. It will expire in 2 minutes.'
+    ]);
+}
 
 
     public function verifyOtp(Request $request)
