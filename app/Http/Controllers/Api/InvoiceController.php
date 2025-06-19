@@ -9,8 +9,7 @@ use Illuminate\Support\Facades\Validator;
 
 class InvoiceController extends Controller
 {
-     // Create a new invoice
-     public function store(Request $request)
+    public function store(Request $request)
      {
 
          $validator = Validator::make($request->all(), [
@@ -44,6 +43,42 @@ class InvoiceController extends Controller
          return response()->json([
              'message' => 'Invoice created successfully.','status'=>"success",'invoice'=>$invoice->id,
          ], 201);
+     }
+    // Create a new invoice
+
+     public function updateInvoice(Request $request)
+     {
+
+         $validator = Validator::make($request->all(), [
+             'bill type' => 'nullable',
+             'address' => 'nullable|string',
+             'cups' => 'nullable|string',
+             'billing period' => 'nullable',
+             'invoice_id' => 'required|exists:invoices,id',
+         ]);
+
+         if ($validator->fails()) {
+             return response()->json(['message' => $validator->errors()->first()], 500);
+         }
+         $billType = $request->input('bill type')? $request->input('bill type') : 'Gas';
+         $bill_period = $request->input('billing period')? $request->input('billing period') : 'n/a';
+         $CUPS = $request->input('cups')? $request->input('cups') : 'n/a';
+         $address = $request->input('address')? $request->input('address') : 'n/a';
+         $billInfo = $request->except(['bill type', 'address','cups','billing period']);
+         $invoice = Invoice::find('id',$request->input('invoice_id'))->update(
+            [
+                'bill_type' => $billType,
+                'billing_period' => $bill_period,
+                'address' => $address,
+                'CUPS' => $CUPS,
+                'bill_info' => $billInfo,
+
+            ]
+         );
+
+         return response()->json([
+             'message' => 'Invoice updated successfully.','status'=>"success",
+         ], 200);
      }
      public function storeGroup(Request $request)
      {

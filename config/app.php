@@ -106,6 +106,7 @@ return [
         ),
     ],
     'Agent' => Jenssegers\Agent\Facades\Agent::class,
+
     /*
     |--------------------------------------------------------------------------
     | Maintenance Mode Driver

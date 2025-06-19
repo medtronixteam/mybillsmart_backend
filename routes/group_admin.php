@@ -38,6 +38,7 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'group'], function () 
     //invoices
     Route::get('invoices', [InvoiceController::class, 'groupInvoices']);
     Route::post('invoices', [InvoiceController::class, 'storeGroup']);
+    Route::put('invoices', [InvoiceController::class, 'updateInvoice']);
     //->middleware(InvoiceMiddleware::class)
     Route::get('invoices/{id}', [InvoiceController::class, 'show']);
 

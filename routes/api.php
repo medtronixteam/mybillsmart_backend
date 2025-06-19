@@ -107,6 +107,7 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'member'], function ()
     Route::get('invoices', [InvoiceController::class, 'index']);
     Route::post('invoice/offers', [OffersController::class, 'view']);
     Route::post('/offers', [OffersController::class, 'store']);
+    Route::put('invoices', [InvoiceController::class, 'updateInvoice']);
 
 
     //client management

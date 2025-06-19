@@ -11,7 +11,9 @@ use App\Http\Controllers\AgreementController;
 use App\Http\Controllers\ProductController;
 
 
+use App\Http\Controllers\PdfController;
 
+Route::get('/generate-invoice', [PdfController::class, 'generatePdf']);
 
 //Main Page
 Route::get('/', function () {

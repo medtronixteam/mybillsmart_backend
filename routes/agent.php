@@ -33,7 +33,7 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'agent'], function () 
 
     Route::get('invoices', [InvoiceController::class, 'index']);
     Route::get('invoices/{id}', [InvoiceController::class, 'show']);
-
+        Route::put('invoices', [InvoiceController::class, 'updateInvoice']);
 
     Route::get('list/invoices', [InvoiceController::class, 'agentList']);
 
