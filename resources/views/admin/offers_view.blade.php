@@ -24,7 +24,7 @@
                                     </div>
                                 @else
                                 <div class="table-responsive">
-                                    <table class="table table-bordered">
+                                    <table class="table table-bordered dataTable">
                                         <thead class="bg-dark text-white">
                                             <tr>
                                                 <th>#</th>
