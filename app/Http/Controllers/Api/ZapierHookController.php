@@ -9,6 +9,18 @@ use Illuminate\Support\Facades\Validator;
 
 class ZapierHookController extends Controller
 {
+    public function testHook(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'hook_id' => 'required|exists:zapier_hooks,id',
+
+        ]);
+        if ($validator->fails()) {
+            return response(['message' => $validator->messages()->first(), 'status' => 'error', 'code' => 500]);
+        }
+
+         return response()->json(['message' => 'Test hook sent'], 200);
+    }
     public function index()
     {
         return response()->json(ZapierHook::where('user_id', auth('sanctum')->id())->latest()->get(), 200);
