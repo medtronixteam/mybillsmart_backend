@@ -13,28 +13,30 @@ use App\Http\Controllers\Api\PlanContoller;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\PaymentIntentController;
 use App\Http\Controllers\Api\CompanyController;
+use App\Http\Controllers\Api\ZapierHookController;
 use App\Http\Middleware\InvoiceMiddleware;
+
 Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'group'], function () {
 
 
 
-   Route::post('/user', [LoginController::class, 'register']);
+    Route::post('/user', [LoginController::class, 'register']);
 
-   Route::post('user/profile', [ProfileController::class, 'update']);
-   Route::get('/users/list', [ProfileController::class, 'groupUserList']);
-   Route::get('/user/detail/{id}', [ProfileController::class, 'detail']);
-   Route::post('user/edit/{id}', [SupervisorController::class, 'update']);
+    Route::post('user/profile', [ProfileController::class, 'update']);
+    Route::get('/users/list', [ProfileController::class, 'groupUserList']);
+    Route::get('/user/detail/{id}', [ProfileController::class, 'detail']);
+    Route::post('user/edit/{id}', [SupervisorController::class, 'update']);
 
-   Route::post('/user/enable/{id}', [ProfileController::class, 'enable']);
-   Route::post('/user/disable/{id}', [ProfileController::class, 'disable']);
-   Route::delete('/user/delete/{id}', [ProfileController::class, 'delete']);
+    Route::post('/user/enable/{id}', [ProfileController::class, 'enable']);
+    Route::post('/user/disable/{id}', [ProfileController::class, 'disable']);
+    Route::delete('/user/delete/{id}', [ProfileController::class, 'delete']);
     //offers
     Route::post('client/search', [OffersController::class, 'clientSearch']);
     Route::post('invoice/offers', [OffersController::class, 'viewOffers']);
     Route::post('/offers', [OffersController::class, 'store']);
     Route::post('/offer/selected', [OffersController::class, 'selectedOffer']);
     Route::post('/send/client/portal', [OffersController::class, 'sendClientPortal']);
- Route::post('/send-offers-email', [OffersController::class, 'sendOffersEmail']);
+    Route::post('/send-offers-email', [OffersController::class, 'sendOffersEmail']);
     //invoices
     Route::get('invoices', [InvoiceController::class, 'groupInvoices']);
     Route::post('invoices', [InvoiceController::class, 'storeGroup']);
@@ -60,7 +62,7 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'group'], function () 
 
 
     Route::apiResource('products', ProductController::class);
-  Route::get('list/products', [ProductController::class, 'allProductsData']);
+    Route::get('list/products', [ProductController::class, 'allProductsData']);
     //session history of agents/clients
     Route::post('session/history', [LoginController::class, 'sessionHistoryOther']);
     //payments
@@ -78,4 +80,13 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'group'], function () 
     Route::get('/agreement/view/{id}', [ProfileController::class, 'agreementView']);
     Route::post('agreement/edit/{id}', [ProfileController::class, 'agreementUpdate']);
     Route::delete('/agreement/delete/{id}', [ProfileController::class, 'agreementDelete']);
+
+
+
+        Route::get('hooks', [ZapierHookController::class, 'index']);
+        Route::post('hooks', [ZapierHookController::class, 'store']);
+        Route::get('hooks/{id}', [ZapierHookController::class, 'show']);
+        Route::put('hooks/{id}', [ZapierHookController::class, 'update']);
+        Route::delete('hooks/{id}', [ZapierHookController::class, 'destroy']);
+
 });

@@ -34,6 +34,7 @@ Route::post('login', [MainController::class, 'auth'])->name('login.auth');
 Route::group(['middleware' => 'auth'], function () {
 
 
+
 Route::get('dashboard', [MainController::class, 'dashboard'])->name('dashboard')->middleware('auth');
 Route::get('list/admins', [MainController::class, 'userList'])->name('user.list');
 Route::get('list/group/admin', [MainController::class, 'groupAdmin'])->name('group.admin');
@@ -94,5 +95,8 @@ Route::get('/combined/agreement/view/{viewId}', [AgreementController::class, 'co
 
 
 Route::get('/documents', DocumentList::class)->name('documents');
+Route::get('/webhooks', App\Livewire\WebhookManager::class)->name('webhooks');
+
+
 });
 
