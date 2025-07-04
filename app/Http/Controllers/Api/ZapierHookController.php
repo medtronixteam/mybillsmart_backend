@@ -7,6 +7,8 @@ use App\Models\ZapierHook;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
+use Illuminate\Support\Facades\Http;
+
 class ZapierHookController extends Controller
 {
     public function testHook(Request $request)
@@ -18,8 +20,20 @@ class ZapierHookController extends Controller
         if ($validator->fails()) {
             return response(['message' => $validator->messages()->first(), 'status' => 'error', 'code' => 500]);
         }
+         try {
+           $zapierHook= ZapierHook::where('id', $request->hook_id)->first();
 
-         return response()->json(['message' => 'Test hook sent'], 200);
+            Http::post($zapierHook->url, [
+                'ID' => 1,
+                'Amount' => 100,
+                'querystring' => 'This is a test trigger from myBillSmart',
+            ]);
+           return response()->json(['message' => 'Test hook sent'], 200);
+        } catch (\Exception $e) {
+           return response()->json(['message' => 'Invalid hook url or failed to send test hook'], 500);
+        }
+
+
     }
     public function index()
     {
