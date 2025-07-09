@@ -91,3 +91,4 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'group'], function () 
         Route::post('hook/test', [ZapierHookController::class, 'testHook']);
 
 });
+  Route::get('inv', [InvoiceController::class, 'inv']);

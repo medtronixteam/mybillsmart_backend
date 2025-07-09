@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\ZapierHook;
+use App\Models\User;
+use App\Models\Invoice;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -22,12 +24,8 @@ class ZapierHookController extends Controller
         }
          try {
            $zapierHook= ZapierHook::where('id', $request->hook_id)->first();
+            Http::post($zapierHook->url, $this->DummyHooks($zapierHook->type));
 
-            Http::post($zapierHook->url, [
-                'ID' => 1,
-                'Amount' => 100,
-                'querystring' => 'This is a test trigger from myBillSmart',
-            ]);
            return response()->json(['message' => 'Test hook sent'], 200);
         } catch (\Exception $e) {
            return response()->json(['message' => 'Invalid hook url or failed to send test hook'], 500);
@@ -50,7 +48,6 @@ class ZapierHookController extends Controller
         if ($validator->fails()) {
             return response(['message' => $validator->messages()->first(), 'status' => 'error', 'code' => 500]);
         }
-
 
         $hook = ZapierHook::create([
             'name' => $request->name,
@@ -104,5 +101,119 @@ class ZapierHookController extends Controller
 
         $hook->delete();
         return response()->json(['message' => 'Deleted successfully']);
+    }
+    public function DummyHooks($type)
+    {
+        $data=[];
+        if($type=="invoice"){
+            //invoice dummy data to send at zapier hook...
+
+          $data = [
+            'id' => 'test data',
+            'bill_type' => 'Electricity',
+            'address' => '123 Main Street',
+            'CUPS' => 'ES1234567890123456',
+            'agent' => 'dummy',
+            'group' => 'n.a',
+            'is_offer_selected' => 1,
+            'cif_nif' => 'dsad',
+            'created_at' => now(),
+            'billing_period' => '2025-07',
+            'taxes_IGIC_General' => '0.32',
+            'taxes_IGIC_Reducido' => '1.21',
+            'taxes_Impuesto_electricidad' => '1.96',
+            'taxes_iva' => '16.68',
+            'taxes_impuesto_sobre_hidrocarburos' => '2.99',
+            'tariff' => 'tariff',
+            'fixed term' => 'fixed_term',
+            'total bill' => 'total_bill',
+            'energy term' => 'energy_term',
+            'meter rental' => 'meter_rental',
+            'peak power(kW)' => 'peak_power_kw',
+            'price per unit' => 'price_per_unit',
+            'valley power(kW)' => 'valley_power_kw',
+            'peak price(€/kWh)' => 'peak_price_per_kwh',
+            'peak consumption(kWh)' => 'peak_consumption_kwh',
+            'valley price(€/kWh)' => 'valley_price_per_kwh',
+            'total consumption(kWh)' => 'total_consumption_kwh',
+            'off-peak price(€/kWh)' => 'off_peak_price_per_kwh',
+            'valley consumption(kWh)' => 'valley_consumption_kwh',
+            'off-peak consumption(kWh)' => 'off_peak_consumption_kwh',
+        ];
+        }
+        return $data;
+    }
+    public function inv()
+    {
+
+        $invoiceData = Invoice::where('id', 1)->latest()->first()->toArray();
+
+
+        $flattened = $this->prepareInvoiceData($invoiceData);
+        return response($flattened, 200);
+    }
+    function prepareInvoiceData(array $invoice): array
+    {
+        // Basic fields
+
+        $agentName = User::find($invoice['agent_id']);
+        $groupName = User::find($invoice['group_id']);
+        $data = [
+            'id' => $invoice['id'] ?? '',
+            'bill_type' => $invoice['bill_type'] ?? '',
+            'address' => $invoice['address'] ?? '',
+            'CUPS' => $invoice['CUPS'] ?? '',
+            'billing_period' => $invoice['billing_period'] ?? '',
+            'agent' => $agentName ?? '',
+            'group' => $groupName ?? '',
+            'is_offer_selected' => $invoice['is_offer_selected'] ?? '',
+            'cif_nif' => $invoice['cif_nif'] ?? '',
+            'created_at' => $invoice['created_at'] ?? now(),
+        ];
+
+        $mappingForTaxes = [
+            'IGIC General' => '0.32',
+            'IGIC Reducido' => '1.21',
+            'Impuesto electricidad' => '1.96',
+            'iva' => '16.68',
+            'impuesto sobre hidrocarburos' => '2.99',
+        ];
+
+        // // Flatten taxes if available
+        // if (!empty($invoice['bill_info']['taxes'])) {
+        //     foreach ($invoice['bill_info']['taxes'] as $key => $value) {
+        //         $data['taxes_' . str_replace(' ', '_', $key)] = $value;
+        //     }
+        // }
+        foreach ($mappingForTaxes as $originalKey => $finalKey) {
+            $keyValue = $invoice['bill_info']['taxes'][$originalKey] ?? '';
+
+            $data[$finalKey] = !empty($keyValue) ? 'taxes ' . $keyValue : '';
+        }
+
+        // Other bill_info fields (excluding taxes)
+        $mapping = [
+            'tariff' => 'tariff',
+            'fixed term' => 'fixed_term',
+            'total bill' => 'total_bill',
+            'energy term' => 'energy_term',
+            'meter rental' => 'meter_rental',
+            'peak power(kW)' => 'peak_power_kw',
+            'price per unit' => 'price_per_unit',
+            'valley power(kW)' => 'valley_power_kw',
+            'peak price(€/kWh)' => 'peak_price_per_kwh',
+            'peak consumption(kWh)' => 'peak_consumption_kwh',
+            'valley price(€/kWh)' => 'valley_price_per_kwh',
+            'total consumption(kWh)' => 'total_consumption_kwh',
+            'off-peak price(€/kWh)' => 'off_peak_price_per_kwh',
+            'valley consumption(kWh)' => 'valley_consumption_kwh',
+            'off-peak consumption(kWh)' => 'off_peak_consumption_kwh',
+        ];
+
+        foreach ($mapping as $originalKey => $finalKey) {
+            $data[$finalKey] = $invoice['bill_info'][$originalKey] ?? '';
+        }
+
+        return $data;
     }
 }

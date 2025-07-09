@@ -35,19 +35,7 @@ class WebhookManager extends Component
         ];
 
         // Test if required
-        if ($test) {
-            try {
-                Http::post($hookData['url'], [
-                    'test' => true,
-                    'trigger' => $hookData['trigger'],
-                    'message' => 'Test hook fired before saving.',
-                ]);
-                session()->flash('success', "Webhook tested successfully.");
-            } catch (\Exception $e) {
-                session()->flash('error', "Webhook test failed: " . $e->getMessage());
-                return;
-            }
-        }
+
 
         // Update or create
         if (!is_null($this->editIndex)) {
@@ -66,7 +54,7 @@ class WebhookManager extends Component
 
         try {
             Http::post($this->hooks[$index]['url'], [
-                'ID' => true,
+                'ID' => '10',
                 'Amount' => $this->hooks[$index]['trigger'],
                 'querystring' => 'This is a test trigger from Livewire',
             ]);
