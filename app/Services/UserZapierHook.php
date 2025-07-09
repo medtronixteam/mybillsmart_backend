@@ -16,8 +16,8 @@ class UserZapierHook
         $adminOrGroupUserId = User::getGroupAdminOrFindByGroup(auth('sanctum')->id());
         $userGet = User::find($adminOrGroupUserId);
         $currentPlan=$userGet->activeSubscriptions()->value('plan_name');
-        if ($currentPlan == "enterprise" || $currentPlan == "pro") {
-
+        if ($currentPlan) {
+// == "enterprise" || $currentPlan == "pro"
 
             ZapierHook::where('type', 'agent')->each(function ($hook) use ($invoiceData) {
 
