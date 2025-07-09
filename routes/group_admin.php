@@ -89,6 +89,7 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'group'], function () 
         Route::put('hooks/{id}', [ZapierHookController::class, 'update']);
         Route::delete('hooks/{id}', [ZapierHookController::class, 'destroy']);
         Route::post('hook/test', [ZapierHookController::class, 'testHook']);
+        Route::get('hook/logs/{id}', [ZapierHookController::class, 'hookLogs']);
 
 });
   Route::get('inv', [InvoiceController::class, 'inv']);

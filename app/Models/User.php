@@ -111,7 +111,7 @@ public function contracts()
     return $this->hasMany(Contract::class, 'agent_id');
 }
 
-public function activeSubscriptions()
+public  function activeSubscriptions()
 {
     $now =Carbon::now();
 

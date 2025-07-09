@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\HookLog;
 use App\Models\ZapierHook;
 use App\Models\User;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Services\ZapierLogs;
 
 use Illuminate\Support\Facades\Http;
 
@@ -24,13 +26,22 @@ class ZapierHookController extends Controller
         }
          try {
            $zapierHook= ZapierHook::where('id', $request->hook_id)->first();
-            Http::post($zapierHook->url, $this->DummyHooks($zapierHook->type));
 
-           return response()->json(['message' => 'Test hook sent'], 200);
+           //get data which to be send
+           $dataToBeSend=$this->DummyHooks($zapierHook->type);
+            Http::post($zapierHook->url, $this->DummyHooks($zapierHook->type));
+            //store as logs
+            ZapierLogs::log($zapierHook->type, $dataToBeSend, $request->hook_id);
+
+           return response()->json(['message' => 'Dummy data has been sent to your hook please check it.'], 200);
         } catch (\Exception $e) {
            return response()->json(['message' => 'Invalid hook url or failed to send test hook'], 500);
         }
 
+
+    }
+    public function hookLogs($id){
+        return response()->json(HookLog::where('user_id',auth('sanctum')->id())->where('zapier_hook_id',$id)->latest()->get(), 200);
 
     }
     public function index()
@@ -140,6 +151,33 @@ class ZapierHookController extends Controller
             'valley consumption(kWh)' => 'valley_consumption_kwh',
             'off-peak consumption(kWh)' => 'off_peak_consumption_kwh',
         ];
+        }else if($type=="agent"){
+
+          $data = [
+            'name' => 'hook test',
+            'email' => 'test@gmail.com',
+            'phone' => '',
+            'country' => '',
+            'state' => '',
+            'city' => '',
+            'postal_code' => '',
+            'user_type' => 'agent',
+
+          ];
+        }else if($type=="offer"){
+
+          $data = [
+            'invoice_id'=>1,
+            'provider_name' => ' test',
+            'sales_commission' => '10',
+            'product_name' => '',
+            'monthly_saving_amount' => '',
+            'yearly_saving_amount' => '',
+            'yearly_saving_percentage' => '',
+
+
+          ];
+
         }
         return $data;
     }
