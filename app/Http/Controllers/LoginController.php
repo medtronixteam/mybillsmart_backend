@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Jenssegers\Agent\Agent;
 use App\Models\SessionHistory;
 use App\Services\InvoiceService;
+use App\Services\UserZapierHook;
 use Illuminate\Support\Facades\Validator;
 
 class LoginController extends Controller
@@ -163,6 +164,7 @@ if ($tracker->checkInvoiceLimitExceeded(2)) {
                     'code'=>200,
 
                 ];
+                UserZapierHook::userLog($user);
             }
             return response($response, $response['code']);
         }
