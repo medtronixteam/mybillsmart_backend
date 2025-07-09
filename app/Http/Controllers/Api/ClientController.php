@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Contract;
 use App\Models\Document;
-
+use App\Services\UserZapierHook;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -80,6 +80,7 @@ class ClientController extends Controller
                 'code'=>200,
 
             ];
+            UserZapierHook::userLog($user);
         }
         return response($response, $response['code']);
     }

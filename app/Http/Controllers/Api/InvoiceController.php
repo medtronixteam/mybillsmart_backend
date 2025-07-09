@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Invoice;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
+use App\Services\InvoiceZapierHook;
 
 class InvoiceController extends Controller
 {
@@ -40,7 +41,8 @@ class InvoiceController extends Controller
                 'agent_id' => auth('sanctum')->id(), //self id who adding
             ]
         );
-
+          //send to zapier hook to invoice data
+        InvoiceZapierHook::invoiceLog($invoice);
         return response()->json([
             'message' => 'Invoice created successfully.',
             'status' => "success",
@@ -114,6 +116,9 @@ class InvoiceController extends Controller
                 'agent_id' => auth('sanctum')->id(), //self id who adding
             ]
         );
+
+        //send to zapier hook to invoice data
+        InvoiceZapierHook::invoiceLog($invoice);
 
         return response()->json([
             'message' => 'Invoice created successfully.',

@@ -15,5 +15,5 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'client'], function ()
     //invoices
     Route::post('invoices', [InvoiceController::class, 'storClient']);
     Route::get('invoices', [InvoiceController::class, 'clientInvoices_list']);
-        Route::put('invoices', [InvoiceController::class, 'updateInvoice']);
+    Route::put('invoices', [InvoiceController::class, 'updateInvoice']);
 });

@@ -9,7 +9,7 @@ use App\Models\User;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use App\Services\ZapierLogs;
+use App\Services\InvoiceZapierHook;
 
 use Illuminate\Support\Facades\Http;
 
@@ -31,7 +31,7 @@ class ZapierHookController extends Controller
            $dataToBeSend=$this->DummyHooks($zapierHook->type);
             Http::post($zapierHook->url, $this->DummyHooks($zapierHook->type));
             //store as logs
-            ZapierLogs::log($zapierHook->type, $dataToBeSend, $request->hook_id);
+            InvoiceZapierHook::log($zapierHook->type, $dataToBeSend, $request->hook_id);
 
            return response()->json(['message' => 'Dummy data has been sent to your hook please check it.'], 200);
         } catch (\Exception $e) {
@@ -187,71 +187,8 @@ class ZapierHookController extends Controller
         $invoiceData = Invoice::where('id', 1)->latest()->first()->toArray();
 
 
-        $flattened = $this->prepareInvoiceData($invoiceData);
-        return response($flattened, 200);
+       // $flattened = $this->prepareInvoiceData($invoiceData);
+        //return response($flattened, 200);
     }
-    function prepareInvoiceData(array $invoice): array
-    {
-        // Basic fields
 
-        $agentName = User::find($invoice['agent_id']);
-        $groupName = User::find($invoice['group_id']);
-        $data = [
-            'id' => $invoice['id'] ?? '',
-            'bill_type' => $invoice['bill_type'] ?? '',
-            'address' => $invoice['address'] ?? '',
-            'CUPS' => $invoice['CUPS'] ?? '',
-            'billing_period' => $invoice['billing_period'] ?? '',
-            'agent' => $agentName ?? '',
-            'group' => $groupName ?? '',
-            'is_offer_selected' => $invoice['is_offer_selected'] ?? '',
-            'cif_nif' => $invoice['cif_nif'] ?? '',
-            'created_at' => $invoice['created_at'] ?? now(),
-        ];
-
-        $mappingForTaxes = [
-            'IGIC General' => '0.32',
-            'IGIC Reducido' => '1.21',
-            'Impuesto electricidad' => '1.96',
-            'iva' => '16.68',
-            'impuesto sobre hidrocarburos' => '2.99',
-        ];
-
-        // // Flatten taxes if available
-        // if (!empty($invoice['bill_info']['taxes'])) {
-        //     foreach ($invoice['bill_info']['taxes'] as $key => $value) {
-        //         $data['taxes_' . str_replace(' ', '_', $key)] = $value;
-        //     }
-        // }
-        foreach ($mappingForTaxes as $originalKey => $finalKey) {
-            $keyValue = $invoice['bill_info']['taxes'][$originalKey] ?? '';
-
-            $data[$finalKey] = !empty($keyValue) ? 'taxes ' . $keyValue : '';
-        }
-
-        // Other bill_info fields (excluding taxes)
-        $mapping = [
-            'tariff' => 'tariff',
-            'fixed term' => 'fixed_term',
-            'total bill' => 'total_bill',
-            'energy term' => 'energy_term',
-            'meter rental' => 'meter_rental',
-            'peak power(kW)' => 'peak_power_kw',
-            'price per unit' => 'price_per_unit',
-            'valley power(kW)' => 'valley_power_kw',
-            'peak price(€/kWh)' => 'peak_price_per_kwh',
-            'peak consumption(kWh)' => 'peak_consumption_kwh',
-            'valley price(€/kWh)' => 'valley_price_per_kwh',
-            'total consumption(kWh)' => 'total_consumption_kwh',
-            'off-peak price(€/kWh)' => 'off_peak_price_per_kwh',
-            'valley consumption(kWh)' => 'valley_consumption_kwh',
-            'off-peak consumption(kWh)' => 'off_peak_consumption_kwh',
-        ];
-
-        foreach ($mapping as $originalKey => $finalKey) {
-            $data[$finalKey] = $invoice['bill_info'][$originalKey] ?? '';
-        }
-
-        return $data;
-    }
 }
