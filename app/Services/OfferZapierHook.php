@@ -23,9 +23,9 @@ class OfferZapierHook
             foreach($ZapierHook as $hook) {
 
                 $invoiceData = json_decode(json_encode($invoiceData), true);
-                $filterData = $this->prepareData($invoiceData);
+                $filterData = (new self)->prepareData($invoiceData);
                 if ($filterData) {
-                    if ($this->testHook($filterData, $hook->url)) {
+                    if ((new self)->testHook($filterData, $hook->url)) {
                         $hook->logs()->create([
                             'payload' => json_encode($invoiceData),
                             'event' => 'offer',
@@ -48,7 +48,7 @@ class OfferZapierHook
                         'user_id' => auth('sanctum')->id(),
                     ]);
                 }
-            });
+            }
                     }
         } catch (\Throwable $th) {
              //status failded
@@ -60,7 +60,7 @@ class OfferZapierHook
             ]);
         }
     }
-    function prepareData(array $offerData)
+    public function prepareData(array $offerData)
     {
 
          $data = [

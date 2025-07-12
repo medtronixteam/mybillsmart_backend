@@ -32,9 +32,9 @@ class InvoiceZapierHook
             foreach($ZapierHook as $hook) {
 
                 $invoiceData = json_decode(json_encode($invoiceData), true);
-                $filterData = $this->prepareInvoiceData($invoiceData);
+                $filterData = (new self)->prepareInvoiceData($invoiceData);
                 if ($filterData) {
-                    if ($this->testHook($filterData, $hook->url)) {
+                    if ((new self)->testHook($filterData, $hook->url)) {
                         $hook->logs()->create([
                             'payload' => json_encode($invoiceData),
                             'event' => 'invoice',
@@ -57,7 +57,7 @@ class InvoiceZapierHook
                         'user_id' => auth('sanctum')->id(),
                     ]);
                 }
-            });
+            }
                     }
         } catch (\Throwable $th) {
              //status failded

@@ -1,58 +1,48 @@
-<?
+<?php
 
 namespace App\Services;
 
 use App\Models\HookLog;
 use App\Models\ZapierHook;
 use App\Models\User;
-use Carbon\Carbon;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class UserZapierHook
 {
-
     public static function userLog($invoiceData)
     {
         try {
-        $adminOrGroupUserId = User::getGroupAdminOrFindByGroup(auth('sanctum')->id());
-        $userGet = User::find($adminOrGroupUserId);
-        $currentPlan=$userGet->activeSubscriptions()->value('plan_name');
-        if ($currentPlan) {
-// == "enterprise" || $currentPlan == "pro"
+            $adminOrGroupUserId = User::getGroupAdminOrFindByGroup(auth('sanctum')->id());
+            $user = User::find($adminOrGroupUserId);
+            $currentPlan = $user->activeSubscriptions()->value('plan_name');
 
-            $ZapierHook=ZapierHook::where('type', 'agent')->get();
-            foreach($ZapierHook as $hook) {
+            if ($currentPlan) {
+                $zapierHooks = ZapierHook::where('type', 'agent')->get();
 
-                $invoiceData = json_decode(json_encode($invoiceData), true);
-                $filterData = $this->prepareData($invoiceData);
-                if ($filterData) {
-                    if ($this->testHook($filterData, $hook->url)) {
-                        $hook->logs()->create([
-                            'payload' => json_encode($invoiceData),
-                            'event' => 'agent',
-                            'user_id' => auth('sanctum')->id(),
-                        ]);
-                    } else {
-                        $hook->logs()->create([
-                            'payload' => json_encode($invoiceData),
-                            'event' => 'agent',
-                            'status' => 'failed',
-                            'user_id' => auth('sanctum')->id(),
-                        ]);
+                foreach ($zapierHooks as $hook) {
+                    $invoiceArray = json_decode(json_encode($invoiceData), true);
+                    $filterData = (new self)->prepareData($invoiceArray);
+
+                    $status = 'failed';
+                    if ($filterData && (new self)->testHook($filterData, $hook->url)) {
+                        $status = 'success';
                     }
-                } else {
-                    //status failded
+
                     $hook->logs()->create([
-                        'payload' => json_encode($invoiceData),
+                        'payload' => json_encode($invoiceArray),
                         'event' => 'agent',
-                        'status' => 'failed',
+                        'status' => $status,
                         'user_id' => auth('sanctum')->id(),
                     ]);
                 }
-            });
             }
+
         } catch (\Throwable $th) {
-             //status failded
-            $hook->logs()->create([
+            Log::error('Zapier Hook Exception: ' . $th->getMessage());
+
+            // Optionally log to a fallback if you still want to store something
+            HookLog::create([
                 'payload' => json_encode($invoiceData),
                 'event' => 'agent',
                 'status' => 'failed',
@@ -60,31 +50,29 @@ class UserZapierHook
             ]);
         }
     }
-    function prepareData(array $userData)
+
+    public function prepareData(array $userData): array
     {
-
-         $data = [
-            'name' => $userData['name'] ?? '',
-            'email' => $userData['email'] ?? '',
-            'phone' => $userData['phone'] ?? '',
-            'country' => $userData['country'] ?? '',
-            'state' => $userData['state'] ?? '',
-            'city' => $userData['city'] ?? '',
+        return [
+            'name'        => $userData['name'] ?? '',
+            'email'       => $userData['email'] ?? '',
+            'phone'       => $userData['phone'] ?? '',
+            'country'     => $userData['country'] ?? '',
+            'state'       => $userData['state'] ?? '',
+            'city'        => $userData['city'] ?? '',
             'postal_code' => $userData['postal_code'] ?? '',
-            'user_type' => $userData['role'] ?? '',
-          ];
-
-
-        return $data;
+            'user_type'   => $userData['role'] ?? '',
+        ];
     }
-    public function testHook($filterData, $hookUrl)
+
+    public function testHook(array $filterData, string $hookUrl): bool
     {
         try {
-            \Illuminate\Support\Facades\Http::post($hookUrl, $filterData);
+            Http::post($hookUrl, $filterData);
             return true;
         } catch (\Exception $e) {
+            Log::warning("Webhook failed for URL: $hookUrl", ['error' => $e->getMessage()]);
             return false;
         }
     }
-
 }
