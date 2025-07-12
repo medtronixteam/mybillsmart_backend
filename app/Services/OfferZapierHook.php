@@ -19,7 +19,8 @@ class OfferZapierHook
         if ($currentPlan == "enterprise" || $currentPlan == "pro") {
 
 
-            ZapierHook::where('type', 'offer')->each(function ($hook) use ($invoiceData) {
+               $ZapierHook=ZapierHook::where('type', 'offer')->get();
+            foreach($ZapierHook as $hook) {
 
                 $invoiceData = json_decode(json_encode($invoiceData), true);
                 $filterData = $this->prepareData($invoiceData);

@@ -19,10 +19,11 @@ class UserZapierHook
         if ($currentPlan) {
 // == "enterprise" || $currentPlan == "pro"
 
-            ZapierHook::where('type', 'agent')->each(function ($hook) use ($invoiceData) {
+            $ZapierHook=ZapierHook::where('type', 'agent')->get();
+            foreach($ZapierHook as $hook) {
 
                 $invoiceData = json_decode(json_encode($invoiceData), true);
-                $filterData = $this->prepareInvoiceData($invoiceData);
+                $filterData = $this->prepareData($invoiceData);
                 if ($filterData) {
                     if ($this->testHook($filterData, $hook->url)) {
                         $hook->logs()->create([
@@ -59,7 +60,7 @@ class UserZapierHook
             ]);
         }
     }
-    function prepareInvoiceData(array $userData)
+    function prepareData(array $userData)
     {
 
          $data = [
